@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   main.c                                             :+:      :+:    :+:   */
+/*   exec.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/03/23 14:50:57 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/03 16:40:03 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "minishell.h"
+#include "execution.h"
 
 int	ft_have_builtin(t_cmds *cmds)
 {
@@ -39,7 +39,7 @@ void	ft_free_cmds(t_cmds *cmds)
 	free(cmds->cmd);
 }
 
-int main(int ac, char **av, char **env)
+int fun(int ac, char **av, char **env)
 {
 	// atexit(f);
 	t_cmds	cmds;
@@ -59,7 +59,7 @@ int main(int ac, char **av, char **env)
 		//call pipex on normal commands
 	}
 	else
-		ft_exec_cmd(cmds.cmd[0], env, cmds.fd_in, cmds.pipe);//hadi dial command whda
+		ft_exec_cmd(cmds.cmd, env, cmds.fd_in, cmds.pipe);//hadi dial command whda
 	ft_free_cmds(&cmds);
 	return (0);
 }

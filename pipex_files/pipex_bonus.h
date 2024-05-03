@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/12/30 00:38:40 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/02/25 16:35:35 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/03 16:21:31 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,8 +20,8 @@
 # include <fcntl.h>
 # include <stdio.h>
 # include <errno.h>
-# include "../../libft/libft.h"
-# include "../../get_next_line/get_next_line.h"
+# include "../libft/libft.h"
+# include "../get_next_line/get_next_line.h"
 
 /* Checks number of arguments passed to the program. Exits if `argc < 5`. */
 void	ft_input_check(int argc, char **argv);

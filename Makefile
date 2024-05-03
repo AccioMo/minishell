@@ -1,17 +1,30 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+# FLAGS = -Wall -Wextra -Werror
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
-GNL = get_next_line/get_next_line.c get_next_line/get_next_line_utils.c
-GNL_HEADER = get_next_line/get_next_line.h
+GNL_DIR = get_next_line/
+GNL = $(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
+GNL_HEADER = $(GNL_DIR)get_next_line.h
 
 NAME = minishell
-SRC_DIR = src/
-OBJ_DIR = obj/
-HEADER = $(SRC_DIR)minishell.h
-FILES = main.c 
-SRC = $(addprefix $(SRC_DIR), $(FILES))
-OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
+HEADER_DIR = mandatory/includes/
+BONUS_HEADER_DIR = bonus/includes/
+
+#			PARSING				#
+PARSE_HEADER = $(HEADER_DIR)parsing.h
+PARSE_SRC_DIR = mandatory/parsing/src/
+PARSE_OBJ_DIR = mandatory/parsing/obj/
+PARSING_FILES = main.c parse.c
+PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
+PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
+
+#			EXECUTION			#
+EXEC_HEADER = $(HEADER_DIR)execution.h
+EXEC_SRC_DIR = mandatory/execution/src/
+EXEC_OBJ_DIR = mandatory/execution/obj/
+EXECUTION_FILES = pipex_files.c main.c builtin_funcs.c ft_echo.c ft_pwd.c
+EXECUTION_SRC = $(addprefix $(EXEC_SRC_DIR), $(EXECUTION_FILES))
+EXECUTION_OBJ = $(addprefix $(EXEC_OBJ_DIR), $(EXECUTION_FILES:.c=.o))
 
 # BONUS = minishell_bonus
 # BONUS_SRC_DIR = bonus/src/
@@ -28,22 +41,29 @@ BLUE = \033[0;34m
 BOLD = \033[1m
 RESET = \033[0m
 
-all: $(LIBFT) $(OBJ_DIR) $(NAME)
+all: $(LIBFT) $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME)
 
 $(LIBFT): $(LIBFT_DIR)
 	@make -C $<
 
-$(OBJ_DIR):
-	mkdir -p $(OBJ_DIR)
+$(PARSE_OBJ_DIR):
+	mkdir -p $(PARSE_OBJ_DIR)
 
-$(NAME): $(OBJ)
+$(EXEC_OBJ_DIR):
+	mkdir -p $(EXEC_OBJ_DIR)
+
+$(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL)
 	@echo "$(BLUE)$(BOLD)Creating $(NAME) executable...$(RESET)"
-	$(CC) $(FLAGS) $(OBJ) $(LIBFT) -o $(NAME)
+	$(CC) $(FLAGS) $^ -o $(NAME)
 	@echo "$(GREEN)$(BOLD)$(NAME) created$(RESET)"
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
+$(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER)
 	@echo "$(CYAN)$(BOLD)Compiling $<$(RESET)"
-	$(CC) $(FLAGS) -c $< -o $@
+	$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
+
+$(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
+	@echo "$(CYAN)$(BOLD)Compiling $<$(RESET)"
+	$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
 # bonus: $(LIBFT) $(BONUS_OBJ_DIR) $(BONUS)
 
@@ -60,7 +80,7 @@ $(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
 # 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(OBJ) $(BONUS_OBJ)
+	rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
 	@echo "$(RED)$(BOLD)Object files removed$(RESET)"
 
 fclean: clean

@@ -1,25 +1,20 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   anjibdatamnhnabinmatsaliparsinghhhhwa3lasmi        :+:      :+:    :+:   */
+/*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/03/23 02:25:02 by zouddach         ###   ########.fr       */
+/*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
+/*   Updated: 2024/05/03 16:33:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-# include "../minishell.h"
+#ifndef PARSING_H
+# define PARSING_H
 
-typedef struct s_cmds {
-	char	**cmd;
-	int		infile;
-	int		outfile;
-	struct s_cmds	*next;
-} t_cmds;
+# include "minishell.h"
 
-int main(int ac, char **av, char **env)
-{
-	t_cmds	cmds;
-}
+int	ft_parse(char **env);
+
+#endif

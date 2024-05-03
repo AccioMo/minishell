@@ -6,11 +6,11 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/03/19 02:44:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/03 17:17:24 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "parsing.h"
 
 int	main(int ac, char **av, char **env)
 {

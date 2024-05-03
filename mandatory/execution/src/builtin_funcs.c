@@ -1,34 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   minishell.h                                        :+:      :+:    :+:   */
+/*   builtin_funcs.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/03/19 02:44:03 by mzeggaf          ###   ########.fr       */
+/*   Created: 2024/03/23 02:11:30 by zouddach          #+#    #+#             */
+/*   Updated: 2024/05/03 17:17:07 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef MINISHELL_H
-# define MINISHELL_H
+#include "execution.h"
 
-# include <stdlib.h>
-# include <stdio.h>
-# include <unistd.h>
-# include "../../libft/libft.h"
-# include "../../get_next_line/get_next_line.h"
+// char	*ft_echo(char **cmd)//-n kat7yd \n
+// {
+// 	int	i;
 
-# define true 1
-# define false 0
-
-typedef struct s_cmd
-{
-	char	*cmd;
-	char	**args;
-	
-}	t_cmd;
-
-int	ft_parse(char **env);
-
-#endif
+// 	i = 1;
+// 	if (ft_has_flag(cmd))
+// 		i++;
+// 	while (cmd[i])
+// 	{
+// 		ft_putstr_fd(cmd[i], 1);
+// 		if (cmd[i + 1])
+// 			ft_putstr_fd(" ", 1);
+// 		i++;
+// 	}
+// 	ft_putstr_fd("\n", 1);
+// 	return (NULL);
+// }

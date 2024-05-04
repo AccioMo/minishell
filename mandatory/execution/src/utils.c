@@ -1,42 +1,47 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/23 02:11:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/04/16 12:47:34 by zouddach         ###   ########.fr       */
+/*   Created: 2024/04/14 22:02:05 by zouddach          #+#    #+#             */
+/*   Updated: 2024/04/18 16:56:25 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_has_flag(char *cmd)
+char	*ft_get_name(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (cmd[i] == '-' && cmd[i + 1] == 'n' && !cmd[i + 2])
-		return (1);
-	return (0);
+	while (str[i] && str[i] != '=')
+		i++;
+	return (ft_substr(str, 0, i));
 }
 
-int	ft_echo(t_cmds	*cmds)//-n kat7yd \n
+char	*ft_getenv(char *name, char **arr)
 {
 	int	i;
 
-	i = 2;
-	if (!ft_has_flag(cmds->cmd[1]))
-		i = 1;
-	while (cmds->cmd[i])
+	i = 0;
+	while (arr && arr[i])
 	{
-		ft_putstr_fd(cmds->cmd[i], 1);
-		if (cmds->cmd[i + 1] && cmds->cmd[i + 1])
-			ft_putstr_fd(" ", 1);
+		if (ft_strncmp(arr[i], name, ft_strlen(name)) == 0)
+			return (*(arr + i) + ft_strlen(name) + 1);
 		i++;
 	}
-	if (!ft_has_flag(cmds->cmd[1]))
-		ft_putstr_fd("\n", 1);
-	return (0);
+	return (NULL);
+}
+
+int	ft_two_d_len(char **arr)
+{
+	int	i;
+
+	i = 0;
+	while (arr[i])
+		i++;
+	return (i);
 }

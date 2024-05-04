@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/03 16:09:24 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/04 15:51:41 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,15 +28,18 @@
 #define SUCCESS 1
 #define ERROR 0
 
-typedef struct s_cmds {
+typedef struct s_token {
+	int		type;
 	char	**cmd;
 	char	*infile;
 	char	*outfile;
-	int		fd_in;
-	int		fd_out;
-	int		operato;
 	int		pipe[2];
-	struct s_cmds	*next;
-} t_cmds;
+	int 	exit_status;
+} t_token;
+
+typedef struct s_env {
+	char	**env;
+	char	**vars;
+} t_env;
 
 #endif

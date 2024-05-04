@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/03 17:17:24 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/04 16:02:08 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,21 @@
 
 int	main(int ac, char **av, char **env)
 {
+	char	*buffer;
+
 	if (ac != 1 || av[1])
 	{
-		ft_putstr_fd("Error: too many arguments\n", 2);
+		ft_putstr_fd("error: too many arguments\n", 2);
 		return (1);
 	}
-	ft_parse(env);
+	while (true)
+	{
+		ft_putstr_fd("minishell-v0.2> ", 1);
+		buffer = get_next_line(0);
+		ft_parse_line(buffer, env);
+		if (!buffer)
+			break ;
+	}
 	// ft_execute();
 	return (0);
 }

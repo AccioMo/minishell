@@ -1,5 +1,5 @@
 CC = cc
-# FLAGS = -Wall -Wextra -Werror
+FLAGS = -lreadline #-Wall -Wextra -Werror
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
 GNL_DIR = get_next_line/
@@ -22,7 +22,7 @@ PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 EXEC_HEADER = $(HEADER_DIR)execution.h
 EXEC_SRC_DIR = mandatory/execution/src/
 EXEC_OBJ_DIR = mandatory/execution/obj/
-EXECUTION_FILES = pipex_files.c main.c builtin_funcs.c ft_echo.c ft_pwd.c
+# EXECUTION_FILES = executor.c ft_cd.c ft_echo.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c main.c utils.c
 EXECUTION_SRC = $(addprefix $(EXEC_SRC_DIR), $(EXECUTION_FILES))
 EXECUTION_OBJ = $(addprefix $(EXEC_OBJ_DIR), $(EXECUTION_FILES:.c=.o))
 

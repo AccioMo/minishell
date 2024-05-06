@@ -11,6 +11,15 @@
 	}	t_token;
 ```
 
+## PARSING
+```
+ft_add_token()
+ft_and_or_split() // STAGE ONE: recursive
+ft_pipe_split() // STAGE TWO: recursive
+ft_redir_split() // STAGE THREE: not recursive (probably)
+```
+
+## EXECUTION
 ```
 int recursive_function(token)
 {

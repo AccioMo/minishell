@@ -1,24 +1,36 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   parsing.h                                          :+:      :+:    :+:   */
+/*   functions.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/06 19:18:01 by mzeggaf          ###   ########.fr       */
+/*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
+/*   Updated: 2024/05/06 20:12:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef PARSING_H
-# define PARSING_H
+#include "parsing.h"
 
-# include "minishell.h"
-# include <stdio.h>
-# include <readline/readline.h>
-# include <readline/history.h>
+char	*ft_stage_one(char *str, t_env *env)
+{
+	int	i;
 
-int	ft_parse(char *line, t_env *env);
-int	ft_whitespace(char c);
-
-#endif
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_strncmp(&str[i], "&&", 2))
+		{
+			ft_add_token(AND, "&&", env);
+			ft_stage_two(str, i, env);
+			ft_stage_one(&str[i + 2], env);
+		}
+		else if (!ft_strncmp(&str[i], "||", 2))
+		{
+			ft_add_token(OR, "||", env);
+			ft_stage_two(str, i, env);
+			ft_stage_one(&str[i + 2], env);
+		}
+		i++;
+	}
+}

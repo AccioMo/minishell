@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/06 16:51:21 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/06 18:25:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,7 @@ int	main(int ac, char **av, char **env)
 	shell.vars = NULL;
 	while (TRUE)
 	{
-		ft_putstr_fd("minishell-v0.2> ", 1);
-		buffer = readline(NULL);
+		buffer = readline("minishell-v0.2> ");
 		add_history(buffer);
 		ft_parse(buffer, &shell);
 		if (!buffer)

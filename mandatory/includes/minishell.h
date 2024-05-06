@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/06 16:51:07 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/06 19:24:54 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,15 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
-# define PIPE_READ 3
+# define PIPE_READ -1
+
+# define S_OR "||"
+# define S_AND "&&"
+# define S_PIPE "|"
+# define S_REDIR_IN "<"
+# define S_REDIR_OUT ">"
+# define S_REDIR_APPEND ">>"
+# define S_REDIR_HEREDOC "<<"
 
 typedef enum e_type
 {

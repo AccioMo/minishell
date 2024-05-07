@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/06 19:07:12 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/07 19:11:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,24 +128,25 @@ int	ft_parse(char *line, t_env *env)
 	int		i;
 
 	i = 0;
-	while (line[i])
-	{
-		if (line[i] == '<')
-			i += ft_parse_redir_in(&line[i], env);
-		else if (line[i] == '>')
-			i += ft_parse_redir_out(&line[i], env);
-		else if (line[i] == '|')
-			i = ft_parse_pipe(&line[i], env);
-		else
-			i++;
-	}
-	i = 0;
-	t_token *token = env->root;
-	while (token)
-	{
-		i = 0;
-		while (token->args[i])
-			printf("args: %s\n", token->args[i++]);
-		token = token->left;
-	}
+	ft_stage_one(line, &env->root, env);
+	// while (line[i])
+	// {
+	// 	if (line[i] == '<')
+	// 		i += ft_parse_redir_in(&line[i], env);
+	// 	else if (line[i] == '>')
+	// 		i += ft_parse_redir_out(&line[i], env);
+	// 	else if (line[i] == '|')
+	// 		i = ft_parse_pipe(&line[i], env);
+	// 	else
+	// 		i++;
+	// }
+	// i = 0;
+	// t_token *token = env->root;
+	// while (token)
+	// {
+	// 	i = 0;
+	// 	while (token->args[i])
+	// 		printf("args: %s\n", token->args[i++]);
+	// 	token = token->left;
+	// }
 }

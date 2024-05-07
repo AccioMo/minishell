@@ -14,7 +14,7 @@ BONUS_HEADER_DIR = bonus/includes/
 PARSE_HEADER = $(HEADER_DIR)parsing.h
 PARSE_SRC_DIR = mandatory/parsing/src/
 PARSE_OBJ_DIR = mandatory/parsing/obj/
-PARSING_FILES = main.c parse.c
+PARSING_FILES = main.c parse.c functions.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 
@@ -81,10 +81,12 @@ $(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
 
 clean:
 	rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
+	make clean -C $(LIBFT_DIR)
 	@echo "$(RED)$(BOLD)Object files removed$(RESET)"
 
 fclean: clean
 	rm -f $(NAME) $(BONUS)
+	make fclean -C $(LIBFT_DIR)
 	@echo "$(RED)$(BOLD)$(NAME) and $(BONUS) removed$(RESET)"
 
 re: fclean all

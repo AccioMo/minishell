@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -lreadline #-Wall -Wextra -Werror
+FLAGS = -lreadline -g -fsanitize=address #-Wall -Wextra -Werror
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
 GNL_DIR = get_next_line/
@@ -14,7 +14,7 @@ BONUS_HEADER_DIR = bonus/includes/
 PARSE_HEADER = $(HEADER_DIR)parsing.h
 PARSE_SRC_DIR = mandatory/parsing/src/
 PARSE_OBJ_DIR = mandatory/parsing/obj/
-PARSING_FILES = main.c parse.c functions.c
+PARSING_FILES = main.c parse.c functions.c utils.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 

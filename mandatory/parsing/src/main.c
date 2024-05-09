@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/06 18:25:32 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/09 21:03:14 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	main(int ac, char **av, char **env)
 {
 	char	*buffer;
-	t_env	shell;
+	t_shell	shell;
 
 	if (ac != 1 || av[1])
 	{

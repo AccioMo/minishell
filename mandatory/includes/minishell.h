@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/06 19:24:54 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/09 23:42:27 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@
 # define STDIN 0
 # define STDOUT 1
 # define STDERR 2
-# define PIPE_READ -1
 
 # define S_OR "||"
 # define S_AND "&&"
@@ -38,33 +37,45 @@
 # define S_REDIR_APPEND ">>"
 # define S_REDIR_HEREDOC "<<"
 
+typedef enum e_iot
+{
+	READ,
+	WRITE,
+	APPEND,
+	HEREDOC,
+}	t_iot;
+
 typedef enum e_type
 {
-	REDIR_IN,
-	REDIR_OUT,
-	WORD,
 	PIPE,
+	WORD,
 	AND,
 	OR,
 }	t_type;
 
-typedef int	t_io;
+typedef struct t_io
+{
+	int		fdin;
+	int		fdout;
+	char	*infile;
+	char	*outfile;
+	t_iot	type;
+}	t_io;
 
 typedef struct s_token
 {
 	struct s_token	*right;
 	struct s_token	*left;
 	t_type			type;
-	t_io			input;
-	t_io			output;
+	t_io			io;
 	char			**args;
 }	t_token;
 
-typedef struct s_env
+typedef struct s_shell
 {
 	char	**env;
 	char	**vars;
 	t_token	*root;
-}	t_env;
+}	t_shell;
 
 #endif

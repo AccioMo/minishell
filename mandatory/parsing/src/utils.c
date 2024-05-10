@@ -6,11 +6,16 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/09 21:28:58 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/10 19:39:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int	ft_whitespace(char c)
+{
+	return (c == ' ' || c == 127 || (c >= 9 && c <= 13));
+}
 
 int	ft_rindex(char *str, char c)
 {
@@ -56,6 +61,28 @@ char	*ft_first_word(char *str)
 	return (word);
 }
 
-char	*ft_append_token(char *word, char **args)
+char	*ft_merge(char *part_one, int limit_one, char *part_two, int limit_two)
 {
+	char	*new;
+	int		len;
+	int		i;
+
+	i = 0;
+	len = limit_one + limit_two + 1;
+	new = (char *)malloc(sizeof(char) * (len));
+	ft_strlcpy(new, part_one, limit_one + 1);
+	ft_strlcat(new, part_two, len);
+	return (new);
+}
+
+void	ft_free(char **ptr)
+{
+	char	**hold;
+
+	hold = ptr;
+	if (!ptr)
+		return ;
+	while (*ptr)
+		free(*ptr++);
+	free(hold);
 }

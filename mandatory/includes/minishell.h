@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/09 23:42:27 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/10 19:03:48 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,6 +47,10 @@ typedef enum e_iot
 
 typedef enum e_type
 {
+	REDIR_HEREDOC,
+	REDIR_APPEND,
+	REDIR_OUT,
+	REDIR_IN,
 	PIPE,
 	WORD,
 	AND,

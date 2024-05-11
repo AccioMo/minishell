@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/10 19:22:50 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/10 19:49:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/11 19:23:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,37 +31,28 @@ static int	ft_arg_count(char *str)
 			while (*str && *str != '\"')
 				str++;
 		}
-		if (!ft_whitespace(*str) && ft_whitespace(*(str + 1)) && *str != '\\')
+		if (!ft_whitespace(str[0]) && (ft_whitespace(str[1]) || !str[1]))
 			ac++;
 		str++;
 	}
 	return (ac);
 }
 
-static int	ft_arg_len(int *quotes, char *str)
+static int	ft_arg_len(char *str)
 {
 	int	len;
 
 	len = 0;
-	while (!ft_whitespace(*(str + len)))
+	while (*str && !ft_whitespace(*str))
 	{
-		if (*(str + len) == '\\' && *(str + len + 1))
-			len++;
-		if (*(str + len) == '\'')
-		{
-			len++;
-			quotes++;
-			while (*(str + len) && *(str + len) != '\'')
+		if (*str == '\"')
+			while (*++str && *str != '\"')
 				len++;
-		}
-		if (*(str + len) == '\"')
-		{
-			len++;
-			quotes++;
-			while (*(str + len) && *(str + len) != '\"')
+		if (*str == '\'')
+			while (*++str && *str != '\'')
 				len++;
-		}
 		len++;
+		str++;
 	}
 	return (len);
 }
@@ -73,41 +64,31 @@ static char	*ft_cmd_cpy(char *dst, char *src, int len)
 	i = 0;
 	while (i < len)
 	{
-		if (*src == '\\' && *(src + 1))
-			src++;
-		else if (*src == '\'' || *src == '\"')
-		{
-			src++;
-			if (*(src - 1) == '\'')
-				while (*src && *src != '\'')
-					*(dst + i++) = *src++;
-			else if (*(src - 1) == '\"')
-				while (*src && *src != '\"')
-					*(dst + i++) = *src++;
-		}
+		if (*src == '\"')
+			while (*++src && *src != '\"')
+				dst[i++] = *src;
+		else if (*src == '\'')
+			while (*++src && *src != '\'')
+				dst[i++] = *src;
 		else
-			*(dst + i++) = *src++;
+			dst[i++] = *src++;
 	}
-	*(dst + i) = '\0';
+	dst[i] = '\0';
 	return (dst);
 }
 
 static char	*ft_get_arg(char **array, char *str)
 {
 	int	len;
-	int	quotes;
 
 	len = 0;
-	quotes = 0;
-	while (*str && ft_whitespace(*str))
+	while (ft_whitespace(*str))
 		str++;
-	len = ft_arg_len(&quotes, str);
+	len = ft_arg_len(str);
 	*array = (char *)malloc((len + 1) * sizeof(char));
 	if (!*array)
 		return (NULL);
-	ft_cmd_cpy(*array, str, len - (quotes * 2));
-	while (!ft_whitespace(*(str + len)))
-		len++;
+	ft_cmd_cpy(*array, str, len);
 	return (str + len);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/10 19:48:15 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:33:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -129,8 +129,9 @@ void	ft_print_tree(t_token *token)
 		{
 			printf("WORD\n");
 			i = 0;
-			while (token->args[i])
-				printf("args: %s\n", token->args[i++]);
+			// if (token->args)
+				while (token->args[i])
+					printf("args: %s\n", token->args[i++]);
 		}
 		else if (token->type == PIPE)
 			printf("PIPE\n");

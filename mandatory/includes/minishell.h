@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/10 19:03:48 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/11 18:25:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,21 +57,11 @@ typedef enum e_type
 	OR,
 }	t_type;
 
-typedef struct t_io
-{
-	int		fdin;
-	int		fdout;
-	char	*infile;
-	char	*outfile;
-	t_iot	type;
-}	t_io;
-
 typedef struct s_token
 {
 	struct s_token	*right;
 	struct s_token	*left;
 	t_type			type;
-	t_io			io;
 	char			**args;
 }	t_token;
 

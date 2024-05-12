@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/11 18:25:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/12 18:08:42 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,6 @@ typedef struct s_token
 typedef struct s_shell
 {
 	char	**env;
-	char	**vars;
 	t_token	*root;
 }	t_shell;
 

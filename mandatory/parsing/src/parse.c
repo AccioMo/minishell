@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/11 18:33:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/12 18:11:36 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -161,24 +161,6 @@ int	ft_parse(char *line, t_shell *shell)
 	shell->root = NULL;
 	ft_stage_one(line, &shell->root);
 	ft_print_tree(shell->root);
-	// while (line[i])
-	// {
-	// 	if (line[i] == '<')
-	// 		i += ft_parse_redir_in(&line[i], env);
-	// 	else if (line[i] == '>')
-	// 		i += ft_parse_redir_out(&line[i], env);
-	// 	else if (line[i] == '|')
-	// 		i = ft_parse_pipe(&line[i], env);
-	// 	else
-	// 		i++;
-	// }
-	// i = 0;
-	// t_token *token = env->root;
-	// while (token)
-	// {
-	// 	i = 0;
-	// 	while (token->args[i])
-	// 		printf("args: %s\n", token->args[i++]);
-	// 	token = token->left;
-	// }
+	stage_one_function(shell->root, shell);
+	return (1);
 }

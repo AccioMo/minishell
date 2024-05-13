@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/12 18:08:42 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/12 20:24:09 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,11 @@
 # define S_REDIR_APPEND ">>"
 # define S_REDIR_HEREDOC "<<"
 
-typedef enum e_iot
-{
-	READ,
-	WRITE,
-	APPEND,
-	HEREDOC,
-}	t_iot;
-
 typedef enum e_type
 {
 	REDIR_HEREDOC,
 	REDIR_APPEND,
+	MICROSHELL,
 	REDIR_OUT,
 	REDIR_IN,
 	PIPE,

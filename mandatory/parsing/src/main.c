@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/12 18:06:57 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/12 20:16:58 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,6 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 	shell.env = env;
-	shell.vars = NULL;
 	while (TRUE)
 	{
 		buffer = readline("minishell-v0.14> ");
@@ -33,8 +32,8 @@ int	main(int ac, char **av, char **env)
 		rl_on_new_line();
 		rl_redisplay();
 		ft_parse(buffer, &shell);
+		// ft_execute(shell);
 		free(buffer);
 	}
-	// ft_execute();
 	return (0);
 }

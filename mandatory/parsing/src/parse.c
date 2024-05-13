@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/12 18:11:36 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/12 19:58:57 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,7 +47,7 @@
 // 	return (len);
 // }
 
-// t_token	*ft_get_latest_token(t_env *env)
+// t_token	*ft_get_latest_token(t_shell *env)
 // {
 // 	t_token	*token;
 
@@ -69,7 +69,7 @@
 // 	return (token);
 // }
 
-// int	ft_parse_redir_in(char *line, t_env *env)
+// int	ft_parse_redir_in(char *line, t_shell *env)
 // {
 // 	t_token	*token;
 // 	int		len;
@@ -94,7 +94,7 @@
 // 	return (len + i);
 // }
 
-// int	ft_parse_redir_out(char *line, t_env *env)
+// int	ft_parse_redir_out(char *line, t_shell *env)
 // {
 // 	t_token	*token;
 // 	int		len;

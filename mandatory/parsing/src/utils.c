@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/10 19:39:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/13 16:57:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,25 @@ int	ft_whitespace(char c)
 	return (c == ' ' || c == 127 || (c >= 9 && c <= 13));
 }
 
-int	ft_rindex(char *str, char c)
+int	ft_index(char *str, char c)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
+	{
+		if (str[i] == c)
+			return (i);
 		i++;
+	}
+	return (0);
+}
+
+int	ft_rev_index(char *str, char c)
+{
+	int	i;
+
+	i = ft_strlen(str);
 	while (i >= 0)
 	{
 		if (str[i] == c)

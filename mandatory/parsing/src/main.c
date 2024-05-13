@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/12 18:06:57 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:21:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,18 +23,19 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 	shell.env = env;
-	shell.vars = NULL;
 	while (TRUE)
 	{
 		buffer = readline("minishell-v0.14> ");
 		if (!buffer || !*buffer)
 			continue ;
 		add_history(buffer);
-		rl_on_new_line();
-		rl_redisplay();
 		ft_parse(buffer, &shell);
 		free(buffer);
+		// ft_print_tree(shell.root);
+		stage_one_function(shell.root, 0, 1, &shell);
+		rl_on_new_line();
+		while (wait(NULL) > 0)
+			wait(NULL);
 	}
-	// ft_execute();
 	return (0);
 }

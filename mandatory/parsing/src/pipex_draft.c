@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:43:31 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/12 17:57:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:08:36 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ void	ft_dup_pipes(int fdin, int fdout)
 	}
 }
 
-void	exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
+int	exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	*cmd_path;
 	int		pid;
@@ -103,7 +103,7 @@ void	exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 		if (!cmd_path)
 			exit(EXIT_FAILURE);
 		execve(cmd_path, token->args, shell->env);
-		exit(1);
+		exit(0);
 	}
 	else if (pid < 0)
 		perror("fork");

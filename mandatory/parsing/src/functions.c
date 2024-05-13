@@ -6,11 +6,32 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/11 18:31:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/13 17:30:23 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
+
+int	ft_skip_parentheses(char *str)
+{
+	int	i;
+
+	i = 0;
+	if (str[i] == '(')
+		i++;
+	while (str[i])
+	{
+		if (!ft_strncmp(&str[i], "\"", 1))
+			i += ft_index(&str[i + 1], '\"') + 1;
+		else if (!ft_strncmp(&str[i], "(", 1))
+			i += ft_skip_parentheses(&str[i]);
+		else if (!ft_strncmp(&str[i], ")", 1))
+			return (i);
+		else
+			i++;
+	}
+	return (i);
+}
 
 t_token	*ft_add_token(t_type type, char *str, t_token **token)
 {
@@ -32,63 +53,67 @@ t_token	*ft_add_token(t_type type, char *str, t_token **token)
 	return (new);
 }
 
-void	ft_stage_four(char *str, int end, t_token **token)
+void	ft_parse_word(char *str, int end, t_token **token)
 {
 	char	*word;
-	int		i;
-	int		j;
 
-	i = 0;
 	word = ft_substr(str, 0, end);
 	ft_add_token(WORD, NULL, token);
 	(*token)->args = ft_cmd_split(word);
 }
 
-void	ft_stage_three(char *str, int end, t_token **token)
+int	ft_throw_error(char *msg, char *word)
+{
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(msg, 2);
+	ft_putstr_fd(" '", 2);
+	ft_putstr_fd(word, 2);
+	ft_putstr_fd("'\n", 2);
+	return (0);
+}
+
+void	ft_stage_four(char *str, int end, t_token **token)
 {
 	char	*word;
 	int		i;
-	int		j;
+
+	i = 0;
+	while (str[i] && i < end)
+	{
+		if (ft_whitespace(str[i]))
+			i++;
+		else if (!ft_strncmp(&str[i], "(", 1))
+		{
+			word = ft_substr(&str[i + 1], 0, ft_skip_parentheses(&str[i + 1]));
+			ft_add_token(SUBSHELL, NULL, token);
+			ft_stage_one(word, &(*token)->right);
+			return ;
+		}
+		else
+		{
+			word = ft_substr(&str[i], 0, end - i);
+			ft_parse_word(word, end, token);
+			return ;
+		}
+	}
+}
+
+void	ft_stage_three(char *str, int end, t_token **token)
+{
+	int	i;
 
 	i = 0;
 	while (i < end)
 	{
-		if (!ft_strncmp(&str[i], "(", 1))
-			i += ft_rindex(&str[i], ')');
-		else if (!ft_strncmp(&str[i], ">>", 2))
+		if (!ft_strncmp(&str[i], "\"", 1))
+			i += ft_index(&str[i + 1], '\"') + 1;
+		else if (!ft_strncmp(&str[i], "(", 1))
+			i += ft_skip_parentheses(&str[i]);
+		else if (!ft_strncmp(&str[i], "|", 1))
 		{
-			ft_add_token(REDIR_APPEND, ">>", token);
-			j = i + 2 + ft_word_len(&str[i + 2]);
-			word = ft_merge(str, i, &str[j], end - j);
-			ft_stage_three(word, ft_strlen(word), &(*token)->right);
-			ft_stage_four(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left);
-			return ;
-		}
-		else if (!ft_strncmp(&str[i], "<<", 2))
-		{
-			ft_add_token(REDIR_HEREDOC, "<<", token);
-			j = i + 2 + ft_word_len(&str[i + 2]);
-			word = ft_merge(str, i, &str[j], end - j);
-			ft_stage_three(word, ft_strlen(word), &(*token)->right);
-			ft_stage_four(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left);
-			return ;
-		}
-		else if (!ft_strncmp(&str[i], "<", 1))
-		{
-			ft_add_token(REDIR_IN, "<", token);
-			j = i + 1 + ft_word_len(&str[i + 1]);
-			word = ft_merge(str, i, &str[j], end - j);
-			ft_stage_three(word, ft_strlen(word), &(*token)->right);
-			ft_stage_four(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left);
-			return ;
-		}
-		else if (!ft_strncmp(&str[i], ">", 1))
-		{
-			ft_add_token(REDIR_OUT, ">", token);
-			j = i + 1 + ft_word_len(&str[i + 1]);
-			word = ft_merge(str, i, &str[j], end - j);
-			ft_stage_three(word, ft_strlen(word), &(*token)->right);
-			ft_stage_four(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left);
+			ft_add_token(PIPE, "|", token);
+			ft_stage_three(&str[i + 1], end - (i + 1), &(*token)->right);
+			ft_stage_four(str, i, &(*token)->left);
 			return ;
 		}
 		i++;
@@ -98,18 +123,51 @@ void	ft_stage_three(char *str, int end, t_token **token)
 
 void	ft_stage_two(char *str, int end, t_token **token)
 {
-	int	i;
+	char	*word;
+	int		i;
+	int		j;
 
 	i = 0;
 	while (i < end)
 	{
-		if (!ft_strncmp(&str[i], "(", 1))
-			i += ft_rindex(&str[i], ')');
-		else if (!ft_strncmp(&str[i], "|", 1))
+		if (!ft_strncmp(&str[i], "\"", 1))
+			i += ft_index(&str[i + 1], '\"') + 1;
+		else if (!ft_strncmp(&str[i], "(", 1))
+			i += ft_skip_parentheses(&str[i]);
+		else if (!ft_strncmp(&str[i], ">>", 2))
 		{
-			ft_add_token(PIPE, "|", token);
-			ft_stage_two(&str[i + 1], end - (i + 1), &(*token)->right);
-			ft_stage_three(str, i, &(*token)->left);
+			ft_add_token(REDIR_APPEND, ">>", token);
+			j = i + 2 + ft_word_len(&str[i + 2]);
+			word = ft_merge(str, i, &str[j], end - j);
+			ft_stage_two(word, ft_strlen(word), &(*token)->right);
+			ft_stage_three(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left);
+			return ;
+		}
+		else if (!ft_strncmp(&str[i], "<<", 2))
+		{
+			ft_add_token(REDIR_HEREDOC, "<<", token);
+			j = i + 2 + ft_word_len(&str[i + 2]);
+			word = ft_merge(str, i, &str[j], end - j);
+			ft_stage_two(word, ft_strlen(word), &(*token)->right);
+			ft_stage_three(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left);
+			return ;
+		}
+		else if (!ft_strncmp(&str[i], "<", 1))
+		{
+			ft_add_token(REDIR_IN, "<", token);
+			j = i + 1 + ft_word_len(&str[i + 1]);
+			word = ft_merge(str, i, &str[j], end - j);
+			ft_stage_two(word, ft_strlen(word), &(*token)->right);
+			ft_stage_three(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left);
+			return ;
+		}
+		else if (!ft_strncmp(&str[i], ">", 1))
+		{
+			ft_add_token(REDIR_OUT, ">", token);
+			j = i + 1 + ft_word_len(&str[i + 1]);
+			word = ft_merge(str, i, &str[j], end - j);
+			ft_stage_two(word, ft_strlen(word), &(*token)->right);
+			ft_stage_three(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left);
 			return ;
 		}
 		i++;
@@ -124,10 +182,10 @@ void	ft_stage_one(char *str, t_token **token)
 	i = 0;
 	while (str[i])
 	{
-		if (!ft_strncmp(&str[i], "(", 1))
-			i += ft_rindex(&str[i], ')');
-		else if (!ft_strncmp(&str[i], ")", 1))
-			return ;
+		if (!ft_strncmp(&str[i], "\"", 1))
+			i += ft_index(&str[i + 1], '\"') + 1;
+		else if (!ft_strncmp(&str[i], "(", 1))
+			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], "&&", 2))
 		{
 			ft_add_token(AND, "&&", token);
@@ -142,7 +200,8 @@ void	ft_stage_one(char *str, t_token **token)
 			ft_stage_two(str, i, &(*token)->left);
 			return ;
 		}
-		i++;
+		else
+			i++;
 	}
 	ft_stage_two(str, i, token);
 }

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/12 18:08:42 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/12 21:10:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,6 +51,7 @@ typedef enum e_type
 	REDIR_APPEND,
 	REDIR_OUT,
 	REDIR_IN,
+	SUBSHELL,
 	PIPE,
 	WORD,
 	AND,

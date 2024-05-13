@@ -6,50 +6,132 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:24:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/12 18:14:35 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/13 20:17:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	stage_one_function(t_token *token, t_shell *shell)
+int	stage_one_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	if (token->type == AND)
-		return (and_function(token, shell));
+		return (and_function(token, fdin, fdout, shell));
 	else if (token->type == OR)
-		return (or_function(token, shell));
-	return (stage_two_function(token, shell));
+		return (or_function(token, fdin, fdout, shell));
+	return (stage_two_function(token, fdin, fdout, shell));
 }
 
-int	stage_two_function(t_token *token, t_shell *shell)
+int	stage_two_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
+	if (token->type == REDIR_IN)
+	{
+		fdin = redir_in_function(token->left, shell);
+		return (stage_two_function(token->right, fdin, fdout, shell));
+	}
+	else if (token->type == REDIR_HEREDOC)
+	{
+		fdin = redir_heredoc_function(token->left, shell);
+		return (stage_two_function(token->right, fdin, fdout, shell));
+	}
+	else if (token->type == REDIR_OUT)
+	{
+		fdout = redir_out_function(token->left, shell);
+		return (stage_two_function(token->right, fdin, fdout, shell));
+	}
+	else if (token->type == REDIR_APPEND)
+	{
+		fdout = redir_append_function(token->left, shell);
+		return (stage_two_function(token->right, fdin, fdout, shell));
+	}
+	return (stage_three_function(token, fdin, fdout, shell));
+}
+
+int	stage_three_function(t_token *token, int fdin, int fdout, t_shell *shell)
+{
+	int	fd;
+
 	if (token->type == PIPE)
-		pipe_function(token, 0, 1, shell);
-	else if (token->type == WORD)
-		exec_function(token, 0, 1, shell);
-	return (1);
-	// else if (token->type == REDIR_IN)
-	// 	redir_function(token, shell);
-	// else if (token->type == REDIR_OUT)
-	// 	redir_function(token, shell);
-	// else if (token->type == SUBSHELL)
-	// 	recursive_function(token->left, shell);
+	{
+		fd = pipe_function(token->left, fdin, fdout, shell);
+		stage_three_function(token->right, fd, fdout, shell);
+		return (1);
+	}
+	return (stage_four_function(token, fdin, fdout, shell));
 }
 
-int	and_function(t_token *token, t_shell *shell)
+int	stage_four_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	if (stage_two_function(token->left, shell))
-		stage_one_function(token->right, shell);
-	else
-		return (0);
+	if (token->type == WORD)
+		return (exec_function(token, fdin, fdout, shell));
+	else if (token->type == SUBSHELL)
+		return (stage_one_function(token->right, fdin, fdout, shell));
+	return (0);
 }
 
-int	or_function(t_token *token, t_shell *shell)
+int	redir_in_function(t_token *token, t_shell *shell)
 {
-	if (!stage_two_function(token->left, shell))
-		stage_one_function(token->right, shell);
-	else
-		return (0);
+	int	fd;
+
+	fd = open(token->args[0], O_RDONLY);
+	if (fd < 0)
+	{
+		perror("open");
+		return (-1);
+	}
+	return (fd);
+}
+
+int	redir_out_function(t_token *token, t_shell *shell)
+{
+	int	fd;
+
+	fd = open(token->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (fd < 0)
+	{
+		perror("open");
+		return (-1);
+	}
+	return (fd);
+}
+
+int	redir_append_function(t_token *token, t_shell *shell)
+{
+	int	fd;
+
+	fd = open(token->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
+	if (fd < 0)
+	{
+		perror("open");
+		return (-1);
+	}
+	return (fd);
+}
+
+int	redir_heredoc_function(t_token *token, t_shell *shell)
+{
+	int	fd;
+
+	// fd = open(token->args[0], O_RDONLY);
+	// if (fd < 0)
+	// {
+	// 	perror("open");
+	// 	return (-1);
+	// }
+	return (0);
+}
+
+int	and_function(t_token *token, int fdin, int fdout, t_shell *shell)
+{
+	if (stage_two_function(token->left, fdin, fdout, shell))
+		return (stage_one_function(token->right, fdin, fdout, shell));
+	return (0);
+}
+
+int	or_function(t_token *token, int fdin, int fdout, t_shell *shell)
+{
+	if (!stage_two_function(token->left, fdin, fdout, shell))
+		return (stage_one_function(token->right, fdin, fdout, shell));
+	return (0);
 }
 
 int	pipe_function(t_token *token, int fdin, int fdout, t_shell *shell)
@@ -58,11 +140,7 @@ int	pipe_function(t_token *token, int fdin, int fdout, t_shell *shell)
 
 	if (pipe(end) < 0)
 		perror("pipe");
-	exec_function(token->left, fdin, end[1], shell);
-	// close(end[1]);
-	if (token->right->type == PIPE)
-		pipe_function(token->right, end[0], fdout, shell);
-	else if (token->right->type == WORD)
-		exec_function(token->right, end[0], fdout, shell);
-	close(end[0]);
+	exec_function(token, fdin, end[1], shell);
+	close(end[1]);
+	return (end[0]);
 }

@@ -6,17 +6,17 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 12:44:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/04/18 18:53:38 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/14 23:12:26 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include	"minishell.h"
 
-int	ft_pwd(t_env *env)
+int	ft_pwd(t_shell *shell)
 {
 	char	*pwd;
 
-	pwd = ft_getenv("PWD", env->env);
+	pwd = ft_getshell("PWD", shell->env);
 	if (!pwd)
 	{
 		ft_putstr_fd("minishell: pwd: ERROR retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);

@@ -6,13 +6,13 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/04/18 18:55:14 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/14 22:57:03 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int	ft_print_envMain(char **r)// needs to be deleted, now its just for debug purposes
+int	ft_print_shellMain(char **r)// needs to be deleted, now its just for debug purposes
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int	ft_print_envMain(char **r)// needs to be deleted, now its just for debug pur
 	return (SUCCESS);
 }
 
-int	ft_have_builtin(t_cmds *cmds)
+int	ft_have_builtin(t_token *cmds)
 {
 	if (ft_strncmp(cmds->cmd[0], "echo", 4) == 0)//ready    √
 		return (true);
@@ -46,7 +46,7 @@ void f(void)
 	system("leaks minishell");
 }
 
-void	ft_free_cmds(t_cmds *cmds)
+void	ft_free_cmds(t_token *cmds)
 {
 	int	i;
 
@@ -59,7 +59,7 @@ void	ft_free_cmds(t_cmds *cmds)
 	free(cmds->cmd);
 }
 
-void	ft_free_env(t_env *env)
+void	ft_free_env(t_shell *env)
 {
 	int	i;
 
@@ -110,8 +110,8 @@ char	**copy_env(char **env)
 int main(int ac, char **av, char **env)
 {
 	atexit(f);
-	t_cmds	cmds;
-	t_env	envi;
+	t_token	cmds;
+	t_shell	envi;
 
 	envi.env = copy_env(env);
 	envi.vars = NULL;
@@ -129,6 +129,6 @@ int main(int ac, char **av, char **env)
 	ft_execute(&cmds, &envi);
 	ft_free_cmds(&cmds);
 	ft_free_env(&envi);
-	// ft_print_envMain(envi.env);
+	// ft_print_shellMain(envi.env);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/12 20:06:24 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:55:14 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,20 +38,22 @@ int	ft_delete_env(char *name, char **from)
 	}
 	return (SUCCESS);
 }
-
-int	ft_unset(t_token *token, t_shell *env)
+//next func to work on...
+int	ft_unset(t_cmds *cmds, t_env *env)
 {
 	int	i;
 
 	i = 1;
-	while (token->args[i])
+	while (cmds->cmd[i])
 	{
-		if (!ft_getenv(token->args[i], env->env))
+		if (!ft_getenv(cmds->cmd[i], env->env) && !ft_getenv(cmds->cmd[i], env->vars))
 			i++;//jrbt f sh w makatl3 ta chi ERROR so no ERROR managment here
 		else
 		{
-			if (ft_getenv(token->args[i], env->env))
-				ft_delete_env(token->args[i], env->env);
+			if (ft_getenv(cmds->cmd[i], env->env))
+				ft_delete_env(cmds->cmd[i], env->env);
+			if (ft_getenv(cmds->cmd[i], env->vars))
+				ft_delete_env(cmds->cmd[i], env->vars);
 			i++;
 		}
 	}

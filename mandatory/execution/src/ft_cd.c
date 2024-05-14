@@ -6,13 +6,13 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/12 20:03:15 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/04/18 18:55:14 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	ft_change_env_value(t_shell *env, char *name, char *value)
+int	ft_change_env_value(t_env *env, char *name, char *value)
 {
 	int	i;
 
@@ -36,9 +36,9 @@ int	ft_change_env_value(t_shell *env, char *name, char *value)
 	return (SUCCESS);
 }
 
-int	ft_cd(t_token *token, t_shell *env)
+int	ft_cd(t_cmds *cmd, t_env *env)
 {
-	if (token->args[1] == NULL)
+	if (cmd->cmd[1] == NULL)
 	{
 		if (chdir(ft_getenv("HOME", env->env)) == -1)
 		{
@@ -50,15 +50,15 @@ int	ft_cd(t_token *token, t_shell *env)
 	}
 	else
 	{
-		if (chdir(token->args[1]) == -1)
+		if (chdir(cmd->cmd[1]) == -1)
 		{
 			ft_putstr_fd("cd: ", STDERR);
-			ft_putstr_fd(token->args[1], STDERR);
+			ft_putstr_fd(cmd->cmd[1], STDERR);
 			ft_putstr_fd(": No such file or directory\n", STDERR);
 			return (ERROR);
 		}
 		ft_change_env_value(env, "OLDPWD", ft_getenv("PWD", env->env));
-		ft_change_env_value(env, "PWD", token->args[1]);
+		ft_change_env_value(env, "PWD", cmd->cmd[1]);
 	}
 	return (SUCCESS);
 }

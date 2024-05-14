@@ -3,10 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/05/13 20:21:50 by mzeggaf          ###   ########.fr       */
+=======
+/*   Updated: 2024/05/12 20:16:58 by zouddach         ###   ########.fr       */
+>>>>>>> 8a554550f451b3066b68d712fc39fdf1a2b0b976
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +34,7 @@ int	main(int ac, char **av, char **env)
 			continue ;
 		add_history(buffer);
 		ft_parse(buffer, &shell);
+		// ft_execute(shell);
 		free(buffer);
 		// ft_print_tree(shell.root);
 		stage_one_function(shell.root, 0, 1, &shell);

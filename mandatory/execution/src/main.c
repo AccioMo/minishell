@@ -6,13 +6,13 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/04/18 18:55:14 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/12 20:29:35 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 # include "minishell.h"
 
-int	ft_print_envMain(char **r)// needs to be deleted, now its just for debug purposes
+int	ft_print_shellMain(char **r)// needs to be deleted, now its just for debug purposes
 {
 	int	i;
 
@@ -26,19 +26,19 @@ int	ft_print_envMain(char **r)// needs to be deleted, now its just for debug pur
 	return (SUCCESS);
 }
 
-int	ft_have_builtin(t_cmds *cmds)
+int	ft_have_builtin(t_token *token)
 {
-	if (ft_strncmp(cmds->cmd[0], "echo", 4) == 0)//ready    √
-		return (true);
-	if (ft_strncmp(cmds->cmd[0], "pwd", 3) == 0)//ready     √
-		return (true);
-	if (ft_strncmp(cmds->cmd[0], "cd", 2) == 0)//ready      √
-		return (true);
-	if (ft_strncmp(cmds->cmd[0], "unset", 5) == 0)//ready   √
-		return (true);
-	if (ft_strncmp(cmds->cmd[0], "export", 6) == 0)//ready  √
-		return (true);
-	return (false);
+	if (ft_strncmp(token->args[0], "echo", 4) == 0)//ready    √
+		return (TRUE);
+	if (ft_strncmp(token->args[0], "pwd", 3) == 0)//ready     √
+		return (TRUE);
+	if (ft_strncmp(token->args[0], "cd", 2) == 0)//ready      √
+		return (TRUE);
+	if (ft_strncmp(token->args[0], "unset", 5) == 0)//ready   √
+		return (TRUE);
+	if (ft_strncmp(token->args[0], "export", 6) == 0)//ready  √
+		return (TRUE);
+	return (FALSE);
 }
 
 void f(void)
@@ -46,20 +46,20 @@ void f(void)
 	system("leaks minishell");
 }
 
-void	ft_free_cmds(t_cmds *cmds)
+void	ft_free_cmds(t_token *token)
 {
 	int	i;
 
 	i = 0;
-	while (cmds->cmd && cmds->cmd[i])
+	while (token->args && token->args[i])
 	{
-		free(cmds->cmd[i]);
+		free(token->args[i]);
 		i++;
 	}
-	free(cmds->cmd);
+	free(token->args);
 }
 
-void	ft_free_env(t_env *env)
+void	ft_free_env(t_shell *env)
 {
 	int	i;
 
@@ -70,13 +70,6 @@ void	ft_free_env(t_env *env)
 		i++;
 	}
 	free(env->env);
-	i = 0;
-	while (env->vars && env->vars[i])
-	{
-		free(env->vars[i]);
-		i++;
-	}
-	free(env->vars);
 }
 
 char	**copy_env(char **env)
@@ -107,28 +100,25 @@ char	**copy_env(char **env)
 	return (new_env);
 }
 
-int main(int ac, char **av, char **env)
-{
-	atexit(f);
-	t_cmds	cmds;
-	t_env	envi;
+// int main(int ac, char **av, char **env)
+// {
+// 	atexit(f);
+// 	t_token	cmds;
+// 	t_shell	envi;
 
-	envi.env = copy_env(env);
-	envi.vars = NULL;
-	cmds.cmd = ft_split(av[1], ' ');
-	for (int i = 0; cmds.cmd[i]; i++)
-	{
-		printf("cmds.cmd[%d] = %s\n", i, cmds.cmd[i]);
-	}
-	cmds.infile = NULL;
-	cmds.outfile = NULL;
-	cmds.fd_in = 0;
-	cmds.fd_out = 1;
-	envi.vars = NULL;
-	ac = 0;
-	ft_execute(&cmds, &envi);
-	ft_free_cmds(&cmds);
-	ft_free_env(&envi);
-	// ft_print_envMain(envi.env);
-	return (0);
-}
+// 	envi.env = copy_env(env);
+// 	cmds.cmd = ft_split(av[1], ' ');
+// 	for (int i = 0; cmds.cmd[i]; i++)
+// 	{
+// 		printf("cmds.cmd[%d] = %s\n", i, cmds.cmd[i]);
+// 	}
+// 	envi.vars = NULL;
+// 	ac = 0;
+// 	ft_execute(&cmds, &envi);
+// 	ft_free_cmds(&cmds);
+// 	ft_free_env(&envi);
+// 	// ft_print_shellMain(envi.env);
+// 	return (0);
+// }
+
+//khass nhandli shellvl

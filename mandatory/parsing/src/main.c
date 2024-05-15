@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/15 20:18:15 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/15 21:24:23 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	main(int ac, char **av, char **env)
 		add_history(buffer);
 		ft_parse(buffer, &shell);
 		free(buffer);
-		// ft_print_tree(shell.root);
+		ft_print_tree(shell.root);
 		stage_one_function(shell.root, 0, 1, &shell);
 		rl_on_new_line();
 		while (wait(NULL) > 0)

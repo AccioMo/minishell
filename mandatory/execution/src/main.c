@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/14 22:57:03 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:31:12 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,19 +26,19 @@ int	ft_print_shellMain(char **r)// needs to be deleted, now its just for debug p
 	return (SUCCESS);
 }
 
-int	ft_have_builtin(t_token *cmds)
+int	ft_have_builtin(t_token *token)
 {
-	if (ft_strncmp(cmds->cmd[0], "echo", 4) == 0)//ready    √
-		return (true);
-	if (ft_strncmp(cmds->cmd[0], "pwd", 3) == 0)//ready     √
-		return (true);
-	if (ft_strncmp(cmds->cmd[0], "cd", 2) == 0)//ready      √
-		return (true);
-	if (ft_strncmp(cmds->cmd[0], "unset", 5) == 0)//ready   √
-		return (true);
-	if (ft_strncmp(cmds->cmd[0], "export", 6) == 0)//ready  √
-		return (true);
-	return (false);
+	if (ft_strncmp(token->args[0], "echo", 4) == 0)//ready    √
+		return (TRUE);
+	if (ft_strncmp(token->args[0], "pwd", 3) == 0)//ready     √
+		return (TRUE);
+	if (ft_strncmp(token->args[0], "cd", 2) == 0)//ready      √
+		return (TRUE);
+	if (ft_strncmp(token->args[0], "unset", 5) == 0)//ready   √
+		return (TRUE);
+	if (ft_strncmp(token->args[0], "export", 6) == 0)//ready  √
+		return (TRUE);
+	return (FALSE);
 }
 
 void f(void)
@@ -46,17 +46,17 @@ void f(void)
 	system("leaks minishell");
 }
 
-void	ft_free_cmds(t_token *cmds)
+void	ft_free_token(t_token *token)
 {
 	int	i;
 
 	i = 0;
-	while (cmds->cmd && cmds->cmd[i])
+	while (token->args && token->args[i])
 	{
-		free(cmds->cmd[i]);
+		free(token->args[i]);
 		i++;
 	}
-	free(cmds->cmd);
+	free(token->args);
 }
 
 void	ft_free_env(t_shell *env)
@@ -110,25 +110,8 @@ char	**copy_env(char **env)
 int main(int ac, char **av, char **env)
 {
 	atexit(f);
-	t_token	cmds;
+	t_token	token;
 	t_shell	envi;
 
-	envi.env = copy_env(env);
-	envi.vars = NULL;
-	cmds.cmd = ft_split(av[1], ' ');
-	for (int i = 0; cmds.cmd[i]; i++)
-	{
-		printf("cmds.cmd[%d] = %s\n", i, cmds.cmd[i]);
-	}
-	cmds.infile = NULL;
-	cmds.outfile = NULL;
-	cmds.fd_in = 0;
-	cmds.fd_out = 1;
-	envi.vars = NULL;
-	ac = 0;
-	ft_execute(&cmds, &envi);
-	ft_free_cmds(&cmds);
-	ft_free_env(&envi);
-	// ft_print_shellMain(envi.env);
-	return (0);
+	return 0;
 }

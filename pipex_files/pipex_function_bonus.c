@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_function_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/01/11 18:39:37 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/04 22:51:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/15 21:23:12 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_pipex(char **cmds, char **env)
 	int		end[2];
 	int		fdin;
 
-	while (*(cmds + 2))
+	while (*(cmds + 2 * count > 2))
 	{
 		fdin = ft_redirect_input(cmds.infile);
 		if (pipe(end) < 0)

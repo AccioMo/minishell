@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_draft.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:24:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/14 23:11:41 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/15 20:11:23 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 int	stage_one_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
+	if (!token)
+		return (EXIT_FAILURE);
 	if (token->type == AND)
 		return (and_function(token, fdin, fdout, shell));
 	else if (token->type == OR)
@@ -23,6 +25,8 @@ int	stage_one_function(t_token *token, int fdin, int fdout, t_shell *shell)
 
 int	stage_two_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
+	if (!token)
+		return (EXIT_FAILURE);
 	if (token->type == REDIR_IN)
 	{
 		fdin = redir_in_function(token->left, shell);
@@ -50,6 +54,8 @@ int	stage_three_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	int	fd;
 
+	if (!token)
+		return (EXIT_FAILURE);
 	if (token->type == PIPE)
 	{
 		fd = pipe_function(token->left, fdin, fdout, shell);
@@ -61,11 +67,13 @@ int	stage_three_function(t_token *token, int fdin, int fdout, t_shell *shell)
 
 int	stage_four_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
+	if (!token)
+		return (EXIT_FAILURE);
 	if (token->type == WORD)
 		return (exec_function(token, fdin, fdout, shell));
 	else if (token->type == SUBSHELL)
 		return (stage_one_function(token->right, fdin, fdout, shell));
-	return (0);
+	return (EXIT_FAILURE);
 }
 
 int	redir_in_function(t_token *token, t_shell *shell)

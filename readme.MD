@@ -13,10 +13,22 @@
 
 ## PARSING
 ```
-ft_add_token()
-ft_and_or_split() // STAGE ONE: recursive
-ft_pipe_split() // STAGE TWO: recursive
-ft_redir_split() // STAGE THREE: not recursive (probably)
+
+STAGE ONE:
+	remove AND/OR tokens.
+STAGE TWO:
+	remove REDIR tokens.
+STAGE THREE:
+	remove PIPE tokens.
+STAGE FOUR:
+	parse WORD tokens or PARENTHESES.
+
+ERROR HANDLING:
+	1. error on if AND, OR, PIPE, and REDIRs tokens without a right or left token.
+	2. error on unclosed SINGLE-QUOTES, DOUBLE-QUOTES or PARENTHESES.
+	3. error on WORD token containing PARENTHESES or SUBSHELL containing WORD.
+
+
 ```
 
 ## EXECUTION

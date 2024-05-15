@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/13 19:40:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/15 19:26:36 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 
 int		ft_parse(char *line, t_shell *shell);
 int		ft_whitespace(char c);
-void	ft_stage_one(char *str, t_token **token);
+int		ft_stage_one(char *str, t_token **token);
 int		ft_index(char *str, char c);
 int		ft_rev_index(char *str, char c);
 int		ft_word_len(char *str);

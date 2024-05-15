@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/12 21:10:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/15 19:25:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,8 +22,8 @@
 
 # define TRUE 1
 # define FALSE 0
-# define SUCCESS 1
-# define ERROR 0
+# define EXIT_SUCCESS 0
+# define EXIT_FAILURE 1
 
 # define STDIN 0
 # define STDOUT 1

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:43:31 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/13 20:08:36 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/15 20:05:00 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ int	exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 		if (!cmd_path)
 			exit(EXIT_FAILURE);
 		execve(cmd_path, token->args, shell->env);
-		exit(0);
+		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 		perror("fork");

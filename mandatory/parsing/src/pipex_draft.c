@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex_draft.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:43:31 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/15 20:05:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/16 08:29:53 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,7 +91,7 @@ void	ft_dup_pipes(int fdin, int fdout)
 int	exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	*cmd_path;
-	int		pid;
+	pid_t		pid;
 
 	pid = fork();
 	if (pid == 0)

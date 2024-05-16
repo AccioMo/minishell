@@ -6,11 +6,11 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/14 23:06:11 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:01:14 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 int	ft_print_shell(t_shell *env)
 {
@@ -23,7 +23,7 @@ int	ft_print_shell(t_shell *env)
 		ft_putchar_fd('\n', STDOUT);
 		i++;
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
 
 char	**ft_realloc_env(char **env, int size, char *new_var)
@@ -77,14 +77,14 @@ int	ft_export(t_token *token, t_shell *env)
 			{
 				free(env->env[i]);
 				env->env[i] = ft_strdup(token->args[j]);
-				return (SUCCESS);
+				return (EXIT_SUCCESS);
 			}
 			i++;
 		}
 		env->env = ft_realloc_env(env->env, ft_two_d_len(env->env) + 1, token->args[j]);
 		if (!env->env)
-			return (ERROR);
+			return (EXIT_FAILURE);
 		j++;
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }

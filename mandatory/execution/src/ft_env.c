@@ -6,11 +6,11 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 10:21:03 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 20:47:35 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 int	ft_env(t_shell *shell)
 {

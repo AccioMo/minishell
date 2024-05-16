@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/14 22:57:03 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:16:24 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,9 @@ void	ft_exit(t_token *token, t_shell *env);
 
 void	ft_exec_cmd(char *full_cmd, char **env, int cmd_in, int *fd_pipe);
 
+/*A function that prints the env vars*/
+int	ft_env(t_shell *shell);
+
 /*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
 /*Returns NULL if there is no key with that name*/
 char	*ft_getenv(char *name, char **arr);
@@ -56,11 +59,30 @@ char	*ft_getenv(char *name, char **arr);
 /*Returns NULL if Malloc Failed*/
 char	**ft_realloc_env(char **env, int size, char *new_var);
 
-/*A function that free the token struct*/
-void	ft_free_token(t_token *token);
+int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell);
 
-/*A function that free the env struct*/
-void	ft_free_env(t_shell *env);
+int	ft_or_function(t_token *token, int fdin, int fdout, t_shell *shell);
 
+int	ft_and_function(t_token *token, int fdin, int fdout, t_shell *shell);
 
+int	ft_define_priority(t_token *token, int fdin, int fdout, t_shell *shell);
+
+int	ft_check_redirections(t_token *token, int fdin, int fdout, t_shell *shell);
+
+int	ft_check_pipe(t_token *token, int fdin, int fdout, t_shell *shell);
+
+int	ft_type_to_execute(t_token *token, int fdin, int fdout, t_shell *shell);
+
+int	ft_pipe_function(t_token *token, int fdin, int fdout, t_shell *shell);
+
+/*RIDERICTIONS FUNCTION HERE*/
+int	ft_redir_in_function(t_token *token, t_shell *shell);
+
+int	ft_redir_out_function(t_token *token, t_shell *shell);
+
+int	ft_redir_append_function(t_token *token, t_shell *shell);
+
+int	ft_redir_heredoc_function(t_token *token, t_shell *shell);
+
+void	ft_free(char **ptr);
 #endif

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/12 16:43:31 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/16 08:29:53 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 20:24:54 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,4 +107,5 @@ int	exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	}
 	else if (pid < 0)
 		perror("fork");
+	return (0);
 }

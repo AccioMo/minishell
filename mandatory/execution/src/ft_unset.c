@@ -6,11 +6,11 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/14 23:13:19 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:02:04 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "minishell.h"
+#include "execution.h"
 
 int	ft_delete_env(char *name, char **from)
 {
@@ -25,18 +25,18 @@ int	ft_delete_env(char *name, char **from)
 			while (from[i])
 			{
 				if (from[i + 1] == NULL)
-					return (from[i] = NULL, SUCCESS);
+					return (from[i] = NULL, EXIT_SUCCESS);
 				from[i] = ft_strdup(from[i + 1]);
 				if (!from[i])
-					return (ERROR);//free l7za9
+					return (EXIT_FAILURE);//free l7za9
 				free(from[i + 1]);
 				i++;
 			}
-			return (SUCCESS);
+			return (EXIT_SUCCESS);
 		}
 		i++;
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }
 //next func to work on...
 int	ft_unset(t_token *token, t_shell *env)
@@ -52,5 +52,5 @@ int	ft_unset(t_token *token, t_shell *env)
 			ft_delete_env(token->args[i], env->env);
 		i++;
 	}
-	return (SUCCESS);
+	return (EXIT_SUCCESS);
 }

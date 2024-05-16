@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/15 19:51:06 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/16 16:35:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,9 +113,9 @@ int	ft_stage_three(char *str, int end, t_token **token)
 		else if (!ft_strncmp(&str[i], "|", 1))
 		{
 			ft_add_token(PIPE, "|", token);
-			if (ft_stage_four(str, i, &(*token)->left))
+			if (ft_stage_four(str, i, &(*token)->left) && !(*token)->left)
 				return (ft_throw_error("syntax error near unexpected token", "|"));
-			if (ft_stage_three(&str[i + 1], end - (i + 1), &(*token)->right))
+			if (ft_stage_three(&str[i + 1], end - (i + 1), &(*token)->right) && !(*token)->right)
 				return (ft_throw_error("syntax error near unexpected token", "newline"));
 			return (EXIT_SUCCESS);
 		}
@@ -142,9 +142,9 @@ int	ft_stage_two(char *str, int end, t_token **token)
 			ft_add_token(REDIR_APPEND, ">>", token);
 			j = i + 2 + ft_word_len(&str[i + 2]);
 			word = ft_merge(str, i, &str[j], end - j);
-			if (ft_stage_three(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left))
+			if (ft_stage_three(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left) && !(*token)->left)
 				return (ft_throw_error("syntax error near unexpected token", ">>"));
-			if (ft_stage_two(word, ft_strlen(word), &(*token)->right))
+			if (ft_stage_two(word, ft_strlen(word), &(*token)->right) && !(*token)->right)
 				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
 		}
@@ -153,9 +153,9 @@ int	ft_stage_two(char *str, int end, t_token **token)
 			ft_add_token(REDIR_HEREDOC, "<<", token);
 			j = i + 2 + ft_word_len(&str[i + 2]);
 			word = ft_merge(str, i, &str[j], end - j);
-			if (ft_stage_three(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left))
+			if (ft_stage_three(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left) && !(*token)->left)
 				return (ft_throw_error("syntax error near unexpected token", "<<"));
-			if (ft_stage_two(word, ft_strlen(word), &(*token)->right))
+			if (ft_stage_two(word, ft_strlen(word), &(*token)->right) && !(*token)->right)
 				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
 		}
@@ -164,9 +164,9 @@ int	ft_stage_two(char *str, int end, t_token **token)
 			ft_add_token(REDIR_IN, "<", token);
 			j = i + 1 + ft_word_len(&str[i + 1]);
 			word = ft_merge(str, i, &str[j], end - j);
-			if (ft_stage_three(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left))
+			if (ft_stage_three(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left) && !(*token)->left)
 				return (ft_throw_error("syntax error near unexpected token", "<"));
-			if (ft_stage_two(word, ft_strlen(word), &(*token)->right))
+			if (ft_stage_two(word, ft_strlen(word), &(*token)->right) && !(*token)->right)
 				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
 		}
@@ -175,9 +175,9 @@ int	ft_stage_two(char *str, int end, t_token **token)
 			ft_add_token(REDIR_OUT, ">", token);
 			j = i + 1 + ft_word_len(&str[i + 1]);
 			word = ft_merge(str, i, &str[j], end - j);
-			if (ft_stage_three(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left))
+			if (ft_stage_three(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left) && !(*token)->left)
 				return (ft_throw_error("syntax error near unexpected token", ">"));
-			if (ft_stage_two(word, ft_strlen(word), &(*token)->right))
+			if (ft_stage_two(word, ft_strlen(word), &(*token)->right) && !(*token)->right)
 				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
 		}
@@ -201,11 +201,15 @@ int	ft_stage_one(char *str, t_token **token)
 		{
 			ft_add_token(AND, "&&", token);
 			if (ft_stage_two(str, i, &(*token)->left))
-				return (ft_throw_error("syntax error near unexpected token", "&&"));
+			{
+				if (!(*token)->left)
+					ft_throw_error("syntax error near unexpected token", "&&");
+				return (EXIT_FAILURE);
+			}
 			if (ft_stage_one(&str[i + 2], &(*token)->right))
 			{
 				if (!(*token)->right)
-					return (ft_throw_error("syntax error near unexpected token", "&&"));
+					ft_throw_error("syntax error near unexpected token", "newline");
 				return (EXIT_FAILURE);
 			}
 			return (EXIT_SUCCESS);
@@ -214,11 +218,15 @@ int	ft_stage_one(char *str, t_token **token)
 		{
 			ft_add_token(OR, "||", token);
 			if (ft_stage_two(str, i, &(*token)->left))
-				return (ft_throw_error("syntax error near unexpected token", "||"));
+			{
+				if (!(*token)->left)
+					ft_throw_error("syntax error near unexpected token", "||");
+				return (EXIT_FAILURE);
+			}
 			if (ft_stage_one(&str[i + 2], &(*token)->right))
 			{
 				if (!(*token)->right)
-					return (ft_throw_error("syntax error near unexpected token", "||"));
+					ft_throw_error("syntax error near unexpected token", "newline");
 				return (EXIT_FAILURE);
 			}
 			return (EXIT_SUCCESS);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/16 08:34:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 20:10:07 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	ft_print_tree(t_token *token)
 
 void	ft_free_tree(t_token *token)
 {
+	if (!token)
+		return ;
 	if (token->left)
 		ft_free_tree(token->left);
 	if (token->right)

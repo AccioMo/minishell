@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/13 16:57:01 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/16 21:08:08 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,29 @@ int	ft_rev_index(char *str, char c)
 	return (0);
 }
 
+static int	ft_reserved_word(char *str)
+{
+	if (!ft_strncmp(str, "||", 2))
+		return (1);
+	if (!ft_strncmp(str, "&&", 2))
+		return (1);
+	if (!ft_strncmp(str, "|", 1))
+		return (1);
+	if (!ft_strncmp(str, ">", 1))
+		return (1);
+	if (!ft_strncmp(str, ">>", 2))
+		return (1);
+	if (!ft_strncmp(str, "<", 1))
+		return (1);
+	if (!ft_strncmp(str, "<<", 2))
+		return (1);
+	if (!ft_strncmp(str, "(", 1))
+		return (1);
+	if (!ft_strncmp(str, ")", 1))
+		return (1);
+	return (0);
+}
+
 int	ft_word_len(char *str)
 {
 	int	len;
@@ -54,7 +77,7 @@ int	ft_word_len(char *str)
 		return (0);
 	while (str[len] && ft_whitespace(str[len]))
 		len++;
-	while (str[len] && !ft_whitespace(str[len]))
+	while (str[len] && !ft_whitespace(str[len]) && !ft_reserved_word(&str[len]))
 		len++;
 	return (len);
 }

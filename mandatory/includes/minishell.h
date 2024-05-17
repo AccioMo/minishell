@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/15 19:25:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/16 21:35:55 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,4 +72,6 @@ typedef struct s_shell
 	t_token	*root;
 }	t_shell;
 
+int		ft_define_priority(t_token *token, int fdin, int fdout, t_shell *shell);
+void	ft_free(char **ptr);
 #endif

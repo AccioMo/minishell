@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -I ~/brew/opt/readline/include -L ~/brew/opt/readline/lib -lreadline -g -fsanitize=address #-Wall -Wextra -Werror
+FLAGS = -L libs/ -lreadline #-g -fsanitize=address #-Wall -Wextra -Werror
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
 GNL_DIR = get_next_line/
@@ -14,7 +14,7 @@ BONUS_HEADER_DIR = bonus/includes/
 PARSE_HEADER = $(HEADER_DIR)parsing.h
 PARSE_SRC_DIR = mandatory/parsing/src/
 PARSE_OBJ_DIR = mandatory/parsing/obj/
-PARSING_FILES = main.c parse.c functions.c utils.c str.c exec_draft.c pipex_draft.c
+PARSING_FILES = main.c parse.c functions.c utils.c str.c #exec_draft.c pipex_draft.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 
@@ -22,7 +22,7 @@ PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 EXEC_HEADER = $(HEADER_DIR)execution.h
 EXEC_SRC_DIR = mandatory/execution/src/
 EXEC_OBJ_DIR = mandatory/execution/obj/
-# EXECUTION_FILES = executor.c ft_cd.c ft_echo.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c main.c utils.c
+EXECUTION_FILES = executor.c ft_cd.c ft_echo.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c pipex.c utils_exec.c redirections.c priority.c ft_env.c builtin_exec.c
 EXECUTION_SRC = $(addprefix $(EXEC_SRC_DIR), $(EXECUTION_FILES))
 EXECUTION_OBJ = $(addprefix $(EXEC_OBJ_DIR), $(EXECUTION_FILES:.c=.o))
 

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 21:10:28 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:50:29 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int	ft_define_priority(t_token *token, int fdin, int fdout, t_shell *shell)
 		return (ft_and_function(token, fdin, fdout, shell));
 	else if (token->type == OR)
 		return (ft_or_function(token, fdin, fdout, shell));
-	return (ft_check_redirections(token, fdin, fdout, shell));
+	return (ft_check_pipe(token, fdin, fdout, shell));
 }
 
 int	ft_check_redirections(t_token *token, int fdin, int fdout, t_shell *shell)
@@ -47,7 +47,7 @@ int	ft_check_redirections(t_token *token, int fdin, int fdout, t_shell *shell)
 		fdout = ft_redir_append_function(token->left, shell);
 		return (ft_check_redirections(token->right, fdin, fdout, shell));
 	}
-	return (ft_check_pipe(token, fdin, fdout, shell));
+	return (ft_type_to_execute(token, fdin, fdout, shell));
 }
 
 int	ft_check_pipe(t_token *token, int fdin, int fdout, t_shell *shell)
@@ -62,7 +62,7 @@ int	ft_check_pipe(t_token *token, int fdin, int fdout, t_shell *shell)
 		ft_check_pipe(token->right, fd, fdout, shell);
 		return (1);
 	}
-	return (ft_type_to_execute(token, fdin, fdout, shell));
+	return (ft_check_redirections(token, fdin, fdout, shell));
 }
 
 int	ft_type_to_execute(t_token *token, int fdin, int fdout, t_shell *shell)

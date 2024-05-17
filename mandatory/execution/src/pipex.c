@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 21:10:04 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 22:14:12 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,14 +93,17 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	char	*cmd_path;
 	pid_t		pid;
 
+	if (ft_have_builtin(token))
+	{
+		ft_execute_builtin(token, shell);//we need to close the fds
+		return (0);
+	}
 	pid = fork();
 	if (pid == 0)
 	{
 		if (fdin < 0)
 			exit(EXIT_FAILURE);
 		ft_dup_pipes(fdin, fdout);
-		if (ft_have_builtin(token))
-			return (ft_execute_builtin(token, shell));//we need to close the fds
 		cmd_path = ft_allocate_cmd(token->args, shell->env);
 		if (!cmd_path)
 			exit(EXIT_FAILURE);

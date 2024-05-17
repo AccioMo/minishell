@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 12:44:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 21:12:24 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/16 21:48:50 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,5 @@ int	ft_pwd(t_shell *shell)
 	}
 	ft_putstr_fd(pwd, 1);//cmd->outfile
 	ft_putstr_fd("\n", 1);//cmd->outfile
-	free(pwd);
 	return (0);
 }

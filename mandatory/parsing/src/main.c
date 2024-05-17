@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/03/19 02:16:01 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/16 20:31:18 by zouddach         ###   ########.fr       */
+/*   Created: 2024/05/16 21:31:22 by zouddach          #+#    #+#             */
+/*   Updated: 2024/05/16 22:15:43 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,11 @@ char	**copy_env(char **env)
 	return (shellenv);
 }
 
+void f()
+{
+	system("leaks minishell");
+}
+
 int	main(int ac, char **av, char **env)
 {
 	char	*buffer;
@@ -55,7 +60,7 @@ int	main(int ac, char **av, char **env)
 	{
 		ft_putstr_fd("error: too many arguments\n", 2);
 		return (1);
-	}
+	}atexit(f);
 	shell.env = copy_env(env);
 	if (!shell.env)
 		return (ft_error());
@@ -67,8 +72,8 @@ int	main(int ac, char **av, char **env)
 		add_history(buffer);
 		ft_parse(buffer, &shell);
 		free(buffer);
-		ft_print_tree(shell.root);
-		stage_one_function(shell.root, 0, 1, &shell);
+		// ft_print_tree(shell.root);
+		ft_define_priority(shell.root, 0, 1, &shell);
 		rl_on_new_line();
 		while (wait(NULL) > 0)
 			wait(NULL);

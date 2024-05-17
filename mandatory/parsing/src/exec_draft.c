@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_draft.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/11 19:24:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/15 20:11:23 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/16 21:43:49 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,34 +23,34 @@ int	stage_one_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	return (stage_two_function(token, fdin, fdout, shell));
 }
 
-int	stage_two_function(t_token *token, int fdin, int fdout, t_shell *shell)
+int	stage_three_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	if (!token)
 		return (EXIT_FAILURE);
 	if (token->type == REDIR_IN)
 	{
 		fdin = redir_in_function(token->left, shell);
-		return (stage_two_function(token->right, fdin, fdout, shell));
+		return (stage_three_function(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_HEREDOC)
 	{
 		fdin = redir_heredoc_function(token->left, shell);
-		return (stage_two_function(token->right, fdin, fdout, shell));
+		return (stage_three_function(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_OUT)
 	{
 		fdout = redir_out_function(token->left, shell);
-		return (stage_two_function(token->right, fdin, fdout, shell));
+		return (stage_three_function(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_APPEND)
 	{
 		fdout = redir_append_function(token->left, shell);
-		return (stage_two_function(token->right, fdin, fdout, shell));
+		return (stage_three_function(token->right, fdin, fdout, shell));
 	}
-	return (stage_three_function(token, fdin, fdout, shell));
+	return (stage_four_function(token, fdin, fdout, shell));
 }
 
-int	stage_three_function(t_token *token, int fdin, int fdout, t_shell *shell)
+int	stage_two_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	int	fd;
 
@@ -59,10 +59,10 @@ int	stage_three_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	if (token->type == PIPE)
 	{
 		fd = pipe_function(token->left, fdin, fdout, shell);
-		stage_three_function(token->right, fd, fdout, shell);
+		stage_two_function(token->right, fd, fdout, shell);
 		return (1);
 	}
-	return (stage_four_function(token, fdin, fdout, shell));
+	return (stage_three_function(token, fdin, fdout, shell));
 }
 
 int	stage_four_function(t_token *token, int fdin, int fdout, t_shell *shell)

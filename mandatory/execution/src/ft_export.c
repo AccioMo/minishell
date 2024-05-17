@@ -6,21 +6,21 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 21:01:14 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:09:43 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_print_shell(t_shell *env)
+int	ft_print_shell(t_shell *env, int fdout)
 {
 	int	i;
 
 	i = 0;
 	while (env->env[i])
 	{
-		ft_putstr_fd(env->env[i], STDOUT);
-		ft_putchar_fd('\n', STDOUT);
+		ft_putstr_fd(env->env[i], fdout);
+		ft_putchar_fd('\n', fdout);
 		i++;
 	}
 	return (EXIT_SUCCESS);
@@ -60,14 +60,14 @@ char	**ft_realloc_env(char **env, int size, char *new_var)
 	return (new_env);
 }
 
-int	ft_export(t_token *token, t_shell *env)
+int	ft_export(t_token *token, t_shell *env, int fdout)
 {
 	int	i;
 	int j;
 
 	j = 1;
 	if (ft_two_d_len(token->args) == 1)
-		return (ft_print_shell(env));
+		return (ft_print_shell(env, fdout));
 	while (token->args[j])
 	{
 		i = 0;

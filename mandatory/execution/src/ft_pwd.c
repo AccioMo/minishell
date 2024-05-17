@@ -6,23 +6,23 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 12:44:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 21:48:50 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:04:34 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_pwd(t_shell *shell)
+int	ft_pwd(int fdout)
 {
-	char	*pwd;
+	char	pwd[255];
 
-	pwd = ft_getenv("PWD", shell->env);
+	getcwd(pwd, 255);
 	if (!pwd)
 	{
 		ft_putstr_fd("minishell: pwd: ERROR retrieving current directory: getcwd: cannot access parent directories: No such file or directory\n", 2);
 		return (EXIT_FAILURE);
 	}
-	ft_putstr_fd(pwd, 1);//cmd->outfile
-	ft_putstr_fd("\n", 1);//cmd->outfile
+	ft_putstr_fd(pwd, fdout);//cmd->outfile
+	ft_putstr_fd("\n", fdout);//cmd->outfile
 	return (0);
 }

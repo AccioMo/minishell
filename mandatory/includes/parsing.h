@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 21:31:35 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 21:31:38 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:12:26 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,6 @@ char	*ft_first_word(char *str);
 char	*ft_merge(char *part_one, int limit_one, char *part_two, int limit_two);
 char	**ft_cmd_split(char *str);
 void	ft_free(char **ptr);
-void	ft_free_tree(t_token *token);
 
 void	ft_print_tree(t_token *token);
 

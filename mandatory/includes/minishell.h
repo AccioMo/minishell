@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/16 21:35:55 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:30:09 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,8 @@
 # include <fcntl.h>
 # include "libft.h"
 # include "get_next_line.h"
+# include <errno.h>
+# include <signal.h>
 
 # define TRUE 1
 # define FALSE 0
@@ -74,4 +76,5 @@ typedef struct s_shell
 
 int		ft_define_priority(t_token *token, int fdin, int fdout, t_shell *shell);
 void	ft_free(char **ptr);
+void	ft_free_tree(t_token *token);
 #endif

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 22:14:12 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:02:58 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,10 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	char	*cmd_path;
 	pid_t		pid;
 
+	int backup_in = dup(0);
 	if (ft_have_builtin(token))
 	{
-		ft_execute_builtin(token, shell);//we need to close the fds
+		ft_execute_builtin(token, fdout, shell);//we need to close the fds
 		return (0);
 	}
 	pid = fork();

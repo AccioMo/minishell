@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:11:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 20:47:33 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/17 20:05:47 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_has_flag(char *cmd)
 	return (0);
 }
 
-int	ft_echo(t_token	*token)
+int	ft_echo(t_token	*token, int fdout)
 {
 	int	i;
 
@@ -31,12 +31,12 @@ int	ft_echo(t_token	*token)
 		i = 1;
 	while (token->args[i])
 	{
-		ft_putstr_fd(token->args[i], 1);
+		ft_putstr_fd(token->args[i], fdout);
 		if (token->args[i + 1] && token->args[i + 1])
-			ft_putstr_fd(" ", 1);
+			ft_putstr_fd(" ", fdout);
 		i++;
 	}
 	if (!ft_has_flag(token->args[1]))
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("\n", fdout);
 	return (0);
 }

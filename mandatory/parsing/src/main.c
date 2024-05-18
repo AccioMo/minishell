@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 21:31:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/17 21:13:05 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/18 10:36:56 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,7 @@ int	main(int ac, char **av, char **env)
 	char	*buffer;
 	t_shell	shell;
 
-	atexit(f);
+	// atexit(f);
 	if (ac != 1 || av[1])
 	{
 		ft_putstr_fd("error: too many arguments\n", 2);

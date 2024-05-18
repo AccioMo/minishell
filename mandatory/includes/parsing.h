@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 21:31:35 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/17 20:12:26 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/18 10:10:10 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,8 +15,6 @@
 
 # include "minishell.h"
 # include <stdio.h>
-# include "readline/readline.h"
-# include "readline/history.h"
 
 int		ft_parse(char *line, t_shell *shell);
 int		ft_whitespace(char c);

@@ -1,5 +1,6 @@
 CC = cc
-FLAGS = -L libs/ -lreadline #-g -fsanitize=address #-Wall -Wextra -Werror
+FLAGS = #-g -fsanitize=address #-Wall -Wextra -Werror
+LDFLAGS =  -lreadline
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
 GNL_DIR = get_next_line/
@@ -41,29 +42,39 @@ BLUE = \033[0;34m
 BOLD = \033[1m
 RESET = \033[0m
 
+TOTAL_FILES := $(words $(PARSING_FILES) $(EXECUTION_FILES))
+COMPILED_COUNT := 0
+
+define update_progress
+	$(eval COMPILED_COUNT=$(shell echo $$(($(COMPILED_COUNT) + 1))))
+	$(eval PERCENT=$(shell echo $$(($(COMPILED_COUNT) * 100 / $(TOTAL_FILES)))))
+	@bash -c 'echo -ne "\r[$(GREEN)$(BOLD)$(PERCENT)%] Compiling Minishell..."'
+endef
+
+
 all: $(LIBFT) $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME)
 
 $(LIBFT): $(LIBFT_DIR)
 	@make -C $<
 
 $(PARSE_OBJ_DIR):
-	mkdir -p $(PARSE_OBJ_DIR)
+	@mkdir -p $(PARSE_OBJ_DIR)
 
 $(EXEC_OBJ_DIR):
-	mkdir -p $(EXEC_OBJ_DIR)
+	@mkdir -p $(EXEC_OBJ_DIR)
 
 $(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL)
-	@echo "$(BLUE)$(BOLD)Creating $(NAME) executable...$(RESET)"
-	$(CC) $(FLAGS) $^ -o $(NAME)
-	@echo "$(GREEN)$(BOLD)$(NAME) created$(RESET)"
+	@$(CC) $(FLAGS) $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL) $(LDFLAGS) -o $(NAME)
+	@echo
+	@echo "$(CYAN)$(BOLD)Minishell Created Succefully √$(RESET)"
 
 $(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER)
-	@echo "$(CYAN)$(BOLD)Compiling $<$(RESET)"
-	$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
+	$(update_progress)
+	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
 $(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
-	@echo "$(CYAN)$(BOLD)Compiling $<$(RESET)"
-	$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
+	$(update_progress)
+	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
 # bonus: $(LIBFT) $(BONUS_OBJ_DIR) $(BONUS)
 
@@ -80,14 +91,14 @@ $(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
 # 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
-	make clean -C $(LIBFT_DIR)
-	@echo "$(RED)$(BOLD)Object files removed$(RESET)"
+	@echo "$(RED)$(BOLD)Objects Deleting √"
+	@rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
+	@make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	rm -f $(NAME) $(BONUS)
-	make fclean -C $(LIBFT_DIR)
-	@echo "$(RED)$(BOLD)$(NAME) and $(BONUS) removed$(RESET)"
+	@echo "$(RED)$(BOLD)Binary Deleted   √"
+	@rm -f $(NAME) $(BONUS)
+	@make fclean -C $(LIBFT_DIR)
 
 re: fclean all
 

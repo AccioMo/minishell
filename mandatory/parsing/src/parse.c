@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/16 22:18:46 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:24:24 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,4 +71,5 @@ int	ft_parse(char *line, t_shell *shell)
 		shell->root = NULL;
 		return (EXIT_FAILURE);
 	}
+	return (EXIT_SUCCESS);
 }

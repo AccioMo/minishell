@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = #-g -fsanitize=address #-Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror
 LIBS =  -L ~/brew/opt/readline/lib -lreadline
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
@@ -42,6 +42,9 @@ CYAN = \033[0;36m
 BLUE = \033[0;34m
 BOLD = \033[1m
 RESET = \033[0m
+BLACK = \033[30m
+WHITE_BG = \033[47m
+
 
 TOTAL_FILES := $(words $(PARSING_FILES) $(EXECUTION_FILES))
 COMPILED_COUNT := 0
@@ -49,11 +52,13 @@ COMPILED_COUNT := 0
 define update_progress
 	$(eval COMPILED_COUNT=$(shell echo $$(($(COMPILED_COUNT) + 1))))
 	$(eval PERCENT=$(shell echo $$(($(COMPILED_COUNT) * 100 / $(TOTAL_FILES)))))
-	@bash -c 'echo -ne "\r[$(GREEN)$(BOLD)$(PERCENT)%] Compiling Minishell..."'
+	@bash -c 'echo -ne "\r$(GREEN)$(BOLD)[$(PERCENT)%] Compiling Minishell...$(RESET)"'
 endef
 
+all: $(LIBFT) $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME) thanks
 
-all: $(LIBFT) $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME)
+thanks:
+	@echo "$(BLACK)$(WHITE_BG)$(BOLD)You made minishell, dipshit.$(RESET)"
 
 $(LIBFT): $(LIBFT_DIR)
 	@make -C $<
@@ -97,10 +102,10 @@ clean:
 	@make clean -C $(LIBFT_DIR)
 
 fclean: clean
-	@echo "$(RED)$(BOLD)Binary Deleted   √"
+	@echo "$(RED)$(BOLD)Binary Deleted   √$(RESET)"
 	@rm -f $(NAME) $(BONUS)
 	@make fclean -C $(LIBFT_DIR)
 
 re: fclean all
 
-.PHONY: all $(LIBFT) bonus clean fclean re
+.PHONY: all thanks bonus clean fclean re

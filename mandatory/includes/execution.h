@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/17 20:11:35 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 10:53:33 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,16 +70,16 @@ int	ft_check_pipe(t_token *token, int fdin, int fdout, t_shell *shell);
 
 int	ft_type_to_execute(t_token *token, int fdin, int fdout, t_shell *shell);
 
-int	ft_pipe_function(t_token *token, int fdin, int fdout, t_shell *shell);
+int	ft_pipe_function(t_token *token, int fdin, t_shell *shell);
 
 /*RIDERICTIONS FUNCTION HERE*/
-int	ft_redir_in_function(t_token *token, t_shell *shell);
+int	ft_redir_in_function(t_token *token);
 
-int	ft_redir_out_function(t_token *token, t_shell *shell);
+int	ft_redir_out_function(t_token *token);
 
-int	ft_redir_append_function(t_token *token, t_shell *shell);
+int	ft_redir_append_function(t_token *token);
 
-int	ft_redir_heredoc_function(t_token *token, t_shell *shell);
+int	ft_redir_heredoc_function(t_token *token);
 
 void	ft_free(char **ptr);
 #endif

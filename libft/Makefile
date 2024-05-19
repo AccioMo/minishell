@@ -18,6 +18,7 @@ RED = \033[0;31m
 RESET = \033[0m
 CYAN = \033[0;36m
 BOLD = \033[1m
+UP = \033[1A
 
 TOTAL_FILES := $(words $(FILES))
 COMPILED_COUNT := 0
@@ -27,6 +28,8 @@ define update_progress
 	$(eval PERCENT=$(shell echo $$(($(COMPILED_COUNT) * 100 / $(TOTAL_FILES)))))
 	@bash -c 'echo -ne "\r[$(GREEN)$(BOLD)$(PERCENT)%] Compiling Libft..."'
 endef
+
+.SILENT:
 
 all: $(OBJ_DIR) $(NAME)
 
@@ -41,7 +44,6 @@ $(NAME): $(OBJ)
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(update_progress)
 	@$(CC) $(FLAGS) -I. -c $< -o $@
-
 
 clean:
 	@rm -f $(OBJ)

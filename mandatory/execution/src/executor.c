@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/18 11:00:26 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 10:53:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,22 +29,22 @@ int	ft_check_redirections(t_token *token, int fdin, int fdout, t_shell *shell)
 		return (EXIT_FAILURE);
 	if (token->type == REDIR_IN)
 	{
-		fdin = ft_redir_in_function(token->left, shell);
+		fdin = ft_redir_in_function(token->left);
 		return (ft_check_redirections(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_HEREDOC)
 	{
-		fdin = ft_redir_heredoc_function(token->left, shell);
+		fdin = ft_redir_heredoc_function(token->left);
 		return (ft_check_redirections(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_OUT)
 	{
-		fdout = ft_redir_out_function(token->left, shell);
+		fdout = ft_redir_out_function(token->left);
 		return (ft_check_redirections(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_APPEND)
 	{
-		fdout = ft_redir_append_function(token->left, shell);
+		fdout = ft_redir_append_function(token->left);
 		return (ft_check_redirections(token->right, fdin, fdout, shell));
 	}
 	return (ft_type_to_execute(token, fdin, fdout, shell));
@@ -58,7 +58,7 @@ int	ft_check_pipe(t_token *token, int fdin, int fdout, t_shell *shell)
 		return (EXIT_FAILURE);
 	if (token->type == PIPE)
 	{
-		fd = ft_pipe_function(token->left, fdin, fdout, shell);
+		fd = ft_pipe_function(token->left, fdin, shell);
 		ft_check_pipe(token->right, fd, fdout, shell);
 		return (1);
 	}
@@ -76,7 +76,7 @@ int	ft_type_to_execute(t_token *token, int fdin, int fdout, t_shell *shell)
 	return (EXIT_FAILURE);
 }
 
-int	ft_pipe_function(t_token *token, int fdin, int fdout, t_shell *shell)
+int	ft_pipe_function(t_token *token, int fdin, t_shell *shell)
 {
 	int	end[2];
 

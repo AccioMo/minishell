@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 10:16:05 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/19 11:03:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ static int	is_limiter(char *str, char *limiter)
 	return (0);
 }
 
-int	ft_redir_in_function(t_token *token, t_shell *shell)
+int	ft_redir_in_function(t_token *token)
 {
 	int	fd;
 
@@ -39,7 +39,7 @@ int	ft_redir_in_function(t_token *token, t_shell *shell)
 	return (fd);
 }
 
-int	ft_redir_out_function(t_token *token, t_shell *shell)
+int	ft_redir_out_function(t_token *token)
 {
 	int	fd;
 
@@ -52,7 +52,7 @@ int	ft_redir_out_function(t_token *token, t_shell *shell)
 	return (fd);
 }
 
-int	ft_redir_append_function(t_token *token, t_shell *shell)
+int	ft_redir_append_function(t_token *token)
 {
 	int	fd;
 
@@ -65,7 +65,7 @@ int	ft_redir_append_function(t_token *token, t_shell *shell)
 	return (fd);
 }
 
-int	ft_redir_heredoc_function(t_token *token, t_shell *shell)
+int	ft_redir_heredoc_function(t_token *token)
 {
 	char	*buffer;
 	char	*input;

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/18 11:25:42 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 10:52:52 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,12 +91,11 @@ void	ft_dup_pipes(int fdin, int fdout)
 int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	*cmd_path;
-	pid_t		pid;
+	pid_t	pid;
 
-	int backup_in = dup(0);
 	if (ft_have_builtin(token))
 	{
-		ft_execute_builtin(token, fdout, shell);//we need to close the fds
+		ft_execute_builtin(token, fdout, shell);
 		return (0);
 	}
 	pid = fork();

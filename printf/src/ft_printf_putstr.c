@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_env.c                                           :+:      :+:    :+:   */
+/*   ft_printf_putstr.c                                 :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/19 11:35:00 by zouddach         ###   ########.fr       */
+/*   Created: 2023/11/10 23:14:53 by zouddach          #+#    #+#             */
+/*   Updated: 2023/11/21 10:46:10 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
+#include "ft_printf.h"
 
-int	ft_env(t_shell *shell, int fdout)
+int	ft_printf_putstr(char *str)
 {
 	int	i;
 
 	i = 0;
-	if (shell->env == NULL)
-		return (EXIT_SUCCESS);
-	while (shell->env[i])
+	if (!str)
 	{
-		ft_putstr_fd(shell->env[i], fdout);
-		ft_putchar_fd('\n', fdout);
+		write(1, "(null)", 6);
+		return (6);
+	}
+	while (str[i])
+	{
+		write(1, &str[i], 1);
 		i++;
 	}
-	return (EXIT_SUCCESS);
+	return (i);
 }

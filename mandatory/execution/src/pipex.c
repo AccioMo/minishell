@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/19 10:52:52 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/19 17:22:49 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,24 +94,24 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	pid_t	pid;
 
 	if (ft_have_builtin(token))
-	{
-		ft_execute_builtin(token, fdout, shell);
-		return (0);
-	}
+		return (ft_execute_builtin(token, fdout, shell));
+	cmd_path = ft_allocate_cmd(token->args, shell->env);
+	if (!cmd_path)
+		exit(EXIT_FAILURE);
 	pid = fork();
 	if (pid == 0)
 	{
 		if (fdin < 0)
 			exit(EXIT_FAILURE);
 		ft_dup_pipes(fdin, fdout);
-		cmd_path = ft_allocate_cmd(token->args, shell->env);
-		if (!cmd_path)
-			exit(EXIT_FAILURE);
 		execve(cmd_path, token->args, shell->env);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
 		perror("fork");
+	printf("%s\n", shell->env[ft_two_d_len(shell->env) - 1]);
+	if (ft_change_env_value(shell, "_=", token->args[ft_two_d_len(token->args) - 1]))
+			return (EXIT_FAILURE);
 	if (fdin != 0)
 		close(fdin);
 	if (fdout != 1)

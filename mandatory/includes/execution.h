@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 10:53:33 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/19 15:55:04 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,8 +43,6 @@ int		ft_have_builtin(t_token *token);
 /*The exit function that ends the proccess of minishell*/
 void	ft_exit(t_token *token, t_shell *env);
 
-void	ft_exec_cmd(char *full_cmd, char **env, int cmd_in, int *fd_pipe);
-
 /*A function that prints the env vars*/
 int	ft_env(t_shell *shell, int fdout);
 
@@ -55,6 +53,11 @@ char	*ft_getenv(char *name, char **arr);
 /*A function that reallocate a 2D array with a new subArray or Overwrite the existing one*/
 /*Returns NULL if Malloc Failed*/
 char	**ft_realloc_env(char **env, int size, char *new_var);
+
+/*A function that change the value of a variable in side the 2DArray env*/
+int	ft_change_env_value(t_shell *env, char *name, char *value);
+
+int	ft_count_char(char *str, char c);
 
 int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell);
 

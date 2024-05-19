@@ -1,15 +1,11 @@
+NAME = libftprintf.a
+HEADER = ft_printf.h
 CC = cc
-FLAGS = -Wall -Wextra -Werror
-
-NAME = libft.a
+CFLAGS = -Werror -Wextra -Werror
 SRC_DIR = src/
 OBJ_DIR = obj/
-HEADER = libft.h
-FILES = ft_calloc.c ft_isdigit.c ft_memset.c ft_split.c ft_strlcat.c ft_strnstr.c ft_toupper.c ft_isprint.c \
-		ft_memchr.c ft_putchar_fd.c ft_strchr.c ft_strlcpy.c ft_strrchr.c ft_isalnum.c ft_itoa.c ft_memcmp.c \
-		ft_putendl_fd.c ft_strdup.c ft_strlen.c ft_strtrim.c ft_atoi.c ft_isalpha.c ft_memcpy.c ft_putnbr_fd.c \
-		ft_striteri.c ft_strmapi.c ft_substr.c ft_bzero.c ft_isascii.c ft_memmove.c ft_putstr_fd.c ft_strjoin.c \
-		ft_strncmp.c ft_tolower.c
+
+FILES = ft_printf.c ft_printf_putchar.c ft_printf_putstr.c ft_printf_puthex.c ft_printf_putadr.c ft_printf_nbr.c ft_printf_putunsigned.c
 SRC = $(addprefix $(SRC_DIR), $(FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
 
@@ -26,7 +22,7 @@ COMPILED_COUNT := 0
 define update_progress
 	$(eval COMPILED_COUNT=$(shell echo $$(($(COMPILED_COUNT) + 1))))
 	$(eval PERCENT=$(shell echo $$(($(COMPILED_COUNT) * 100 / $(TOTAL_FILES)))))
-	@bash -c 'echo -ne "\r[$(GREEN)$(BOLD)$(PERCENT)%] Compiling Libft..."'
+	@bash -c 'echo -ne "\r[$(GREEN)$(BOLD)$(PERCENT)%] Compiling Printf..."'
 endef
 
 all: $(OBJ_DIR) $(NAME)
@@ -35,9 +31,10 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJ)
-	@ar rcs $(NAME) $(OBJ)
-	@echo
-	@echo "$(CYAN)$(BOLD)Libft Created Succefully √$(RESET)"
+		@echo
+		@ar rcs $(NAME) $(OBJ)
+		@echo "$(CYAN)$(BOLD)Printf Created Succefully √$(RESET)"
+		@ranlib $(NAME)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(update_progress)

@@ -1,11 +1,13 @@
 CC = cc
 FLAGS = -Wall -Wextra -Werror
 LIBS =  -L ~/brew/opt/readline/lib -lreadline
-LIBFT = libft/libft.a
 LIBFT_DIR = libft/
+LIBFT = $(LIBFT_DIR)libft.a
 GNL_DIR = get_next_line/
 GNL = $(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 GNL_HEADER = $(GNL_DIR)get_next_line.h
+PRINTF_DIR = printf/
+PRINTF = $(PRINTF_DIR)libftprintf.a
 
 NAME = minishell
 HEADER_DIR = mandatory/includes/
@@ -55,12 +57,15 @@ define update_progress
 	@bash -c 'echo -ne "\r$(GREEN)$(BOLD)[$(PERCENT)%] Compiling Minishell...$(RESET)"'
 endef
 
-all: $(LIBFT) $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME) thanks
+all: $(LIBFT) $(PRINTF) $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME) thanks
 
 thanks:
 	@echo "$(BLACK)$(WHITE_BG)$(BOLD)You made minishell, dipshit.$(RESET)"
 
 $(LIBFT): $(LIBFT_DIR)
+	@make -C $<
+
+$(PRINTF): $(PRINTF_DIR)
 	@make -C $<
 
 $(PARSE_OBJ_DIR):
@@ -70,17 +75,17 @@ $(EXEC_OBJ_DIR):
 	@mkdir -p $(EXEC_OBJ_DIR)
 
 $(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL)
-	@$(CC) $(FLAGS) $(LIBS) $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL) -o $(NAME)
+	@$(CC) $(FLAGS) $(LIBS) $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(PRINTF) $(GNL) -o $(NAME)
 	@echo
 	@echo "$(CYAN)$(BOLD)Minishell Created Succefully √$(RESET)"
 
 $(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER)
 	$(update_progress)
-	@$(CC) $(FLAGS) -I $(RL_HEADER_DIR) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
+	@$(CC) $(FLAGS) -I $(RL_HEADER_DIR) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -I $(PRINTF_DIR) -c $< -o $@
 
 $(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
 	$(update_progress)
-	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
+	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -I $(PRINTF_DIR) -c $< -o $@
 
 # bonus: $(LIBFT) $(BONUS_OBJ_DIR) $(BONUS)
 
@@ -100,6 +105,8 @@ clean:
 	@echo "$(RED)$(BOLD)Objects Deleting √"
 	@rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
 	@make clean -C $(LIBFT_DIR)
+	@make clean -C $(PRINTF_DIR)
+#	@rmdir printf/obj/ 2> /dev/null || true
 
 fclean: clean
 	@echo "$(RED)$(BOLD)Binary Deleted   √$(RESET)"
@@ -108,4 +115,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all thanks bonus clean fclean re
+.PHONY: all thanks bonus clean fclean re $(LIBFT) $(PRINTF)

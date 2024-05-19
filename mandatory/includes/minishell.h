@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/18 10:10:15 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 17:58:03 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@
 # include <fcntl.h>
 # include "libft.h"
 # include "get_next_line.h"
+# include "ft_printf.h"
 # include <errno.h>
 # include <signal.h>
 # include "readline/readline.h"
@@ -73,6 +74,7 @@ typedef struct s_token
 typedef struct s_shell
 {
 	char	**env;
+	int		exit_code;
 	t_token	*root;
 }	t_shell;
 

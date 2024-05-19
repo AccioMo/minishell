@@ -6,11 +6,29 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:02:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 22:07:36 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 17:00:33 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+int	ft_count_char(char *str, char c)
+{
+	int	i;
+	int	count;
+
+	i = 0;
+	count = 0;
+	if (!str)
+		return (0);
+	while (str[i])
+	{
+		if (str[i] == c)
+			count++;
+		i++;
+	}
+	return (count);
+}
 
 void	ft_free(char **ptr)
 {
@@ -42,7 +60,7 @@ char	*ft_getenv(char *name, char **arr)
 	i = 0;
 	while (arr && arr[i])
 	{
-		if (ft_strncmp(arr[i], name, ft_strlen(name)) == 0)
+		if (ft_strncmp(arr[i], name, ft_strlen(name) + 1) == 0)
 			return (*(arr + i) + ft_strlen(name) + 1);
 		i++;
 	}
@@ -54,6 +72,8 @@ int	ft_two_d_len(char **arr)
 	int	i;
 
 	i = 0;
+	if (!arr)
+		return (0);
 	while (arr[i])
 		i++;
 	return (i);

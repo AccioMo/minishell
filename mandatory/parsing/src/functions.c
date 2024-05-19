@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/16 20:56:56 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/19 13:36:18 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ int	ft_skip_parentheses(char *str)
 	{
 		if (!ft_strncmp(&str[i], "\"", 1))
 			i += ft_index(&str[i + 1], '\"') + 1;
+		else if (!ft_strncmp(&str[i], "\'", 1))
+			i += ft_index(&str[i + 1], '\'') + 1;
 		else if (!ft_strncmp(&str[i], "(", 1))
 			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], ")", 1))

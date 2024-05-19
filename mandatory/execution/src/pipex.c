@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/19 10:52:52 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/19 14:22:26 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,22 @@ void	ft_dup_pipes(int fdin, int fdout)
 	}
 }
 
+static void	ft_perror(char *cmd)
+{
+	if (errno == ENOENT)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+	}
+	else if (errno == EACCES)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": permission denied\n", 2);
+	}
+	else
+		perror(cmd);
+}
+
 int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	*cmd_path;
@@ -108,6 +124,7 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 		if (!cmd_path)
 			exit(EXIT_FAILURE);
 		execve(cmd_path, token->args, shell->env);
+		ft_perror(token->args[0]);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)

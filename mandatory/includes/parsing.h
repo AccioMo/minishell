@@ -3,20 +3,21 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 21:31:35 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/17 20:12:26 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:39:12 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef PARSING_H
 # define PARSING_H
 
-# include "minishell.h"
 # include <stdio.h>
+# include "minishell.h"
 # include "readline/readline.h"
 # include "readline/history.h"
+# include <termios.h>
 
 int		ft_parse(char *line, t_shell *shell);
 int		ft_whitespace(char c);

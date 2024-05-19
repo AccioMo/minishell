@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -L libs/ -lreadline #-g -fsanitize=address #-Wall -Wextra -Werror
+FLAGS = -L libs/ -I ~/brew/opt/readline/include/ -lreadline #-g -fsanitize=address #-Wall -Wextra -Werror
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
 GNL_DIR = get_next_line/

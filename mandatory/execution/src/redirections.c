@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 21:03:49 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 21:05:29 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/18 10:03:30 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,7 @@ int	ft_redir_heredoc_function(t_token *token, t_shell *shell)
 {
 	int	fd;
 
+	printf("close with: %s\n", token->args[0]);
 	// fd = open(token->args[0], O_RDONLY);
 	// if (fd < 0)
 	// {

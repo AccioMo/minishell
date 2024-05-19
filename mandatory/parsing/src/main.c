@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 21:31:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/17 21:13:05 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:47:31 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,18 +48,32 @@ char	**copy_env(char **env)
 	return (shellenv);
 }
 
-void f()
+void disable_sigint_echo(struct termios *orig_termios)
 {
-	system("leaks minishell");
+    struct termios	new_termios;
+
+    tcgetattr(STDIN_FILENO, orig_termios);
+    new_termios = *orig_termios;
+    new_termios.c_lflag &= ~ECHOCTL;
+    tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 }
 
 void sig_handler(int signal)
 {
-	if (signal == SIGINT)//ctrl^C
+	struct termios orig_termios;
+
+	if (signal == SIGINT)
+	{
+		disable_sigint_echo(&orig_termios);
+		ft_putstr_fd("\n", 1);
+		rl_replace_line("", 0);
+		rl_on_new_line();
+		rl_redisplay();
+		tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 		return ;
-	if (signal == SIGQUIT)//ctrl^"\"
-		printf("wamalk azbi\n");
-	
+	}
+	if (signal == SIGQUIT)
+		return ;
 }
 
 void ft_simulate(char *buffer, t_shell *shell)
@@ -68,10 +82,7 @@ void ft_simulate(char *buffer, t_shell *shell)
 	{
 		buffer = readline("minishell-v0.14> ");
 		if (!buffer)
-		{
-			printf("exit\n");
-			exit(1);
-		}
+			return ;
 		add_history(buffer);
 		ft_parse(buffer, shell);
 		free(buffer);
@@ -88,17 +99,17 @@ int	main(int ac, char **av, char **env)
 	char	*buffer;
 	t_shell	shell;
 
-	atexit(f);
 	if (ac != 1 || av[1])
 	{
 		ft_putstr_fd("error: too many arguments\n", 2);
 		return (1);
 	}
+	signal(SIGINT, &sig_handler);
+	signal(SIGQUIT, &sig_handler);
 	shell.env = copy_env(env);
 	if (!shell.env)
 		return (ft_error());
 	ft_simulate(buffer, &shell);
-	signal(SIGINT, &sig_handler);
-	signal(SIGQUIT, &sig_handler);
+	ft_free_tree(shell.root);
 	return (0);
 }

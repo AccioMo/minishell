@@ -13,19 +13,20 @@ FILES = ft_calloc.c ft_isdigit.c ft_memset.c ft_split.c ft_strlcat.c ft_strnstr.
 SRC = $(addprefix $(SRC_DIR), $(FILES))
 OBJ = $(addprefix $(OBJ_DIR), $(FILES:.c=.o))
 
-BONUS = libft_bonus.a
-BONUS_SRC_DIR = bonus/src/
-BONUS_OBJ_DIR = bonus/obj/
-BONUS_FILES = ft_lstdelone_bonus.c ft_lstlast_bonus.c ft_lstiter_bonus.c ft_lstclear_bonus.c ft_lstsize_bonus.c \
-			ft_lstadd_front_bonus.c ft_lstnew_bonus.c ft_lstadd_back_bonus.c ft_lstmap_bonus.c
-BONUS_SRC = $(addprefix $(BONUS_SRC_DIR), $(BONUS_FILES))
-BONUS_OBJ = $(addprefix $(BONUS_OBJ_DIR), $(BONUS_FILES:.c=.o))
-
 GREEN = \033[0;32m
 RED = \033[0;31m
 RESET = \033[0m
 CYAN = \033[0;36m
 BOLD = \033[1m
+
+TOTAL_FILES := $(words $(FILES))
+COMPILED_COUNT := 0
+
+define update_progress
+	$(eval COMPILED_COUNT=$(shell echo $$(($(COMPILED_COUNT) + 1))))
+	$(eval PERCENT=$(shell echo $$(($(COMPILED_COUNT) * 100 / $(TOTAL_FILES)))))
+	@bash -c 'echo -ne "\r[$(GREEN)$(BOLD)$(PERCENT)%] Compiling Libft..."'
+endef
 
 all: $(OBJ_DIR) $(NAME)
 
@@ -33,34 +34,21 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJ)
-	@echo "$(GREEN)$(BOLD)LIBFT:$(RESET) $(CYAN)Creating library...$(RESET)"
 	@ar rcs $(NAME) $(OBJ)
-	@echo "$(GREEN)$(BOLD)LIBFT:$(RESET) $(CYAN)Library created$(RESET)"
+	@echo
+	@echo "$(CYAN)$(BOLD)Libft Created Succefully √$(RESET)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
+	$(update_progress)
 	@$(CC) $(FLAGS) -I. -c $< -o $@
 
-bonus: $(BONUS_OBJ_DIR) $(BONUS)
-
-$(BONUS_OBJ_DIR):
-	@mkdir -p $(BONUS_OBJ_DIR)
-
-$(BONUS): $(OBJ) $(BONUS_OBJ) $(HEADER)
-	@ar rcs $(BONUS) $(OBJ) $(BONUS_OBJ)
-	@echo "$(GREEN)$(BOLD)LIBFT:$(RESET) $(CYAN)Bonus library created$(RESET)"
-
-$(BONUS_OBJ_DIR)%.o: $(BONUS_SRC_DIR)%.c $(HEADER)
-	@$(CC) $(FLAGS) -I. -c $< -o $@
-	@echo "$(GREEN)$(BOLD)LIBFT:$(RESET) $(CYAN)Compiled:$(RESET) $(notdir $<)"
 
 clean:
-	@rm -f $(OBJ) $(BONUS_OBJ)
-	@echo "$(RED)$(BOLD)LIBFT:$(RESET) $(CYAN)Object files removed$(RESET)"
+	@rm -f $(OBJ)
 
 fclean: clean
-	@rm -f $(NAME) $(BONUS)
-	@echo "$(RED)$(BOLD)LIBFT:$(RESET) $(CYAN)Library removed$(RESET)"
+	@rm -f $(NAME)
 
 re: fclean all
 
-.PHONY: all clean fclean re bonus
+.PHONY: all clean fclean re

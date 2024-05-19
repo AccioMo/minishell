@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/17 20:30:09 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/18 10:10:15 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,8 @@
 # include "get_next_line.h"
 # include <errno.h>
 # include <signal.h>
+# include "readline/readline.h"
+# include "readline/history.h"
 
 # define TRUE 1
 # define FALSE 0

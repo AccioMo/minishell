@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/17 20:02:58 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/18 11:25:42 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,4 +113,9 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	}
 	else if (pid < 0)
 		perror("fork");
+	if (fdin != 0)
+		close(fdin);
+	if (fdout != 1)
+		close(fdout);
+	return (0);
 }

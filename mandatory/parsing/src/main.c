@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 21:31:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/18 11:47:31 by mzeggaf          ###   ########.fr       */
+/*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
+/*   Updated: 2024/05/19 10:02:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,6 +99,7 @@ int	main(int ac, char **av, char **env)
 	char	*buffer;
 	t_shell	shell;
 
+	// atexit(f);
 	if (ac != 1 || av[1])
 	{
 		ft_putstr_fd("error: too many arguments\n", 2);

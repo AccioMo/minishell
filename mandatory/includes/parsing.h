@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/16 21:31:35 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/18 11:39:12 by mzeggaf          ###   ########.fr       */
+/*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
+/*   Updated: 2024/05/19 10:14:31 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 # define PARSING_H
 
 # include <stdio.h>
+# include <termios.h>
 # include "minishell.h"
 # include "readline/readline.h"
 # include "readline/history.h"
-# include <termios.h>
 
 int		ft_parse(char *line, t_shell *shell);
 int		ft_whitespace(char c);

@@ -97,13 +97,14 @@ $(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
 # 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@echo "$(RED)$(BOLD)Objects Deleting √"
-	@rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
+	@echo "$(RED)$(BOLD)Objects Deleting √$(RESET)"
+	@rm $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ) 2> /dev/null || true
+	@rm $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(BONUS_OBJ_DIR) 2> /dev/null || true
 	@make clean -C $(LIBFT_DIR)
 
 fclean: clean
 	@echo "$(RED)$(BOLD)Binary Deleted   √$(RESET)"
-	@rm -f $(NAME) $(BONUS)
+	@rm $(NAME) $(BONUS)
 	@make fclean -C $(LIBFT_DIR)
 
 re: fclean all

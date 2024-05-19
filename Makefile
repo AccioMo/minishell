@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LIBS =  -L ~/brew/opt/readline/lib -lreadline
 LIBFT = libft/libft.a
 LIBFT_DIR = libft/
@@ -16,7 +16,7 @@ RL_HEADER_DIR =  ~/brew/opt/readline/include/
 PARSE_HEADER = $(HEADER_DIR)parsing.h
 PARSE_SRC_DIR = mandatory/parsing/src/
 PARSE_OBJ_DIR = mandatory/parsing/obj/
-PARSING_FILES = main.c parse.c functions.c utils.c str.c
+PARSING_FILES = main.c parse.c functions_one.c functions_two.c utils.c str.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 
@@ -109,4 +109,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all thanks bonus clean fclean re
+.PHONY: all $(LIBFT) thanks bonus clean fclean re

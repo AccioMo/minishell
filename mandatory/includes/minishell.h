@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/18 10:10:15 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 15:44:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,10 +73,16 @@ typedef struct s_token
 typedef struct s_shell
 {
 	char	**env;
+	int		exit_status;
 	t_token	*root;
 }	t_shell;
 
 int		ft_define_priority(t_token *token, int fdin, int fdout, t_shell *shell);
 void	ft_free(char **ptr);
+
+/*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
+/*Returns NULL if there is no key with that name*/
+char	*ft_getenv(char *name, char **arr);
+
 void	ft_free_tree(t_token *token);
 #endif

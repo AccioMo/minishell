@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 10:53:33 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/19 15:44:45 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,10 +47,6 @@ void	ft_exec_cmd(char *full_cmd, char **env, int cmd_in, int *fd_pipe);
 
 /*A function that prints the env vars*/
 int	ft_env(t_shell *shell, int fdout);
-
-/*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
-/*Returns NULL if there is no key with that name*/
-char	*ft_getenv(char *name, char **arr);
 
 /*A function that reallocate a 2D array with a new subArray or Overwrite the existing one*/
 /*Returns NULL if Malloc Failed*/

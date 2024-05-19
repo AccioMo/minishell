@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 15:55:04 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:09:47 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,6 @@ void	ft_exit(t_token *token, t_shell *env);
 
 /*A function that prints the env vars*/
 int	ft_env(t_shell *shell, int fdout);
-
-/*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
-/*Returns NULL if there is no key with that name*/
-char	*ft_getenv(char *name, char **arr);
 
 /*A function that reallocate a 2D array with a new subArray or Overwrite the existing one*/
 /*Returns NULL if Malloc Failed*/

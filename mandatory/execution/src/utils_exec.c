@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:02:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/19 17:00:33 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:09:19 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,15 +53,17 @@ char	*ft_get_name(char *str)
 	return (ft_substr(str, 0, i));
 }
 
-char	*ft_getenv(char *name, char **arr)
+char	*ft_getenv(char *name, char **array)
 {
 	int	i;
 
 	i = 0;
-	while (arr && arr[i])
+	if (!array)
+		return (NULL);
+	while (array[i])
 	{
-		if (ft_strncmp(arr[i], name, ft_strlen(name) + 1) == 0)
-			return (*(arr + i) + ft_strlen(name) + 1);
+		if (!ft_strncmp(array[i], name, ft_strlen(name)))
+			return (ft_strchr(array[i], '=') + 1);
 		i++;
 	}
 	return (NULL);

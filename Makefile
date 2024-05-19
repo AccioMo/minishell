@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g -fsanitize=address
 LIBS =  -L ~/brew/opt/readline/lib -lreadline
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
@@ -18,7 +18,7 @@ RL_HEADER_DIR =  ~/brew/opt/readline/include/
 PARSE_HEADER = $(HEADER_DIR)parsing.h
 PARSE_SRC_DIR = mandatory/parsing/src/
 PARSE_OBJ_DIR = mandatory/parsing/obj/
-PARSING_FILES = main.c parse.c functions.c utils.c str.c
+PARSING_FILES = main.c parse.c functions_one.c functions_two.c utils.c str.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 
@@ -102,15 +102,16 @@ $(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
 # 	$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@echo "$(RED)$(BOLD)Objects Deleting √"
-	@rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
+	@echo "$(RED)$(BOLD)Objects Deleting √$(RESET)"
+	@rm $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ) 2> /dev/null || true
+	@rm $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(BONUS_OBJ_DIR) 2> /dev/null || true
 	@make clean -C $(LIBFT_DIR)
 	@make clean -C $(PRINTF_DIR)
 #	@rmdir printf/obj/ 2> /dev/null || true
 
 fclean: clean
 	@echo "$(RED)$(BOLD)Binary Deleted   √$(RESET)"
-	@rm -f $(NAME) $(BONUS)
+	@rm $(NAME) $(BONUS)
 	@make fclean -C $(LIBFT_DIR)
 
 re: fclean all

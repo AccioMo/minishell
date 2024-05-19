@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_two.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:20:34 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 17:47:12 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/19 18:24:38 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,7 @@ char	*ft_extract_variable(char *word, t_shell *shell)
 		tmp_word = ft_substr(word, 1, ft_index(&word[i], '$'));
 		tmp_word = ft_strtrim(tmp_word, "$");
 		tmp_word = ft_realloc(tmp_word, "=");
-		printf("word = %s\n", tmp_word);
+		//printf("word = %s\n", tmp_word);//waaaaaaaa 3lach khliti hadi hna mni oushiti
 		new_word = ft_strdup(ft_getenv(tmp_word, shell->env));
 	}
 	return (ft_realloc(new_word, ft_strchr(&word[i], '$')));

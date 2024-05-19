@@ -113,6 +113,7 @@ fclean: clean
 	@echo "$(RED)$(BOLD)Binary Deleted   √$(RESET)"
 	@rm $(NAME) $(BONUS)
 	@make fclean -C $(LIBFT_DIR)
+	@make fclean -C $(PRINTF_DIR)
 
 re: fclean all
 

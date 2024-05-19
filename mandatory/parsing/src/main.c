@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 18:11:14 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/19 18:14:47 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,7 @@ static void ft_simulate(t_shell *shell)
 		ft_parse(buffer, shell);
 		free(buffer);
 		// ft_print_tree(shell.root);
-		shell->exit_code = ft_define_priority(shell->root, 0, 1, shell);
+		shell->exit_status = ft_define_priority(shell->root, 0, 1, shell);
 		rl_on_new_line();
 		while (wait(NULL) > 0)
 			wait(NULL);
@@ -108,7 +108,7 @@ int	main(int ac, char **av, char **env)
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
 	shell.env = copy_env(env);
-	shell.exit_code = 0;
+	shell.exit_status = 0;
 	if (!shell.env)
 		return (ft_error());
 	ft_simulate(&shell);

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 18:09:47 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/20 20:30:01 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,9 +27,6 @@ int		ft_cd(t_token *token, t_shell *env);
 
 /*A mimit function of unset shell-builtin functions*/
 int		ft_unset(t_token *token, t_shell *env);
-
-/*A function that return the size of a 2D array*/
-int		ft_two_d_len(char **arr);
 
 /*A mimit function of export shell-builtin functions*/
 int		ft_export(t_token *cmd, t_shell *env, int fdout);

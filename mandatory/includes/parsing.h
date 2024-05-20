@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 15:51:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/20 20:11:56 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ int		ft_skip_parentheses(char *str);
 int		ft_late_work(t_token *token, t_shell *shell);
 int		ft_throw_error(char *msg, char *word);
 void	ft_free(char **ptr);
+char	**copy_env(char **env);
 
 void	ft_print_tree(t_token *token);
 

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/19 11:42:36 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/20 19:04:20 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,11 +40,11 @@ int	ft_first_condition(t_shell *shell)
 {
 	if (chdir(ft_getenv("HOME", shell->env)) == -1)
 	{
-		ft_putstr_fd("cd: HOME not set\n", STDERR);
+		ft_putstr_fd("cd: HOME not set\n", STDERR);//hna khas more error management hit chi wahd yghyr HOME f env w aykhs ytl3 lik dik does not exist...
 		return (EXIT_FAILURE);
 	}
 	if (ft_change_env_value(shell, "OLDPWD=", ft_getenv("PWD", shell->env)))
-		return (EXIT_FAILURE);
+		return (EXIT_FAILURE);//malloc error ilila hadi failat
 	if (ft_change_env_value(shell, "PWD=", ft_getenv("HOME", shell->env)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -52,7 +52,9 @@ int	ft_first_condition(t_shell *shell)
 
 int	ft_cd(t_token *token, t_shell *shell)
 {
-	if (token->args[1] == NULL && ft_first_condition(shell))// wla ila kant slash /
+	char	pwd[255];
+
+	if (token->args[1] == NULL  && ft_first_condition(shell))
 		return (EXIT_SUCCESS);
 	else
 	{
@@ -65,7 +67,7 @@ int	ft_cd(t_token *token, t_shell *shell)
 		}
 		if (ft_change_env_value(shell, "OLDPWD=", ft_getenv("PWD", shell->env)))
 			return (EXIT_FAILURE);
-		if (ft_change_env_value(shell, "PWD=", token->args[1]))
+		if (ft_change_env_value(shell, "PWD=", getcwd(pwd, 255)))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/19 18:08:07 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/20 18:45:16 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,7 +126,7 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	}
 	else if (pid < 0)
 		perror("fork");
-	printf("%s\n", shell->env[ft_two_d_len(shell->env) - 1]);
+	// printf("%s\n", shell->env[ft_two_d_len(shell->env) - 1]);
 	if (ft_change_env_value(shell, "_=", token->args[ft_two_d_len(token->args) - 1]))
 			return (EXIT_FAILURE);
 	if (fdin != 0)

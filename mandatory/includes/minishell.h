@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 18:12:47 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/20 20:30:13 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@
 # include <stdio.h>
 # include <unistd.h>
 # include <fcntl.h>
+# include <dirent.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "ft_printf.h"
@@ -84,6 +85,9 @@ void	ft_free(char **ptr);
 /*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
 /*Returns NULL if there is no key with that name*/
 char	*ft_getenv(char *name, char **arr);
+
+/*A function that return the size of a 2D array*/
+int		ft_two_d_len(char **arr);
 
 void	ft_free_tree(t_token *token);
 #endif

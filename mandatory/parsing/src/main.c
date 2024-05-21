@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/21 19:22:26 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/21 19:45:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ static void ft_minishell(t_shell *shell)
 
 	while (TRUE)
 	{
-		buffer = readline("minishell-v0.14> ");
+		buffer = readline("minishell-v0.47> ");
 		if (!buffer)
 			return ;
 		add_history(buffer);

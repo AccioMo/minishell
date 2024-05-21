@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/20 20:30:01 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/21 07:50:33 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,6 +68,14 @@ int	ft_type_to_execute(t_token *token, int fdin, int fdout, t_shell *shell);
 
 int	ft_pipe_function(t_token *token, int fdin, t_shell *shell);
 
+/*A function that expand variables to there values from the env*/
+int	ft_expand(t_token *token, t_shell *shell);
+
+/*A function that does what it sais , it change the '*' to a dir content*/
+void	ft_handle_wildecard(t_token *token, int i);
+
+/*A function  that realocate a 2d array with new dat for a 2d array double pointer*/
+void	ft_realoccate_args(char ***args, int i);
 /*RIDERICTIONS FUNCTION HERE*/
 int	ft_redir_in_function(t_token *token);
 

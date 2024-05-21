@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/19 17:16:35 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/21 08:35:06 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,7 @@ int	ft_export(t_token *token, t_shell *env, int fdout)
 		return (ft_print_shell(env, fdout));
 	while (token->args[j])
 	{
-		if (ft_isalpha(token->args[j][0]) == 0 && token->args[j][0] != '_')
+		if (ft_isalpha(token->args[j][0]) == 0/* && token->args[j][0] != '_'*/)//hadi khasha t exporta mais trj l_=export
 		{
 			ft_putstr_fd("export: `", fdout);
 			ft_putstr_fd(token->args[1], fdout);
@@ -123,6 +123,8 @@ int	ft_export(t_token *token, t_shell *env, int fdout)
 			}
 			i++;
 		}
+		if (ft_strchr(token->args[j], '=') == NULL)
+			token->args[j] = ft_strjoin(token->args[j], "=");//yawdi leaks ytnako hna khas ndir strjoin li katfriyi l param lwl + lazm ntchecki null hna
 		env->env = ft_realloc_env(env->env, ft_two_d_len(env->env) + 1, token->args[j]);
 		if (!env->env)
 			return (EXIT_FAILURE);

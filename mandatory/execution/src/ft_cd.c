@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/20 19:04:20 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/21 08:21:43 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,8 +44,24 @@ int	ft_first_condition(t_shell *shell)
 		return (EXIT_FAILURE);
 	}
 	if (ft_change_env_value(shell, "OLDPWD=", ft_getenv("PWD", shell->env)))
-		return (EXIT_FAILURE);//malloc error ilila hadi failat
+		return (EXIT_FAILURE);//malloc error ila hadi failat
 	if (ft_change_env_value(shell, "PWD=", ft_getenv("HOME", shell->env)))
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
+}
+
+int	ft_second_condition(t_shell *shell, char *pwd)
+{
+	if (chdir(ft_getenv("OLDPWD", shell->env)) == -1)
+	{
+		ft_putstr_fd("minishell : cd: ", STDERR);
+		ft_putstr_fd(ft_getenv("OLDPWD", shell->env), STDERR);
+		ft_putstr_fd(": No such file or directory\n", STDERR);
+		return (EXIT_FAILURE);
+	}
+	if (ft_change_env_value(shell, "OLDPWD=", ft_getenv("PWD", shell->env)))
+		return (EXIT_FAILURE);
+	if (ft_change_env_value(shell, "PWD=", getcwd(pwd, 255)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -54,13 +70,17 @@ int	ft_cd(t_token *token, t_shell *shell)
 {
 	char	pwd[255];
 
-	if (token->args[1] == NULL  && ft_first_condition(shell))
+	if (token->args[1] == NULL  && !ft_first_condition(shell))
 		return (EXIT_SUCCESS);
+	else if (token->args[1] == NULL)
+		return (EXIT_FAILURE);
+	else if (!ft_strncmp(token->args[1], "-\0", 2))
+		return (ft_second_condition(shell, pwd));
 	else
 	{
 		if (chdir(token->args[1]) == -1)
 		{
-			ft_putstr_fd("cd: ", STDERR);
+			ft_putstr_fd("minishell : cd: ", STDERR);
 			ft_putstr_fd(token->args[1], STDERR);
 			ft_putstr_fd(": No such file or directory\n", STDERR);
 			return (EXIT_FAILURE);

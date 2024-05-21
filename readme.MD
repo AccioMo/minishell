@@ -32,7 +32,7 @@ ERROR HANDLING:
 ```
 
 ## EXECUTION
-```
+```c:
 
 int stage_one_function(token)
 {

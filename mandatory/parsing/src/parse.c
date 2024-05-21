@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/21 07:07:00 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 00:02:25 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_free_tree(t_token *token)
 
 int	ft_open_quotes(char *line)
 {
-	int i;
+	int	i;
 
 	i = 0;
 	while (line[i])
@@ -87,8 +87,8 @@ int	ft_open_quotes(char *line)
 
 int	ft_open_parentheses(char *line)
 {
-	int i;
-	int p;
+	int	i;
+	int	p;
 
 	i = 0;
 	p = 0;
@@ -115,7 +115,7 @@ int	ft_parse(char *line, t_shell *shell)
 	shell->root = NULL;
 	if (ft_open_quotes(line))
 	{
-		ft_throw_error("syntax error: open quotes", line);;
+		ft_throw_error("syntax error: open quotes", line);
 		return (EXIT_FAILURE);
 	}
 	if (ft_open_parentheses(line))

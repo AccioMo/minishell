@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 18:14:47 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/21 19:45:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,12 +50,12 @@ char	**copy_env(char **env)
 
 void disable_sigint_echo(struct termios *orig_termios)
 {
-    struct termios	new_termios;
+	struct termios	new_termios;
 
-    tcgetattr(STDIN_FILENO, orig_termios);
-    new_termios = *orig_termios;
-    new_termios.c_lflag &= ~ECHOCTL;
-    tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
+	tcgetattr(STDIN_FILENO, orig_termios);
+	new_termios = *orig_termios;
+	new_termios.c_lflag &= ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 }
 
 void sig_handler(int signal)
@@ -76,19 +76,19 @@ void sig_handler(int signal)
 		return ;
 }
 
-static void ft_simulate(t_shell *shell)
+static void ft_minishell(t_shell *shell)
 {
 	char *buffer;
 
 	while (TRUE)
 	{
-		buffer = readline("minishell-v0.14> ");
+		buffer = readline("minishell-v0.47> ");
 		if (!buffer)
 			return ;
 		add_history(buffer);
 		ft_parse(buffer, shell);
 		free(buffer);
-		// ft_print_tree(shell.root);
+		// ft_print_tree(shell->root);
 		shell->exit_status = ft_define_priority(shell->root, 0, 1, shell);
 		rl_on_new_line();
 		while (wait(NULL) > 0)
@@ -111,7 +111,7 @@ int	main(int ac, char **av, char **env)
 	shell.exit_status = 0;
 	if (!shell.env)
 		return (ft_error());
-	ft_simulate(&shell);
+	ft_minishell(&shell);
 	ft_free_tree(shell.root);
 	return (0);
 }

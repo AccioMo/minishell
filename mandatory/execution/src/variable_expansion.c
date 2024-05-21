@@ -3,14 +3,39 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/05/21 15:20:34 by zouddach           #+#    #+#             */
-/*   Updated: 2024/05/21 07:36:10 by zouddach         ###   ########.fr       */
+/*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
+/*   Updated: 2024/05/21 19:38:19 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+char	*ft_remove_quotes(char *word)
+{
+	char	*tmp;
+
+	if (!word)
+		return (NULL);
+	if (word[0] == '\'')
+	{
+		tmp = ft_strtrim(word, "\'");
+		if (!tmp)
+			return (NULL);
+		free(word);
+		return (tmp);
+	}
+	else if (word[0] == '\"')
+	{
+		tmp = ft_strtrim(word, "\"");
+		if (!tmp)
+			return (NULL);
+		free(word);
+		return (tmp);
+	}
+	return (word);
+}
 
 char	*ft_expand_vars(char *word, char *value, t_shell *shell)
 {
@@ -43,20 +68,21 @@ char	*ft_expand_vars(char *word, char *value, t_shell *shell)
 
 char	*ft_extract_variable(char *word, t_shell *shell)
 {
-	int 	i;
-	int 	j;
 	char	*value;
 	char	**tmp;
+	int		i;
+	int		j;
 
 	i = 0;
 	j = -1;
+	// value = ft_substr(word, 0, ft_index(word, '$'));
 	value = malloc(sizeof(char) * ft_strlen(word) + 1);
 	if (!value)
 		return (NULL);
 	while (word[i] && word[i] != '$')
 	{
 		value[i] = word[i];
-		i++;	
+		i++;
 	}
 	value[i] = '\0';
 	if (word[i] == '$' && word[i + 1] == '\0')
@@ -82,7 +108,7 @@ char	*ft_extract_variable(char *word, t_shell *shell)
 
 int	ft_expand(t_token *token, t_shell *shell)
 {
-	int		i;
+	int	i;
 
 	i = 0;
 	if (token->left)
@@ -93,21 +119,20 @@ int	ft_expand(t_token *token, t_shell *shell)
 	{
 		while (token->args[i])
 		{
-			if (token->args[i][0] == '*' && token->args[i][1] == '\0')
+			if (token->args[i][0] != '\'' && token->args[i][0] != '\"' && \
+				!ft_strncmp(token->args[i], "*\0", 2))
 			{
-				ft_handle_wildecard(token, i);
-				ft_realoccate_args(&token->args, i);
-				i++;
-				continue ;
+				token->args = ft_array_delete(token->args, i);
+				i += ft_handle_wildecard(token) - 1;
 			}
-			if (!ft_strchr(token->args[i], '$'))
+			else if (token->args[i][0] != '\'' && \
+				ft_strchr(token->args[i], '$'))
 			{
-				i++;
-				continue ;
+				token->args[i] = ft_extract_variable(token->args[i], shell);
+				if (!token->args[i])
+					return (1);
 			}
-			token->args[i] = ft_extract_variable(token->args[i], shell);
-			if (!token->args[i])
-				return (1);//malloc error
+			token->args[i] = ft_remove_quotes(token->args[i]);
 			i++;
 		}
 	}

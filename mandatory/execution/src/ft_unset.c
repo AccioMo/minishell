@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/16 21:02:04 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/21 08:44:13 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_delete_env(char *name, char **from)
 	}
 	return (EXIT_SUCCESS);
 }
-//next func to work on...
+
 int	ft_unset(t_token *token, t_shell *env)
 {
 	int	i;
@@ -49,8 +49,7 @@ int	ft_unset(t_token *token, t_shell *env)
 		if (!ft_getenv(token->args[i], env->env))
 			i++;
 		else
-			ft_delete_env(token->args[i], env->env);
-		i++;
+			return (ft_delete_env(token->args[i], env->env));
 	}
 	return (EXIT_SUCCESS);
 }

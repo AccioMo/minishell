@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/20 20:11:56 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/21 07:47:30 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,10 +29,10 @@ char	*ft_first_word(char *str);
 char	*ft_merge(char *part_one, int limit_one, char *part_two, int limit_two);
 char	**ft_cmd_split(char *str);
 int		ft_skip_parentheses(char *str);
-int		ft_late_work(t_token *token, t_shell *shell);
+//int		ft_late_work(t_token *token, t_shell *shell);//Moved to Minishell header
 int		ft_throw_error(char *msg, char *word);
 void	ft_free(char **ptr);
-char	**copy_env(char **env);
+
 
 void	ft_print_tree(t_token *token);
 

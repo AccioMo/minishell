@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/20 20:30:13 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/21 07:47:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,9 @@ char	*ft_getenv(char *name, char **arr);
 
 /*A function that return the size of a 2D array*/
 int		ft_two_d_len(char **arr);
+
+/*A function that copies a 2darray and return it*/
+char	**copy_env(char **env);
 
 void	ft_free_tree(t_token *token);
 #endif

@@ -6,104 +6,145 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/21 23:54:52 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:45:26 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-char	*ft_remove_quotes(char *word)
+static int	ft_arg_len(char *str)
 {
-	char	*tmp;
+	int	len;
 
-	if (!word)
-		return (NULL);
-	if (word[0] == '\'')
+	len = 0;
+	while (*str && !ft_whitespace(*str))
 	{
-		tmp = ft_strtrim(word, "\'");
-		if (!tmp)
-			return (NULL);
-		free(word);
-		return (tmp);
+		if (*str == '\"')
+			while (*++str && *str != '\"')
+				len++;
+		else if (*str == '\'')
+			while (*++str && *str != '\'')
+				len++;
+		else
+			len++;
+		str++;
 	}
-	else if (word[0] == '\"')
+	return (len);
+}
+
+char	*ft_remove_quotes(char *str)
+{
+	char	*word;
+	int		i;
+
+	i = 0;
+	word = (char *)malloc(sizeof(char) * (ft_arg_len(str) + 1));
+	while (*str && !ft_whitespace(*str))
 	{
-		tmp = ft_strtrim(word, "\"");
-		if (!tmp)
-			return (NULL);
-		free(word);
-		return (tmp);
+		if (*str == '\"')
+			while (*++str && *str != '\"')
+				word[i++] = *str;
+		else if (*str == '\'')
+			while (*++str && *str != '\'')
+				word[i++] = *str;
+		else
+			word[i++] = *str;
+		str++;
 	}
+	word[i] = '\0';
 	return (word);
 }
 
-char	*ft_expand_vars(char *word, char *value, t_shell *shell)
+char	*ft_expand_variable(char *str, int *i, t_shell *shell)
 {
-	char * var;
+	char	*tmp;
+	char	*new;
+	int		len;
 
-	if (word[0] == '?')
-	{
-		var = ft_itoa(shell->exit_status);
-		if (!var)
-			return (NULL);
-		value = ft_strjoin(value, var);
-		if (!value)
-			return (NULL);
-		if (word[1] != '\0')
-			value = ft_strjoin(value, &word[1]);
-		free(var);
-	}
+	if (ft_isdigit(*str) && (*i)++)
+		return (NULL);
+	else if (*str == '?' && (*i)++)
+		return (ft_itoa(shell->exit_status));
+	else if (*str == '_' && (*i)++)
+		return (ft_strdup(ft_getenv("_", shell->env)));
 	else
 	{
-		var = ft_strdup(ft_getenv(word, shell->env));
-		if (!var)
-			return (NULL);
-		value = ft_strjoin(value, var);
-		if (!value)
-			return (NULL);
-		free(var);
+		len = 0;
+		while (str[len] && str[len] != '$' && str[len] != '\'' \
+				&& str[len] != '\"' && !ft_whitespace(str[len]))
+			len++;
+		tmp = ft_substr(str, 0, len);
+		new = ft_getenv(tmp, shell->env);
+		free(tmp);
+		*i += len;
+		return (ft_strdup(new));
 	}
-	return (value);
 }
 
-char	*ft_extract_variable(char *word, t_shell *shell)
+char	*ft_extraction(char *str, t_shell *shell)
 {
-	char	*value;
-	char	**tmp;
+	char	*tmp;
+	char	*new;
+	int		len;
+	int		i;
+
+	i = 0;
+	new = NULL;
+	while (str[i])
+	{
+		if (str[i] == '$')
+		{
+			tmp = ft_expand_variable(&str[++i], &i, shell);
+			new = ft_realloc(new, tmp);
+			free(tmp);
+		}
+		else
+		{
+			len = ft_index(&str[i], '$');
+			tmp = ft_substr(str, i, len);
+			new = ft_realloc(new, tmp);
+			free(tmp);
+			i += len;
+		}
+	}
+	return (new);
+}
+
+char	*ft_strrem(char *str, char to_remove)
+{
+	char	*new;
 	int		i;
 	int		j;
 
 	i = 0;
-	j = -1;
-	// value = ft_substr(word, 0, ft_index(word, '$'));
-	value = malloc(sizeof(char) * ft_strlen(word) + 1);
-	if (!value)
+	j = 0;
+	new = (char *)malloc(sizeof(char) * (ft_strlen(str)));
+	if (!new)
 		return (NULL);
-	while (word[i] && word[i] != '$')
+	while (str[i])
 	{
-		value[i] = word[i];
+		if (str[i] == to_remove)
+			i++;
+		new[j++] = str[i++];
+	}
+	new[j] = '\0';
+	return (new);
+}
+
+int	ft_contains_variable(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (str[i] == '\'')
+			i += ft_index(&str[i + 1], '\'') + 1;
+		if (str[i] == '$' && str[i + 1] != '\0')
+			return (1);
 		i++;
 	}
-	value[i] = '\0';
-	if (word[i] == '$' && word[i + 1] == '\0')
-	{
-		value[i] = '$';
-		value[i + 1] = '\0';
-		return (value);
-	}
-	else
-	{
-		tmp = ft_split(&word[i + 1], '$');
-		if (!tmp)
-			return (NULL);
-		while (tmp[++j])
-		{
-			value = ft_expand_vars(tmp[j], value, shell);
-			if (tmp[j] == NULL)
-				return (ft_free(tmp), NULL);
-		}
-	}
-	return (value);
+	return (0);
 }
 
 int	ft_expand(t_token *token, t_shell *shell)
@@ -119,20 +160,20 @@ int	ft_expand(t_token *token, t_shell *shell)
 	{
 		while (token->args[i])
 		{
-			if (token->args[i][0] != '\'' && token->args[i][0] != '\"' && \
-				!ft_strncmp(token->args[i], "*\0", 2))
+			if (!ft_strncmp(token->args[i], "*\0", 2))
 			{
 				token->args = ft_array_delete(token->args, i);
-				i += ft_handle_wildecard(token) - 1;
+				i += ft_handle_wildecard(token);
+				continue ;
 			}
-			else if (token->args[i][0] != '\'' && \
-				ft_strchr(token->args[i], '$'))
+			if (ft_contains_variable(token->args[i]))
 			{
-				token->args[i] = ft_extract_variable(token->args[i], shell);
+				token->args[i] = ft_extraction(token->args[i], shell);
 				if (!token->args[i])
 					return (1);
 			}
-			token->args[i] = ft_remove_quotes(token->args[i]);
+			if (ft_strchr(token->args[i], '\"') || ft_strchr(token->args[i], '\''))
+				token->args[i] = ft_remove_quotes(token->args[i]);
 			i++;
 		}
 	}

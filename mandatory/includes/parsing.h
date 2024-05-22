@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/22 00:02:04 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:45:10 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 # include "readline/history.h"
 
 int		ft_parse(char *line, t_shell *shell);
-int		ft_whitespace(char c);
 int		ft_stage_one(char *str, t_token **token);
 int		ft_rev_index(char *str, char c);
 int		ft_word_len(char *str);

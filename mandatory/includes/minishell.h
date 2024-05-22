@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/22 00:01:34 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:44:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,6 +93,8 @@ int		ft_two_d_len(char **arr);
 char	**copy_env(char **env);
 
 int		ft_index(char *str, char c);
+
+int		ft_whitespace(char c);
 
 void	ft_free_tree(t_token *token);
 #endif

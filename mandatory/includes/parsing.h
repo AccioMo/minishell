@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/22 00:01:57 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 00:02:04 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ char	**ft_cmd_split(char *str);
 int		ft_skip_parentheses(char *str);
 int		ft_throw_error(char *msg, char *word);
 void	ft_free(char **ptr);
-
 
 void	ft_print_tree(t_token *token);
 

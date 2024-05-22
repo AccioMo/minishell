@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/21 08:35:06 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 19:44:51 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	ft_print_shell(t_shell *env, int fdout)
 
 int	ft_change_var(char **var)
 {
-	int	i;
-	int	j;
+	int		i;
+	int		j;
 	char	*new_var;
 
 	i = 0;
@@ -80,55 +80,68 @@ char	**ft_realloc_env(char **env, int size, char *new_var)
 		if (!new_env[i])
 		{
 			ft_free(new_env);
-			return(NULL);
+			return (NULL);
 		}
 		i++;
 	}
 	new_env[i] = ft_strdup(new_var);
 	if (!new_env[i])
-	{
-		ft_free(new_env);
-		return (NULL);
-	}
+		return (ft_free(new_env), NULL);
 	new_env[i + 1] = NULL;
-	free(env);
+	ft_free(env);
 	return (new_env);
+}
+
+int	ft_export_lines_saver(int j, t_shell *env, t_token *token)
+{
+	int	i;
+
+	i = 0;
+	if (ft_strncmp(token->args[j], "_\0", 2))
+		if (ft_change_env_value(env, "_=", "export"))
+			return (EXIT_FAILURE);
+	while (env->env[i])
+	{
+		if (ft_strncmp(env->env[i], token->args[j],
+				ft_strlen(token->args[j])) == 0)
+		{
+			free(env->env[i]);
+			env->env[i] = ft_strdup(token->args[j]);
+			if (!env->env[i])
+				return (ft_free(env->env), -1);
+			return (EXIT_SUCCESS);
+		}
+		i++;
+	}
+	env->env = ft_realloc_env(env->env,
+			ft_two_d_len(env->env) + 1, token->args[j]);
+	if (!env->env)
+		return (EXIT_FAILURE);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_export(t_token *token, t_shell *env, int fdout)
 {
-	int	i;
-	int j;
+	int	j;
 
-	j = 1;
+	j = 0;
 	if (ft_two_d_len(token->args) == 1)
 		return (ft_print_shell(env, fdout));
-	while (token->args[j])
+	while (token->args[++j])
 	{
-		if (ft_isalpha(token->args[j][0]) == 0/* && token->args[j][0] != '_'*/)//hadi khasha t exporta mais trj l_=export
+		if (ft_strchr(token->args[j], '=') == NULL)
+			token->args[j] = ft_strjoin_free(token->args[j], "=", 0);
+		if (ft_var_exist(env, token->args[j]))
+			continue ;
+		if (ft_isalpha(token->args[j][0]) == 0)
 		{
 			ft_putstr_fd("export: `", fdout);
 			ft_putstr_fd(token->args[1], fdout);
 			ft_putstr_fd("': not a valid identifier\n", fdout);
 			return (EXIT_FAILURE);
 		}
-		i = 0;
-		while (env->env[i])
-		{
-			if (ft_strncmp(env->env[i], token->args[j], ft_strlen(token->args[j])) == 0)
-			{
-				free(env->env[i]);
-				env->env[i] = ft_strdup(token->args[j]);
-				return (EXIT_SUCCESS);
-			}
-			i++;
-		}
-		if (ft_strchr(token->args[j], '=') == NULL)
-			token->args[j] = ft_strjoin(token->args[j], "=");//yawdi leaks ytnako hna khas ndir strjoin li katfriyi l param lwl + lazm ntchecki null hna
-		env->env = ft_realloc_env(env->env, ft_two_d_len(env->env) + 1, token->args[j]);
-		if (!env->env)
+		if (ft_export_lines_saver(j, env, token))
 			return (EXIT_FAILURE);
-		j++;
 	}
 	return (EXIT_SUCCESS);
 }

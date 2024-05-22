@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/22 00:00:52 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:25:28 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@
 int		ft_echo(t_token	*token, int fdout);
 
 /*A mimit of pwd function*/
-int		ft_pwd(int fdout);
+int		ft_pwd(int fdout, char **env);
 
 /*A mimit function of cd*/
 int		ft_cd(t_token *token, t_shell *env);
@@ -49,6 +49,16 @@ char	**ft_realloc_env(char **env, int size, char *new_var);
 
 /*A function that change the value of a variable in side the 2DArray env*/
 int	ft_change_env_value(t_shell *env, char *name, char *value);
+
+/*Q function that do what strjoin do but it free the first param if the code is equal to or smaller than 2 or free the second param if the code is bigger than or equal to 2 or both if code == 2*/
+char	*ft_strjoin_free(char *s1, char *s2, int code);
+
+/*A function that checks is the arg passed with export has and already saved var in the env*/
+int	ft_var_exist(t_shell *shell, char *var);
+
+/*A function that returns the position of a char in an an array of chars*/
+/*Returns -1 if the char not found*/
+int ft_get_index(char *str, char c);
 
 int	ft_count_char(char *str, char c);
 

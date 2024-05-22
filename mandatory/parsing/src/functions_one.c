@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/21 18:17:49 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/22 19:05:23 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,6 +62,8 @@ void	ft_parse_word(char *str, int end, t_token **token)
 	word = ft_substr(str, 0, end);
 	ft_add_token(WORD, NULL, token);
 	(*token)->args = ft_cmd_split(word);
+	free(word);
+	free(str);
 }
 
 int	ft_throw_error(char *msg, char *word)

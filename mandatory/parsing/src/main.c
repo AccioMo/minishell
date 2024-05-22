@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/22 20:33:28 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 23:01:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("error: too many arguments\n", 2);
 		return (1);
 	}
-	atexit(f);
+	// atexit(f);
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
 	shell.root = NULL;

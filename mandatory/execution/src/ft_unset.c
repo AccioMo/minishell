@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/21 08:44:13 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 19:50:04 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,13 @@ int	ft_unset(t_token *token, t_shell *env)
 	i = 1;
 	while (token->args[i])
 	{
+		if (!ft_isalpha(token->args[i][0]))
+		{
+			ft_putstr_fd("unset: `", STDERR_FILENO);
+			ft_putstr_fd(token->args[i], STDERR_FILENO);
+			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
+			return (EXIT_FAILURE);
+		}
 		if (!ft_getenv(token->args[i], env->env))
 			i++;
 		else

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/21 08:21:43 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 20:31:58 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	ft_change_env_value(t_shell *env, char *name, char *value)
 	}
 	if (env->env[i] == NULL)
 	{
-		env->env = ft_realloc_env(env->env, i + 1, ft_strjoin(name, value));
+		env->env = ft_realloc_env(env->env, i + 1, ft_strjoin_free(name, value, 0));
 		if (!env->env)
 			return (EXIT_FAILURE);
 	}
@@ -40,7 +40,14 @@ int	ft_first_condition(t_shell *shell)
 {
 	if (chdir(ft_getenv("HOME", shell->env)) == -1)
 	{
-		ft_putstr_fd("cd: HOME not set\n", STDERR);//hna khas more error management hit chi wahd yghyr HOME f env w aykhs ytl3 lik dik does not exist...
+		if (ft_getenv("HOME", shell->env) == NULL)
+			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR);
+		else
+		{
+			ft_putstr_fd("minishell: cd: \n", STDERR);
+			ft_putstr_fd(ft_getenv("HOME", shell->env), STDERR);
+			ft_putstr_fd(": No such file or directory\n", STDERR);
+		}
 		return (EXIT_FAILURE);
 	}
 	if (ft_change_env_value(shell, "OLDPWD=", ft_getenv("PWD", shell->env)))
@@ -70,7 +77,7 @@ int	ft_cd(t_token *token, t_shell *shell)
 {
 	char	pwd[255];
 
-	if (token->args[1] == NULL  && !ft_first_condition(shell))
+	if (token->args[1] == NULL && !ft_first_condition(shell))
 		return (EXIT_SUCCESS);
 	else if (token->args[1] == NULL)
 		return (EXIT_FAILURE);

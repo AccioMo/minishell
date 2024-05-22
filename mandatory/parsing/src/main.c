@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/21 19:45:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/22 20:33:28 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,14 @@ static void ft_minishell(t_shell *shell)
 		rl_on_new_line();
 		while (wait(NULL) > 0)
 			wait(NULL);
+		ft_free_tree(shell->root);
+		shell->root = NULL;
 	}
+}
+
+void f()
+{
+	system("leaks minishell");
 }
 
 int	main(int ac, char **av, char **env)
@@ -105,13 +112,16 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("error: too many arguments\n", 2);
 		return (1);
 	}
+	atexit(f);
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
+	shell.root = NULL;
 	shell.env = copy_env(env);
 	shell.exit_status = 0;
 	if (!shell.env)
 		return (ft_error());
 	ft_minishell(&shell);
+	ft_free(shell.env);
 	ft_free_tree(shell.root);
 	return (0);
 }

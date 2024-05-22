@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils_exec.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:02:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/20 18:38:35 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 17:46:16 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,12 +58,16 @@ char	*ft_getenv(char *name, char **array)
 	int	i;
 
 	i = 0;
+	name = ft_strjoin(name, "=");
 	if (!array)
 		return (NULL);
 	while (array[i])
 	{
 		if (!ft_strncmp(array[i], name, ft_strlen(name)))
+		{
+			free(name);
 			return (ft_strchr(array[i], '=') + 1);
+		}
 		i++;
 	}
 	return (NULL);

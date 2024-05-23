@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_expansion.c                               :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/22 20:45:26 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/22 23:00:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -139,8 +139,16 @@ int	ft_contains_variable(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			i += ft_index(&str[i + 1], '\'') + 1;
-		if (str[i] == '$' && str[i + 1] != '\0')
+			i += ft_index(&str[i + 1], '\'');
+		else if (str[i] == '\"')
+		{
+			while (str[++i] && str[i] != '\"')
+			{
+				if (str[i] == '$')
+					return (1);
+			}
+		}
+		else if (str[i] == '$' && str[i + 1] != '\0')
 			return (1);
 		i++;
 	}

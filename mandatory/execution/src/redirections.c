@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 11:03:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/23 14:04:28 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,7 @@ int	ft_redir_heredoc_function(t_token *token)
 	char	*buffer;
 	char	*input;
 	int		fdin[2];
-	
+
 	input = NULL;
 	buffer = NULL;
 	while (is_limiter(buffer, token->args[0]) == 0)

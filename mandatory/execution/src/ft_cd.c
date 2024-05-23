@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/22 20:31:58 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:34:42 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,8 @@ int	ft_change_env_value(t_shell *env, char *name, char *value)
 	}
 	if (env->env[i] == NULL)
 	{
-		env->env = ft_realloc_env(env->env, i + 1, ft_strjoin_free(name, value, 0));
+		env->env = ft_realloc_env(env->env,
+				i + 1, ft_strjoin_free(name, value, 0));
 		if (!env->env)
 			return (EXIT_FAILURE);
 	}
@@ -51,7 +52,7 @@ int	ft_first_condition(t_shell *shell)
 		return (EXIT_FAILURE);
 	}
 	if (ft_change_env_value(shell, "OLDPWD=", ft_getenv("PWD", shell->env)))
-		return (EXIT_FAILURE);//malloc error ila hadi failat
+		return (EXIT_FAILURE);
 	if (ft_change_env_value(shell, "PWD=", ft_getenv("HOME", shell->env)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);

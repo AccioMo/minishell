@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:21:15 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/22 18:50:09 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:43:06 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_var_exist(t_shell *shell, char *var)
 	{
 		ft_putstr_fd("export: `", 2);
 		ft_putstr_fd(var, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);	
+		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (EXIT_FAILURE);
 	}
 	tmp = ft_substr(var, 0, ft_get_index(var, '='));

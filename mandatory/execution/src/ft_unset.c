@@ -6,12 +6,12 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/22 19:50:04 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:44:02 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
+//free l7za9
 int	ft_delete_env(char *name, char **from)
 {
 	int	i;
@@ -28,7 +28,7 @@ int	ft_delete_env(char *name, char **from)
 					return (from[i] = NULL, EXIT_SUCCESS);
 				from[i] = ft_strdup(from[i + 1]);
 				if (!from[i])
-					return (EXIT_FAILURE);//free l7za9
+					return (EXIT_FAILURE);
 				free(from[i + 1]);
 				i++;
 			}

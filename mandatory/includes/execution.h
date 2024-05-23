@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/22 20:25:28 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:48:20 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,17 @@ int	ft_var_exist(t_shell *shell, char *var);
 /*Returns -1 if the char not found*/
 int ft_get_index(char *str, char c);
 
+/*A function that counts how many chars in an array of chars*/
 int	ft_count_char(char *str, char c);
+
+/*A function that returns the path for a cmd*/
+char	*ft_allocate_cmd(char **cmd, char **env);
+
+/*A function that get the path either from the env:PATH or the backup*/
+char	**ft_get_paths(char **env);
+
+/*A function that matchthe path of a cmd joinning it with a '/'*/
+char	*ft_match_path(char *command, char **paths_env);
 
 int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell);
 

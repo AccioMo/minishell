@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/22 00:05:37 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/23 13:58:39 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,10 +17,14 @@ int	ft_define_priority(t_token *token, int fdin, int fdout, t_shell *shell)
 	if (!token)
 		return (EXIT_FAILURE);
 	if (token->type == AND)
-		return (ft_and_function(token, fdin, fdout, shell));
+		ft_and_function(token, fdin, fdout, shell);
 	else if (token->type == OR)
-		return (ft_or_function(token, fdin, fdout, shell));
-	return (ft_check_pipe(token, fdin, fdout, shell));
+		ft_or_function(token, fdin, fdout, shell);
+	else
+		ft_check_pipe(token, fdin, fdout, shell);
+	while (wait(&shell->exit_status) > 0)
+		;
+	return (shell->exit_status);
 }
 
 int	ft_check_redirections(t_token *token, int fdin, int fdout, t_shell *shell)

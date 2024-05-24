@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/23 13:48:20 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/25 00:09:56 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,8 @@ int	ft_handle_wildecard(t_token *token);
 
 /*A function  that realocate a 2d array with new dat for a 2d array double pointer*/
 char	**ft_array_delete(char **array, int x);
+/*A function that reallocate an array without nulls*/
+int ft_clean_nulls(t_token *token);
 /*RIDERICTIONS FUNCTION HERE*/
 int	ft_redir_in_function(t_token *token);
 

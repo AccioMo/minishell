@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/23 14:13:46 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/24 20:20:20 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,7 +66,7 @@ void sig_handler(int signal)
 	{
 		disable_sigint_echo(&orig_termios);
 		ft_putstr_fd("\n", 1);
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
 		tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
@@ -104,7 +104,8 @@ int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
 
-	if (ac != 1 || av[1])
+	if (ac != 1 || av[1
+	])
 	{
 		ft_putstr_fd("error: too many arguments\n", 2);
 		return (1);

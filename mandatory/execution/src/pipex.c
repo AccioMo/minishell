@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/23 14:00:32 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/25 00:32:05 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,8 @@ int	ft_exec_lines_saver(t_token *token, t_shell *shell, int fdin, int fdout)
 
 	cmd_path = ft_allocate_cmd(token->args, shell->env);
 	if (!cmd_path)
+		return (EXIT_FAILURE);
+	if (ft_clean_nulls(token))
 		return (EXIT_FAILURE);
 	pid = fork();
 	if (pid == 0)

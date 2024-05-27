@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_management.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/21 23:55:01 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/25 20:00:15 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	**ft_array_delete(char **array, int x)
 
 	i = 0;
 	j = 0;
+	if (!array)
+		return (NULL);
 	while (array[i])
 		i++;
 	new_array = malloc(sizeof(char *) * i);
@@ -37,7 +39,7 @@ char	**ft_array_delete(char **array, int x)
 	return (new_array);
 }
 
-static char	**ft_append_to_array(char **args, char *new_arg)
+char	**ft_append_to_array(char **args, char *new_arg)
 {
 	char	**new_args;
 	int		i;
@@ -65,7 +67,7 @@ static char	**ft_append_to_array(char **args, char *new_arg)
 	return (new_args);
 }
 
-int	ft_handle_wildecard(t_token *token)
+static int	ft_handle_wildecard(t_token *token)
 {
 	struct dirent	*dir_entry;
 	char			cwd[PATH_MAX];
@@ -92,4 +94,28 @@ int	ft_handle_wildecard(t_token *token)
 	}
 	closedir(dir);
 	return (len);
+}
+
+int	ft_wildcard(t_token *token)
+{
+	int	wildcard;
+	int	i;
+
+	i = 0;
+	wildcard = 0;
+	while (token->args[i])
+	{
+		if (!ft_strncmp(token->args[i], "*\0", 2))
+		{
+			wildcard++;
+			token->args = ft_array_delete(token->args, i);
+			i += ft_handle_wildecard(token);
+		}
+		else if (!ft_strncmp(token->args[i], "\"*\"\0", 4) \
+				|| !ft_strncmp(token->args[i], "\'*\'\0", 4))
+			token->args[i] = ft_remove_quotes(token->args[i]);
+		else
+			i++;
+	}
+	return (wildcard);
 }

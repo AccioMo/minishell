@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   pipex.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/25 00:32:05 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/25 17:40:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,8 +67,8 @@ int	ft_exec_lines_saver(t_token *token, t_shell *shell, int fdin, int fdout)
 	cmd_path = ft_allocate_cmd(token->args, shell->env);
 	if (!cmd_path)
 		return (EXIT_FAILURE);
-	if (ft_clean_nulls(token))
-		return (EXIT_FAILURE);
+	// if (ft_clean_nulls(token))
+	// 	return (EXIT_FAILURE);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -98,6 +98,7 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 		ft_increment_shellvl(shell);
 	if (ft_exec_lines_saver(token, shell, fdin, fdout))
 		return (EXIT_FAILURE);
+	printf("executing %s\n", token->args[0]);
 	if (ft_change_env_value(shell, "_=",
 			token->args[ft_two_d_len(token->args) - 1]))
 		return (EXIT_FAILURE);

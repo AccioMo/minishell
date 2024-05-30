@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 20:04:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 22:23:16 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_dup_pipes(int fdin, int fdout)
 	}
 }
 
-void	ft_perror(char *cmd)
+int	ft_perror(char *cmd)
 {
 	if (errno == ENOENT)
 	{
@@ -45,7 +45,7 @@ void	ft_perror(char *cmd)
 	}
 	else
 		perror(cmd);
-	exit(errno);
+	return (errno);
 }
 
 void	ft_increment_shellvl(t_shell *shell)
@@ -65,26 +65,50 @@ void	ft_increment_shellvl(t_shell *shell)
 	free(shell_lvl);
 }
 
+char	**ft_list_to_array(t_list *env)
+{
+	char	**env_array;
+	t_list	*tmp;
+	int		i;
+
+	i = 0;
+	env_array = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
+	if (!env_array)
+		return (NULL);
+	while (env)
+	{
+		tmp = env;
+		env_array[i] = ft_strdup(env->content);
+		if (!env_array[i])
+			return (NULL);
+		env = env->next;
+		i++;
+	}
+	env_array[i] = NULL;
+	return (env_array);
+}
+
 int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 {
+	char	**env_array;
 	char	*cmd_path;
 	pid_t	pid;
 
-	cmd_path = ft_allocate_cmd(token->args, shell->env);
-	if (!cmd_path)
-		return (EXIT_FAILURE);
 	pid = fork();
 	if (pid == 0)
 	{
 		if (fdin < 0)
 			exit(EXIT_FAILURE);
 		ft_dup_pipes(fdin, fdout);
-		execve(cmd_path, token->args, shell->env);
-		ft_perror(token->args[0]);
+		env_array = ft_list_to_array(shell->env);
+		cmd_path = ft_allocate_cmd(token->args, env_array);
+		if (!cmd_path)
+			return (EXIT_FAILURE);
+		execve(cmd_path, token->args, env_array);
+		exit(ft_perror(token->args[0]));
 	}
 	else if (pid < 0)
-		ft_perror("fork");
-	free(cmd_path);
+		return (ft_perror("fork"));
 	return (EXIT_SUCCESS);
 }
 

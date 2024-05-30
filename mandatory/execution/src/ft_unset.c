@@ -3,43 +3,34 @@
 /*                                                        :::      ::::::::   */
 /*   ft_unset.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/23 13:44:02 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:30:25 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-//free l7za9
-int	ft_delete_env(char *name, char **from)
-{
-	int	i;
 
-	i = 0;
-	while (from[i])
+int	ft_delete_env(char *name, t_list *env)
+{
+	t_list	*tmp;
+
+	while (env)
 	{
-		if (ft_strncmp(from[i], name, ft_strlen(name)) == 0)
+		if (ft_strncmp(env->content, name, ft_strlen(name)) == 0)
 		{
-			free(from[i]);
-			while (from[i])
-			{
-				if (from[i + 1] == NULL)
-					return (from[i] = NULL, EXIT_SUCCESS);
-				from[i] = ft_strdup(from[i + 1]);
-				if (!from[i])
-					return (EXIT_FAILURE);
-				free(from[i + 1]);
-				i++;
-			}
+			tmp = env->next->next;
+			ft_lstdelone(env, free);
+			env->next = tmp;
 			return (EXIT_SUCCESS);
 		}
-		i++;
+		env = env->next;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	ft_unset(t_token *token, t_shell *env)
+int	ft_unset(t_token *token, t_list *env)
 {
 	int	i;
 
@@ -53,10 +44,10 @@ int	ft_unset(t_token *token, t_shell *env)
 			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 			return (EXIT_FAILURE);
 		}
-		if (!ft_getenv(token->args[i], env->env))
+		if (!ft_getenv(token->args[i], env))
 			i++;
 		else
-			return (ft_delete_env(token->args[i], env->env));
+			return (ft_delete_env(token->args[i], env));
 	}
 	return (EXIT_SUCCESS);
 }

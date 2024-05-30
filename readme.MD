@@ -28,6 +28,9 @@ ERROR HANDLING:
 	2. error on unclosed SINGLE-QUOTES, DOUBLE-QUOTES or PARENTHESES.
 	3. error on WORD token containing PARENTHESES or SUBSHELL containing WORD.
 
+TODO:
+	handle ambiguous redirect
+	handle cd delete parent dir problem
 
 ```
 

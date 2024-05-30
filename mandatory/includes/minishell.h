@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 19:57:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 21:28:57 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,7 +101,7 @@ int		ft_index(char *str, char c);
 
 int		ft_whitespace(char c);
 
-void	ft_perror(char *cmd);
+int		ft_perror(char *cmd);
 
 void	ft_free_tree(t_token *token);
 

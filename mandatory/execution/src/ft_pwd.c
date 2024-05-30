@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 12:44:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/23 13:43:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:25:00 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_pwd(int fdout, char **env)
+int	ft_pwd(int fdout, t_list *env)
 {
 	char	*l;
 

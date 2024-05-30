@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 20:04:20 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 20:09:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,11 +41,7 @@ int	ft_first_condition(t_shell *shell)
 		if (ft_getenv("HOME", shell->env) == NULL)
 			ft_putstr_fd("minishell: cd: HOME not set\n", STDERR);
 		else
-		{
-			ft_putstr_fd("minishell: cd: \n", STDERR);
-			ft_putstr_fd(ft_getenv("HOME", shell->env), STDERR);
-			ft_putstr_fd(": No such file or directory\n", STDERR);
-		}
+			ft_perror("");
 		return (EXIT_FAILURE);
 	}
 	if (ft_change_env_value(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 16:04:05 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/21 19:39:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 20:24:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	ft_putnbr_fd(int n, int fd);
 /*			BONUS PART			*/
 typedef struct s_list
 {
-	void			*content;
+	char			*content;
 	struct s_list	*next;
 }	t_list;
 

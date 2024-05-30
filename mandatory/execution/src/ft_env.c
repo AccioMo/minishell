@@ -3,27 +3,27 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/22 00:10:08 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 21:25:21 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_env(t_shell *shell, int fdout)
+int	ft_env(t_list *env, int fdout)
 {
 	int	i;
 
 	i = 0;
-	if (shell->env == NULL)
+	if (!env)
 		return (EXIT_SUCCESS);
-	while (shell->env[i])
+	while (env)
 	{
-		ft_putstr_fd(shell->env[i], fdout);
+		ft_putstr_fd(env->content, fdout);
 		ft_putchar_fd('\n', fdout);
-		i++;
+		env = env->next;
 	}
 	return (EXIT_SUCCESS);
 }

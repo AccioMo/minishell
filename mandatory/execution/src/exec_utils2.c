@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:13:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/23 13:48:32 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 21:23:43 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,7 @@ char	*ft_match_path(char *command, char **paths_env)
 char	**ft_get_paths(char **env)
 {
 	if (!*env)
-		return (ft_split("/goinfre/zouddach/.brew/bin:/usr/local/bin:\
-		/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/munki:/Library/Apple/usr/bin:\
-		/goinfre/zouddach/.brew/bin:/Users/zouddach/Desktop/nodejs/bin", ':'));
+		return (ft_split("/usr/bin:/bin", ':'));
 	while (*env)
 	{
 		if (!ft_strncmp(*env, "PATH", 4))

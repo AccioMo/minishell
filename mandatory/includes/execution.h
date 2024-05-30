@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 19:39:47 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 21:25:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,13 +20,13 @@
 int		ft_echo(t_token	*token, int fdout);
 
 /*A mimit of pwd function*/
-int		ft_pwd(int fdout, char **env);
+int		ft_pwd(int fdout, t_list *env);
 
 /*A mimit function of cd*/
 int		ft_cd(t_token *token, t_shell *env);
 
 /*A mimit function of unset shell-builtin functions*/
-int		ft_unset(t_token *token, t_shell *env);
+int		ft_unset(t_token *token, t_list *env);
 
 /*A mimit function of export shell-builtin functions*/
 int		ft_export(t_token *cmd, t_shell *env, int fdout);
@@ -41,14 +41,14 @@ int		ft_is_builtin(t_token *token);
 void	ft_exit(t_token *token, t_shell *env);
 
 /*A function that prints the env vars*/
-int		ft_env(t_shell *shell, int fdout);
+int		ft_env(t_list *env, int fdout);
 
 /*A function that reallocate a 2D array with a new subArray or Overwrite the existing one*/
 /*Returns NULL if Malloc Failed*/
 char	**ft_realloc_env(char **env, int size, char *new_var);
 
 /*A function that change the value of a variable in side the 2DArray env*/
-int		ft_change_env_value(t_shell *env, char *name, char *value);
+int		ft_change_env_value(t_list *env, char *name, char *value);
 
 /*Q function that do what strjoin do but it free the first param if the code is equal to or smaller than 2 or free the second param if the code is bigger than or equal to 2 or both if code == 2*/
 char	*ft_strjoin_free(char *s1, char *s2, int code);

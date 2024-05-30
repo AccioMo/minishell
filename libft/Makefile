@@ -37,8 +37,7 @@ $(OBJ_DIR):
 
 $(NAME): $(OBJ)
 	@ar rcs $(NAME) $(OBJ)
-	@echo
-	@echo "$(CYAN)$(BOLD)Libft Created Succefully √$(RESET)"
+	@echo "\n$(CYAN)$(BOLD)Libft Created Succefully √$(RESET)"
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c
 	$(update_progress)

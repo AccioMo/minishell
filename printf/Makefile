@@ -31,9 +31,8 @@ $(OBJ_DIR):
 	@mkdir -p $(OBJ_DIR)
 
 $(NAME): $(OBJ)
-		@echo
 		@ar rcs $(NAME) $(OBJ)
-		@echo "$(CYAN)$(BOLD)Printf Created Succefully √$(RESET)"
+		@echo "\n$(CYAN)$(BOLD)Printf Created Succefully √$(RESET)"
 		@ranlib $(NAME)
 
 $(OBJ_DIR)%.o: $(SRC_DIR)%.c

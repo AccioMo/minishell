@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 18:17:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 20:04:27 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,7 @@ int	ft_export_lines_saver(int j, t_shell *env, t_token *token)
 
 	i = 0;
 	if (ft_strncmp(token->args[j], "_\0", 2))
-		if (ft_change_env_value(env, "_=", "export"))
+		if (ft_change_env_value(env->env, "_=", "export"))
 			return (EXIT_FAILURE);
 	while (env->env[i])
 	{

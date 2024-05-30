@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 17:54:49 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 19:39:47 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,10 +32,10 @@ int		ft_unset(t_token *token, t_shell *env);
 int		ft_export(t_token *cmd, t_shell *env, int fdout);
 
 /*A function that execute builtin functions*/
-int		ft_execute_builtin(t_token *cmd,int fdout, t_shell *env);
+int		ft_execute_builtin(t_token *cmd, int fdout, t_shell *env);
 
 /*A function that checks if the cmd is a builtin*/
-int		ft_have_builtin(t_token *token);
+int		ft_is_builtin(t_token *token);
 
 /*The exit function that ends the proccess of minishell*/
 void	ft_exit(t_token *token, t_shell *env);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 16:21:15 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/23 13:43:06 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 20:01:52 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	ft_change_existing_var(t_shell *shell, char *var)
 	tmp = ft_substr(var, 0, ft_index(var, '=') + 1);
 	if (!tmp)
 		return (EXIT_FAILURE);
-	if (ft_change_env_value(shell, tmp, ft_strchr(var, '=') + 1))
+	if (ft_change_env_value(shell->env, tmp, ft_strchr(var, '=') + 1))
 	{
 		free(tmp);
 		return (EXIT_SUCCESS);

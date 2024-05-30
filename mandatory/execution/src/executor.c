@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 17:54:49 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 19:21:57 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		ft_or_function(token, fdin, fdout, shell);
 	else
 		ft_pipe_token(token, fdin, fdout, shell);
-	while (wait(&shell->exit_status) > 0)
+	while (wait(&shell->exit_code) > 0)
 		;
-	return (shell->exit_status);
+	return (shell->exit_code);
 }
 
 int	ft_redirections_token(t_token *token, int fdin, int fdout, t_shell *shell)

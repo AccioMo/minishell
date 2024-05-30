@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 18:18:31 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 20:04:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	ft_dup_pipes(int fdin, int fdout)
 	}
 }
 
-static void	ft_perror(char *cmd)
+void	ft_perror(char *cmd)
 {
 	if (errno == ENOENT)
 	{
@@ -38,8 +38,14 @@ static void	ft_perror(char *cmd)
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": permission denied\n", 2);
 	}
+	else if (errno == ENOMEM)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": malloc error\n", 2);
+	}
 	else
 		perror(cmd);
+	exit(errno);
 }
 
 void	ft_increment_shellvl(t_shell *shell)
@@ -55,11 +61,11 @@ void	ft_increment_shellvl(t_shell *shell)
 	shell_lvl = ft_itoa(shell_lvl_int);
 	if (!shell_lvl)
 		return ;
-	ft_change_env_value(shell, "SHLVL=", shell_lvl);
+	ft_change_env_value(shell->env, "SHLVL=", shell_lvl);
 	free(shell_lvl);
 }
 
-int	ft_exec_lines_saver(t_token *token, t_shell *shell, int fdin, int fdout)
+int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	*cmd_path;
 	pid_t	pid;
@@ -75,30 +81,27 @@ int	ft_exec_lines_saver(t_token *token, t_shell *shell, int fdin, int fdout)
 		ft_dup_pipes(fdin, fdout);
 		execve(cmd_path, token->args, shell->env);
 		ft_perror(token->args[0]);
-		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-	{
-		perror("fork");
-		return (EXIT_FAILURE);
-	}
+		ft_perror("fork");
 	free(cmd_path);
 	return (EXIT_SUCCESS);
 }
 
 int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
+	char	*last_cmd;
+
 	if (ft_expand(token, shell))
 		return (EXIT_FAILURE);
-	if (ft_have_builtin(token))
+	if (ft_is_builtin(token))
 		return (ft_execute_builtin(token, fdout, shell));
 	if (ft_strncmp(token->args[0], "./minishell\0", 12) == 0)
 		ft_increment_shellvl(shell);
-	if (ft_exec_lines_saver(token, shell, fdin, fdout))
+	if (ft_execution_process(token, fdin, fdout, shell))
 		return (EXIT_FAILURE);
-	printf("executing %s\n", token->args[0]);
-	if (ft_change_env_value(shell, "_=",
-			token->args[ft_array_len(token->args) - 1]))
+	last_cmd = token->args[ft_array_len(token->args) - 1];
+	if (ft_change_env_value(shell->env, "_=", last_cmd))
 		return (EXIT_FAILURE);
 	if (fdin != 0)
 		close(fdin);

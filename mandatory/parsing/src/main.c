@@ -6,64 +6,56 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 19:06:51 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 19:42:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-char	**copy_env(char **env)
+t_list	*ft_create_env(char **env)
 {
+	t_list	*shell_env;
+	t_list	*new;
+	char	*env_var;
 	int		i;
-	char	**shellenv;
 
 	i = 0;
 	if (!env)
 		return (NULL);
-	while (env[i])
-		i++;
-	shellenv = (char **)malloc(sizeof(char *) * (i + 1));
-	if (!shellenv)
+	env_var = ft_strdup(env[i++]);
+	if (!env_var)
 		return (NULL);
-	i = 0;
+	shell_env = ft_lstnew(env_var);
+	if (!shell_env)
+		return (NULL);
 	while (env[i])
 	{
-		shellenv[i] = ft_strdup(env[i]);
-		if (!shellenv[i])
-		{
-			while (i-- >= 0)
-				free(shellenv[i]);
-			free(shellenv);
+		env_var = ft_strdup(env[i]);
+		new = ft_lstnew(env_var);
+		if (!new)
 			return (NULL);
-		}
+		ft_lstadd_back(&shell_env, new);
 		i++;
 	}
-	shellenv[i] = NULL;
-	return (shellenv);
+	return (shell_env);
 }
 
-void disable_sigint_echo(struct termios *orig_termios)
+void	disable_sigint_echo(void)
 {
-	struct termios	new_termios;
+	struct termios	termios;
 
-	tcgetattr(STDIN_FILENO, orig_termios);
-	new_termios = *orig_termios;
-	new_termios.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
+	tcgetattr(STDIN_FILENO, &termios);
+	termios.c_lflag = termios.c_lflag & ~ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &termios);
 }
 
-void sig_handler(int signal)
+void	sig_handler(int signal)
 {
-	struct termios orig_termios;
-
 	if (signal == SIGINT)
 	{
-		disable_sigint_echo(&orig_termios);
 		ft_putstr_fd("\n", 1);
-		// rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
-		tcsetattr(STDIN_FILENO, TCSANOW, &orig_termios);
 		return ;
 	}
 	if (signal == SIGQUIT)
@@ -83,7 +75,7 @@ static void ft_minishell(t_shell *shell)
 		ft_parse(buffer, shell);
 		free(buffer);
 		// ft_print_tree(shell->root);
-		shell->exit_status = ft_priority_token(shell->root, 0, 1, shell);
+		shell->exit_code = ft_priority_token(shell->root, 0, 1, shell);
 		rl_on_new_line();
 		shell->root = NULL;
 	}
@@ -103,16 +95,22 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("error: too many arguments\n", 2);
 		return (1);
 	}
-	// atexit(f);
+	disable_sigint_echo();
 	signal(SIGINT, &sig_handler);
 	signal(SIGQUIT, &sig_handler);
 	shell.root = NULL;
-	shell.env = copy_env(env);
-	shell.exit_status = 0;
-	// if (!shell.env)
-	// 	return (ft_error());
+	shell.exit_code = 0;
+	shell.env = ft_create_env(env);
+	while (shell.env && shell.env->next)
+	{
+		ft_printf("env: %s\n", shell.env->content);
+		shell.env = shell.env->next;
+	}
+	exit(1);
+	if (!shell.env)
+		ft_perror("minishell");
 	ft_minishell(&shell);
-	ft_free(shell.env);
+	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
 	return (0);
 }

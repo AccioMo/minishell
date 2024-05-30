@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 18:17:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 19:57:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,9 +74,9 @@ typedef struct s_token
 
 typedef struct s_shell
 {
-	char	**env;
-	int		exit_status;
 	t_token	*root;
+	t_list	*env;
+	int		exit_code;
 }	t_shell;
 
 int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
@@ -84,7 +84,7 @@ void	ft_free(char **ptr);
 
 /*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
 /*Returns NULL if there is no key with that name*/
-char	*ft_getenv(char *name, char **arr);
+char	*ft_getenv(char *name, t_list *arr);
 
 /*A function that return the size of a 2D array*/
 int		ft_array_len(char **arr);
@@ -101,5 +101,8 @@ int		ft_index(char *str, char c);
 
 int		ft_whitespace(char c);
 
+void	ft_perror(char *cmd);
+
 void	ft_free_tree(t_token *token);
+
 #endif

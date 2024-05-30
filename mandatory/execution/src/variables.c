@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 18:14:06 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 19:21:57 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ static char	*ft_expand_variable(char *str, int *i, t_shell *shell)
 	if (ft_isdigit(*str) && (*i)++)
 		return (NULL);
 	else if (*str == '?' && (*i)++)
-		return (ft_itoa(shell->exit_status));
+		return (ft_itoa(shell->exit_code));
 	else if (*str == '_' && (*i)++)
 		return (ft_strdup(ft_getenv("_", shell->env)));
 	else

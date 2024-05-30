@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 00:19:27 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 00:26:54 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ int	ft_redir_heredoc_function(t_token *token)
 		buffer = get_next_line(0);
 		if (!buffer)
 			break ;
+		// signal(SIGINT, &sig_herdoc_handler);
+		// signal(SIGQUIT, &sig_herdoc_handler);//needs its own function to replace the latest line with endl
 	}
 	if (pipe(fdin) < 0)
 		return (EXIT_FAILURE);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 21:25:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 23:56:56 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 
 # include "minishell.h"
 # include <termios.h>
+# include <sys/stat.h>
 
 /*A mimit of echo function with -n option only*/
 int		ft_echo(t_token	*token, int fdout);
@@ -98,8 +99,11 @@ char	*ft_remove_quotes(char *str);
 
 int	ft_expand(t_token *token, t_shell *shell);
 
-/*A function that reallocate an array without nulls*/
+/*A function that reallocate an array without nulls*///neds to be removed i think
 int ft_clean_nulls(t_token *token);
+
+/*A function that checks if a directory exists or no*/
+int ft_dir_exists(t_token *token);
 /*RIDERICTIONS FUNCTION HERE*/
 int	ft_redir_in_function(t_token *token);
 

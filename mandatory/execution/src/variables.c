@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variables.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 19:21:57 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 00:16:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,7 +119,7 @@ int	ft_variables(t_token *token, t_shell *shell)
 			i += j;
 			if (!token->args[i])
 				return (-1);
-		}
+		}//i believe this is wrong, makhsch it7ydo l quotes mn var ila kano fiha.
 		else if ((ft_strncmp(token->args[i], "\"*\"\0", 4) \
 				|| ft_strncmp(token->args[i], "\'*\'\0", 4)) \
 				&& (ft_strchr(token->args[i], '\'') \

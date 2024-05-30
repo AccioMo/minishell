@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 20:09:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 00:17:50 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	ft_cd(t_token *token, t_shell *shell)
 		return (EXIT_FAILURE);
 	else if (!ft_strncmp(token->args[1], "-\0", 2))
 		return (ft_second_condition(shell, pwd));
+	else if (ft_dir_exists(token))
+		return (EXIT_FAILURE);
 	else
 	{
 		if (chdir(token->args[1]) != 0)

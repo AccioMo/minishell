@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/23 14:04:28 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 00:19:27 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,16 @@ int	ft_redir_in_function(t_token *token)
 int	ft_redir_out_function(t_token *token)
 {
 	int	fd;
+	// for (int i = 0; token->args[i]; i++)//dont touch this
+	// 	printf("%s\n", token->args[i]);//dont touch this
 
+	// if (ft_strchr(token->args[1], ' '))//dont touch this
+	// {
+	// 	ft_putstr_fd("minishell: ", 2);//dont touch this
+	// 	ft_putstr_fd(token->args[0], 2);//dont touch this
+	// 	ft_putstr_fd(": ambiguous redirect\n", 2);//dont touch this
+	// 	return (-1);//dont touch this
+	// }//dont touch this
 	fd = open(token->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{

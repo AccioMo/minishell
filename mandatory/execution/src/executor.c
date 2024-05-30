@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   executor.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 19:21:57 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 00:06:05 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_redirections_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		return (EXIT_FAILURE);
 	if (token->type == REDIR_IN)
 	{
-		ft_variables(token->left, shell);
+		ft_variables(token->left, shell);//3lach hadi manhzohach lfo w tcalla mra whda???
 		fdin = ft_redir_in_function(token->left);
 		return (ft_redirections_token(token->right, fdin, fdout, shell));
 	}

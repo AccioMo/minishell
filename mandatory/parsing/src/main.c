@@ -55,7 +55,7 @@ void	sig_handler(int signal)
 
 	if (signal == SIGINT)
 	{
-		rl_replace_line("", 0);
+		// rl_replace_line("", 0);
 		rl_on_new_line();
 		ft_putstr_fd("\n", 1);
 		rl_redisplay();

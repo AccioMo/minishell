@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin_exec.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/22 20:25:17 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:17:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +34,7 @@ int	ft_have_builtin(t_token *token)
 int	ft_execute_builtin(t_token *token, int fdout, t_shell *env)
 {
 	if (ft_change_env_value(env, "_=",
-			token->args[ft_two_d_len(token->args) - 1]))
+			token->args[ft_array_len(token->args) - 1]))
 		return (EXIT_FAILURE);
 	if (ft_strncmp(token->args[0], "echo\0", 5) == 0)
 		return (ft_echo(token, fdout));

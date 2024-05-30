@@ -6,13 +6,13 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/25 20:00:15 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 18:16:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-char	**ft_array_delete(char **array, int x)
+char	**ft_remove_from_array(char **array, int x)
 {
 	char	**new_array;
 	int		i;
@@ -24,15 +24,16 @@ char	**ft_array_delete(char **array, int x)
 		return (NULL);
 	while (array[i])
 		i++;
-	new_array = malloc(sizeof(char *) * i);
+	new_array = (char **)malloc(sizeof(char *) * i);
 	if (!new_array)
 		return (NULL);
 	i = 0;
 	while (array[i])
 	{
-		new_array[j++] = array[i++];
 		if (i == x)
 			free(array[i++]);
+		else
+			new_array[j++] = array[i++];
 	}
 	new_array[j] = NULL;
 	free(array);
@@ -108,7 +109,7 @@ int	ft_wildcard(t_token *token)
 		if (!ft_strncmp(token->args[i], "*\0", 2))
 		{
 			wildcard++;
-			token->args = ft_array_delete(token->args, i);
+			token->args = ft_remove_from_array(token->args, i);
 			i += ft_handle_wildecard(token);
 		}
 		else if (!ft_strncmp(token->args[i], "\"*\"\0", 4) \

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/22 20:44:59 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:17:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_shell
 	t_token	*root;
 }	t_shell;
 
-int		ft_define_priority(t_token *token, int fdin, int fdout, t_shell *shell);
+int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 void	ft_free(char **ptr);
 
 /*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
@@ -87,10 +87,15 @@ void	ft_free(char **ptr);
 char	*ft_getenv(char *name, char **arr);
 
 /*A function that return the size of a 2D array*/
-int		ft_two_d_len(char **arr);
+int		ft_array_len(char **arr);
 
 /*A function that copies a 2darray and return it*/
 char	**copy_env(char **env);
+
+char	**ft_append_to_array(char **args, char *new_arg);
+
+/*A function  that realocate a 2d array with new dat for a 2d array double pointer*/
+char	**ft_remove_from_array(char **array, int x);
 
 int		ft_index(char *str, char c);
 

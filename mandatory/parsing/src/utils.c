@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/19 17:03:12 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 18:35:37 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,20 +29,6 @@ int	ft_index(char *str, char c)
 		i++;
 	}
 	return (i);
-}
-
-int	ft_rev_index(char *str, char c)
-{
-	int	i;
-
-	i = ft_strlen(str);
-	while (i >= 0)
-	{
-		if (str[i] == c)
-			return (i);
-		i--;
-	}
-	return (0);
 }
 
 static int	ft_reserved_word(char *str)
@@ -80,20 +66,6 @@ int	ft_word_len(char *str)
 	while (str[len] && !ft_whitespace(str[len]) && !ft_reserved_word(&str[len]))
 		len++;
 	return (len);
-}
-
-char	*ft_first_word(char *str)
-{
-	int		i;
-	char	*word;
-
-	i = 0;
-	if (!str)
-		return (NULL);
-	while (str[i] && ft_whitespace(str[i]))
-		i++;
-	word = ft_substr(str, i, ft_word_len(&str[i]));
-	return (word);
 }
 
 char	*ft_merge(char *part_one, int limit_one, char *part_two, int limit_two)

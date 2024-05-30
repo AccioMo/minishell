@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/25 00:09:56 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 17:54:49 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,27 +41,27 @@ int		ft_have_builtin(t_token *token);
 void	ft_exit(t_token *token, t_shell *env);
 
 /*A function that prints the env vars*/
-int	ft_env(t_shell *shell, int fdout);
+int		ft_env(t_shell *shell, int fdout);
 
 /*A function that reallocate a 2D array with a new subArray or Overwrite the existing one*/
 /*Returns NULL if Malloc Failed*/
 char	**ft_realloc_env(char **env, int size, char *new_var);
 
 /*A function that change the value of a variable in side the 2DArray env*/
-int	ft_change_env_value(t_shell *env, char *name, char *value);
+int		ft_change_env_value(t_shell *env, char *name, char *value);
 
 /*Q function that do what strjoin do but it free the first param if the code is equal to or smaller than 2 or free the second param if the code is bigger than or equal to 2 or both if code == 2*/
 char	*ft_strjoin_free(char *s1, char *s2, int code);
 
 /*A function that checks is the arg passed with export has and already saved var in the env*/
-int	ft_var_exist(t_shell *shell, char *var);
+int		ft_var_exist(t_shell *shell, char *var);
 
 /*A function that returns the position of a char in an an array of chars*/
 /*Returns -1 if the char not found*/
-int ft_get_index(char *str, char c);
+int 	ft_get_index(char *str, char c);
 
 /*A function that counts how many chars in an array of chars*/
-int	ft_count_char(char *str, char c);
+int		ft_count_char(char *str, char c);
 
 /*A function that returns the path for a cmd*/
 char	*ft_allocate_cmd(char **cmd, char **env);
@@ -78,24 +78,26 @@ int	ft_or_function(t_token *token, int fdin, int fdout, t_shell *shell);
 
 int	ft_and_function(t_token *token, int fdin, int fdout, t_shell *shell);
 
-int	ft_define_priority(t_token *token, int fdin, int fdout, t_shell *shell);
+int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
-int	ft_check_redirections(t_token *token, int fdin, int fdout, t_shell *shell);
+int	ft_redirections_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
-int	ft_check_pipe(t_token *token, int fdin, int fdout, t_shell *shell);
+int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
-int	ft_type_to_execute(t_token *token, int fdin, int fdout, t_shell *shell);
+int	ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
 int	ft_pipe_function(t_token *token, int fdin, t_shell *shell);
 
 /*A function that expand variables to there values from the env*/
+int	ft_variables(t_token *token, t_shell *shell);
+
+/*A function that changes the '*' to a dir content*/
+int	ft_wildcard(t_token *token);
+
+char	*ft_remove_quotes(char *str);
+
 int	ft_expand(t_token *token, t_shell *shell);
 
-/*A function that does what it sais , it change the '*' to a dir content*/
-int	ft_handle_wildecard(t_token *token);
-
-/*A function  that realocate a 2d array with new dat for a 2d array double pointer*/
-char	**ft_array_delete(char **array, int x);
 /*A function that reallocate an array without nulls*/
 int ft_clean_nulls(t_token *token);
 /*RIDERICTIONS FUNCTION HERE*/

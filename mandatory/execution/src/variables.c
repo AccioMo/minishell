@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/25 19:58:15 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 18:14:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ static char	*ft_expand_variable(char *str, int *i, t_shell *shell)
 	}
 }
 
-static char	*ft_find_variable(char *str, t_shell *shell)
+static char	*ft_replace_variable(char *str, t_shell *shell)
 {
 	char	*tmp;
 	char	*new;
@@ -94,7 +94,7 @@ static int	ft_contains_variable(char *str)
 
 int	ft_variables(t_token *token, t_shell *shell)
 {
-	char	**arg;
+	char	**variable_cmd;
 	int		variables;
 	int		i;
 	int		j;
@@ -108,12 +108,12 @@ int	ft_variables(t_token *token, t_shell *shell)
 			j = 0;
 			variables++;
 			token->args[i] = ft_remove_quotes(token->args[i]);
-			token->args[i] = ft_find_variable(token->args[i], shell);
-			arg = ft_cmd_split(token->args[i]);
-			token->args = ft_array_delete(token->args, i);
-			while (arg[j])
+			token->args[i] = ft_replace_variable(token->args[i], shell);
+			variable_cmd = ft_cmd_split(token->args[i]);
+			token->args = ft_remove_from_array(token->args, i);
+			while (variable_cmd[j])
 			{
-				token->args = ft_append_to_array(token->args, arg[j]);
+				token->args = ft_append_to_array(token->args, variable_cmd[j]);
 				j++;
 			}
 			i += j;
@@ -124,6 +124,8 @@ int	ft_variables(t_token *token, t_shell *shell)
 				|| ft_strncmp(token->args[i], "\'*\'\0", 4)) \
 				&& (ft_strchr(token->args[i], '\'') \
 				&& ft_strchr(token->args[i], '\"')))
+			token->args[i] = ft_remove_quotes(token->args[i]);
+		else
 			token->args[i] = ft_remove_quotes(token->args[i]);
 		i++;
 	}

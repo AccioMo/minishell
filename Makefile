@@ -18,7 +18,7 @@ RL_HEADER_DIR =  ~/brew/opt/readline/include/
 PARSE_HEADER = $(HEADER_DIR)parsing.h
 PARSE_SRC_DIR = mandatory/parsing/src/
 PARSE_OBJ_DIR = mandatory/parsing/obj/
-PARSING_FILES = main.c parse.c functions_one.c functions_two.c utils.c str.c
+PARSING_FILES = main.c parse.c functions_one.c functions_two.c functions_three.c utils.c str.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 
@@ -26,7 +26,10 @@ PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 EXEC_HEADER = $(HEADER_DIR)execution.h
 EXEC_SRC_DIR = mandatory/execution/src/
 EXEC_OBJ_DIR = mandatory/execution/obj/
-EXECUTION_FILES = executor.c ft_cd.c ft_echo.c ft_exit.c ft_export.c ft_pwd.c ft_unset.c pipex.c exec_utils1.c redirections.c priority.c ft_env.c builtin_exec.c wildcard_management.c variable_expansion.c exec_utils2.c ft_export_2.c exec_utils3.c
+EXECUTION_FILES = 	executor.c ft_cd.c ft_echo.c ft_exit.c ft_export.c ft_pwd.c \
+					ft_unset.c pipex.c exec_utils1.c redirections.c priority.c \
+					ft_env.c builtin_exec.c exec_utils2.c wildcard_management.c \
+					variable_expansion.c ft_export_2.c exec_utils3.c variables.c
 EXECUTION_SRC = $(addprefix $(EXEC_SRC_DIR), $(EXECUTION_FILES))
 EXECUTION_OBJ = $(addprefix $(EXEC_OBJ_DIR), $(EXECUTION_FILES:.c=.o))
 
@@ -46,27 +49,28 @@ BOLD = \033[1m
 RESET = \033[0m
 BLACK = \033[30m
 WHITE_BG = \033[47m
+UP = \033[A
 
-
-TOTAL_FILES := $(words $(PARSING_FILES) $(EXECUTION_FILES))
-COMPILED_COUNT := 0
+TOTAL_FILES = $(words $(PARSING_FILES) $(EXECUTION_FILES))
+COMPILED_COUNT = 0
 
 define update_progress
+	@bash -c 'if [ $(COMPILED_COUNT) -eq 0 ]; then echo; fi;'
 	$(eval COMPILED_COUNT=$(shell echo $$(($(COMPILED_COUNT) + 1))))
 	$(eval PERCENT=$(shell echo $$(($(COMPILED_COUNT) * 100 / $(TOTAL_FILES)))))
-	@bash -c 'echo -ne "\r$(GREEN)$(BOLD)[$(PERCENT)%] Compiling Minishell...$(RESET)"'
+	@bash -c 'echo -e "$(UP)\r$(GREEN)$(BOLD)[$(PERCENT)%] Compiling Minishell...$(RESET)"'
 endef
 
 all: $(LIBFT) $(PRINTF) $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME) thanks
 
 thanks:
-	@echo "$(BLACK)$(WHITE_BG)$(BOLD)You made minishell, dipshit.$(RESET)"
+	@echo "$(BLACK)$(WHITE_BG)$(BOLD)Compilation complete.$(RESET)"
 
 $(LIBFT): $(LIBFT_DIR)
-	@make -C $<
+	@make -sC $<
 
 $(PRINTF): $(PRINTF_DIR)
-	@make -C $<
+	@make -sC $<
 
 $(PARSE_OBJ_DIR):
 	@mkdir -p $(PARSE_OBJ_DIR)
@@ -74,9 +78,8 @@ $(PARSE_OBJ_DIR):
 $(EXEC_OBJ_DIR):
 	@mkdir -p $(EXEC_OBJ_DIR)
 
-$(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL)
+$(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(GNL)
 	@$(CC) $(FLAGS) $(LIBS) $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(PRINTF) $(GNL) -o $(NAME)
-	@echo
 	@echo "$(CYAN)$(BOLD)Minishell Created Succefully √$(RESET)"
 
 $(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER)

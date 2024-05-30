@@ -3,20 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/24 20:20:20 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 19:06:51 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	ft_error(void)
-{
-	ft_putstr_fd("error: Malloc failed\n", 2);
-	return (1);
-}
 
 char	**copy_env(char **env)
 {
@@ -89,7 +83,7 @@ static void ft_minishell(t_shell *shell)
 		ft_parse(buffer, shell);
 		free(buffer);
 		// ft_print_tree(shell->root);
-		shell->exit_status = ft_define_priority(shell->root, 0, 1, shell);
+		shell->exit_status = ft_priority_token(shell->root, 0, 1, shell);
 		rl_on_new_line();
 		shell->root = NULL;
 	}
@@ -104,8 +98,7 @@ int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
 
-	if (ac != 1 || av[1
-	])
+	if (ac != 1 || av[1])
 	{
 		ft_putstr_fd("error: too many arguments\n", 2);
 		return (1);
@@ -116,8 +109,8 @@ int	main(int ac, char **av, char **env)
 	shell.root = NULL;
 	shell.env = copy_env(env);
 	shell.exit_status = 0;
-	if (!shell.env)
-		return (ft_error());
+	// if (!shell.env)
+	// 	return (ft_error());
 	ft_minishell(&shell);
 	ft_free(shell.env);
 	ft_free_tree(shell.root);

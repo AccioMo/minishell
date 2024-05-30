@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:02:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/23 13:32:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:17:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,7 @@ char	*ft_getenv(char *name, char **array)
 	return (NULL);
 }
 
-int	ft_two_d_len(char **arr)
+int	ft_array_len(char **arr)
 {
 	int	i;
 

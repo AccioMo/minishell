@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/24 23:55:31 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/25 17:40:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/30 18:17:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ int ft_clean_nulls(t_token *token)
 
 	i = -1;
 	j = 0;
-	while (++i < ft_two_d_len(token->args))
+	while (++i < ft_array_len(token->args))
 		if (token->args[i])
 			j++;
 	new_args = (char **)malloc(sizeof(char *) * (j + 1));
@@ -29,7 +29,7 @@ int ft_clean_nulls(t_token *token)
 	new_args[j] = NULL;
 	i = -1;
 	j = 0;
-	while (++i < ft_two_d_len(token->args))
+	while (++i < ft_array_len(token->args))
 	{
 		if (token->args[i])
 		{

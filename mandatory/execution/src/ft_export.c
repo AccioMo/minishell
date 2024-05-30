@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/22 19:44:51 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/30 18:17:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,7 +114,7 @@ int	ft_export_lines_saver(int j, t_shell *env, t_token *token)
 		i++;
 	}
 	env->env = ft_realloc_env(env->env,
-			ft_two_d_len(env->env) + 1, token->args[j]);
+			ft_array_len(env->env) + 1, token->args[j]);
 	if (!env->env)
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
@@ -125,7 +125,7 @@ int	ft_export(t_token *token, t_shell *env, int fdout)
 	int	j;
 
 	j = 0;
-	if (ft_two_d_len(token->args) == 1)
+	if (ft_array_len(token->args) == 1)
 		return (ft_print_shell(env, fdout));
 	while (token->args[++j])
 	{

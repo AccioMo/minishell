@@ -6,8 +6,6 @@ LIBFT = $(LIBFT_DIR)libft.a
 GNL_DIR = get_next_line/
 GNL = $(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 GNL_HEADER = $(GNL_DIR)get_next_line.h
-PRINTF_DIR = printf/
-PRINTF = $(PRINTF_DIR)libftprintf.a
 
 NAME = minishell
 HEADER_DIR = mandatory/includes/
@@ -27,7 +25,7 @@ EXEC_HEADER = $(HEADER_DIR)execution.h
 EXEC_SRC_DIR = mandatory/execution/src/
 EXEC_OBJ_DIR = mandatory/execution/obj/
 EXECUTION_FILES = 	define_priority.c ft_cd.c ft_echo.c ft_exit.c ft_export.c builtin.c \
-					ft_unset.c execution.c exec_utils1.c redirections.c exec_utils3.c ft_pwd.c \
+					ft_unset.c execution.c exec_utils1.c redirections.c ft_pwd.c \
 					ft_env.c exec_utils2.c wildcard.c first_priority.c variable.c variable_utils.c
 EXECUTION_SRC = $(addprefix $(EXEC_SRC_DIR), $(EXECUTION_FILES))
 EXECUTION_OBJ = $(addprefix $(EXEC_OBJ_DIR), $(EXECUTION_FILES:.c=.o))
@@ -68,9 +66,6 @@ thanks:
 $(LIBFT): $(LIBFT_DIR)
 	@make -sC $<
 
-$(PRINTF): $(PRINTF_DIR)
-	@make -sC $<
-
 $(PARSE_OBJ_DIR):
 	@mkdir -p $(PARSE_OBJ_DIR)
 
@@ -78,16 +73,16 @@ $(EXEC_OBJ_DIR):
 	@mkdir -p $(EXEC_OBJ_DIR)
 
 $(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(GNL)
-	@$(CC) $(FLAGS) $(LIBS) $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(PRINTF) $(GNL) -o $(NAME)
+	@$(CC) $(FLAGS) $(LIBS) $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL) -o $(NAME)
 	@echo "$(CYAN)$(BOLD)Minishell Created Succefully √$(RESET)"
 
 $(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER)
 	$(update_progress)
-	@$(CC) $(FLAGS) -I $(RL_HEADER_DIR) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -I $(PRINTF_DIR) -c $< -o $@
+	@$(CC) $(FLAGS) -I $(RL_HEADER_DIR) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
 $(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
 	$(update_progress)
-	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -I $(PRINTF_DIR) -c $< -o $@
+	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
 # bonus: $(LIBFT) $(BONUS_OBJ_DIR) $(BONUS)
 
@@ -108,14 +103,11 @@ clean:
 	@rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
 	@rm -rf $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(BONUS_OBJ_DIR)
 	@make clean -C $(LIBFT_DIR)
-	@make clean -C $(PRINTF_DIR)
-#	@rmdir printf/obj/
 
 fclean: clean
 	@echo "$(RED)$(BOLD)Binary Deleted   √$(RESET)"
 	@rm -f $(NAME) $(BONUS)
 	@make fclean -C $(LIBFT_DIR)
-	@make fclean -C $(PRINTF_DIR)
 
 re: fclean all
 

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 22:28:04 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:11:24 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,6 @@ int	ft_dir_exists(char *path, t_shell *shell)
 	struct stat	statbuf;
 
 	ft_change_env_value(shell->env, "PWD=", path);
-	printf("%s\n", path);
 	if (stat(path, &statbuf) != 0)
 	{
 		if (errno == ENOENT)

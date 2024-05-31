@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 18:12:36 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 19:49:14 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,30 +32,26 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 
 int	ft_redirections_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	if (!token)
-		return (EXIT_FAILURE);
+	// if (!token || (token->type >= REDIR_HEREDOC && token->type <= REDIR_IN))
+	// 	if (!token || ft_ambiguous_redirect(token->left, shell))
+	// 		return (EXIT_FAILURE);
 	if (token->type == REDIR_IN)
 	{
-		ft_variables(token->left, shell);//3lach hadi manhzohach lfo w tcalla mra whda???
-		// mn3raf
 		fdin = ft_redir_in_function(token->left);
 		return (ft_redirections_token(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_HEREDOC)
 	{
-		ft_variables(token->left, shell);
 		fdin = ft_redir_heredoc_function(token->left);
 		return (ft_redirections_token(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_OUT)
 	{
-		ft_variables(token->left, shell);
 		fdout = ft_redir_out_function(token->left);
 		return (ft_redirections_token(token->right, fdin, fdout, shell));
 	}
 	else if (token->type == REDIR_APPEND)
 	{
-		ft_variables(token->left, shell);
 		fdout = ft_redir_append_function(token->left);
 		return (ft_redirections_token(token->right, fdin, fdout, shell));
 	}
@@ -64,14 +60,18 @@ int	ft_redirections_token(t_token *token, int fdin, int fdout, t_shell *shell)
 
 int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	int	fd;
+	int	end[2];
 
 	if (!token)
 		return (EXIT_FAILURE);
+	if (pipe(end) < 0)
+		perror("pipe");
 	if (token->type == PIPE)
 	{
-		fd = ft_pipe_function(token->left, fdin, shell);
-		ft_pipe_token(token->right, fd, fdout, shell);
+		ft_redirections_token(token->left, fdin, end[1], shell);
+		ft_pipe_token(token->right, end[0], fdout, shell);
+		close(end[1]);
+		close(end[0]);
 		return (1);
 	}
 	return (ft_redirections_token(token, fdin, fdout, shell));
@@ -88,13 +88,8 @@ int	ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	return (EXIT_FAILURE);
 }
 
-int	ft_pipe_function(t_token *token, int fdin, t_shell *shell)
-{
-	int	end[2];
-
-	if (pipe(end) < 0)
-		perror("pipe");
-	ft_exec_function(token, fdin, end[1], shell);
-	close(end[1]);
-	return (end[0]);
-}
+// int	ft_pipe_function(t_token *token, int fdin, t_shell *shell)
+// {
+// 	ft_exec_function(token, fdin, end[1], shell);
+// 	return (end[0]);
+// }

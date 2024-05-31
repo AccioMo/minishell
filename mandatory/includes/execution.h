@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 17:35:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 22:07:13 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,11 +95,8 @@ char	*ft_remove_quotes(char *str);
 
 int	ft_expand(t_token *token, t_shell *shell);
 
-/*A function that reallocate an array without nulls*///neds to be removed i think
-int ft_clean_nulls(t_token *token);
-
 /*A function that checks if a directory exists or no*/
-int ft_dir_exists(t_token *token);
+int ft_dir_exists(char *pth, t_shell *shell);
 /*RIDERICTIONS FUNCTION HERE*/
 int	ft_redir_in_function(t_token *token);
 

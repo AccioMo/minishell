@@ -3,32 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 17:36:22 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 18:46:12 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-// int	ft_change_existing_var(t_shell *shell, char *var)
-// {
-// 	char	*tmp;
-// 	int		i;
-
-// 	i = 0;
-// 	tmp = ft_substr(var, 0, ft_index(var, '=') + 1);
-// 	if (!tmp)
-// 		return (EXIT_FAILURE);
-// 	if (ft_change_env_value(shell->env, tmp, ft_strchr(var, '=') + 1))
-// 	{
-// 		free(tmp);
-// 		return (EXIT_SUCCESS);
-// 	}
-// 	free(tmp);
-// 	return (EXIT_FAILURE);
-// }
 
 int	ft_print_shell(t_list *env, int fdout)
 {

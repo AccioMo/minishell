@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 17:12:10 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 22:28:04 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,22 +34,42 @@ int	ft_change_env_value(t_list *env, char *name, char *value)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_dir_exists(t_token *token)
+static char	*ft_get_path(char **args, t_list *env)
+{
+	char *path;
+
+	path = NULL;
+	if (ft_strncmp(args[1], "/", 1) == 0)
+		path = args[1];
+	else if (ft_strncmp(args[1], "~/", 2) == 0)
+		path = ft_strjoin_free(ft_strdup(ft_getenv("HOME", env)), &args[1][1], 1);
+	else if (ft_strncmp(args[1], "~", 1) == 0)
+		path = ft_strjoin_free(ft_strjoin_free(ft_strdup(ft_getenv("HOME", env)), "/", 1), &args[1][1], 1);
+	else
+		path = ft_strjoin_free(ft_strjoin_free(ft_strdup(ft_getenv("PWD", env)), "/", 1), args[1], 1);
+	return (path);
+}
+
+int	ft_dir_exists(char *path, t_shell *shell)
 {
 	struct stat	statbuf;
 
-	if (stat(token->args[1], &statbuf) != 0)
+	ft_change_env_value(shell->env, "PWD=", path);
+	printf("%s\n", path);
+	if (stat(path, &statbuf) != 0)
 	{
 		if (errno == ENOENT)
 		{
 			ft_putstr_fd("minishell: cd: ", STDERR);
-			ft_putstr_fd(token->args[1], STDERR);
+			ft_putstr_fd(path, STDERR);
 			ft_putstr_fd(": No such file or directory\n", STDERR);
+			free(path);
 			return (EXIT_FAILURE);
 		}
 		else
 		{
 			perror("stat");
+			free(path);
 			return (EXIT_FAILURE);
 		}
 	}
@@ -92,19 +112,23 @@ int	ft_second_condition(t_shell *shell, char *pwd)
 int	ft_cd(t_token *token, t_shell *shell)
 {
 	char	pwd[255];
+	char	*path;
 
+	path = ft_get_path(token->args, shell->env);
+	if (!path)
+		return (EXIT_FAILURE);
 	if (token->args[1] == NULL && !ft_first_condition(shell))
 		return (EXIT_SUCCESS);
 	else if (token->args[1] == NULL)
 		return (EXIT_FAILURE);
 	else if (!ft_strncmp(token->args[1], "-\0", 2))
 		return (ft_second_condition(shell, pwd));
-	else if (ft_dir_exists(token))
+	else if (ft_dir_exists(path, shell))
 		return (EXIT_FAILURE);
 	else
 	{
-		if (chdir(token->args[1]) != 0)
-			ft_perror(token->args[1]);
+		if (chdir(path) != 0)
+			ft_perror(path);
 		if (ft_change_env_value(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
 			return (EXIT_FAILURE);
 		if (ft_change_env_value(shell->env, "PWD=", getcwd(pwd, 255)))

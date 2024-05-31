@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 18:46:12 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 22:34:41 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,8 +84,6 @@ static int	ft_var_exist(t_shell *shell, char *var)
 	if (ft_getenv(tmp, shell->env))
 	{
 		free(tmp);
-		// if (ft_change_existing_var(shell, var) == EXIT_FAILURE)
-		// 	return (EXIT_FAILURE);
 		return (1);
 	}
 	free(tmp);

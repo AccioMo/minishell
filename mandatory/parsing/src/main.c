@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 18:41:20 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 18:43:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,15 +38,6 @@ t_list	*ft_create_env(char **env)
 		i++;
 	}
 	return (shell_env);
-}
-
-void	ft_disable_echo(void)
-{
-	struct termios	new_termios;
-
-	tcgetattr(STDIN_FILENO, &new_termios);
-	new_termios.c_lflag = new_termios.c_lflag & ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
 }
 
 void	ft_disable_echoctl(void)
@@ -81,7 +72,7 @@ static void	ft_minishell(t_shell *shell)
 		ft_disable_echoctl();
 		signal(SIGQUIT, &sig_handler);
 		signal(SIGINT, &sig_handler);
-		buffer = readline("\033[1m● minishell-v0.68 ❯ \033[0m");
+		buffer = readline("\033[1m● minishell-v0.7 ❯ \033[0m");
 		if (!buffer)
 			return ;
 		add_history(buffer);

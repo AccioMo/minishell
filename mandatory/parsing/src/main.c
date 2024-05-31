@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 20:33:43 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 22:03:03 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,11 @@ void	f(void)
 	system("leaks minishell");
 }
 
+void	sig_assign(int signal)
+{
+	g_signal = signal;
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
@@ -100,6 +105,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 	tcgetattr(STDIN_FILENO, &shell.term);
+	signal(g_signal, sig_assign);
 	shell.root = NULL;
 	shell.exit_code = 0;
 	shell.env = ft_create_env(env);

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 20:02:57 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:13:18 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@
 # define S_REDIR_OUT ">"
 # define S_REDIR_APPEND ">>"
 # define S_REDIR_HEREDOC "<<"
+
+int	g_signal;
 
 typedef enum e_iot
 {

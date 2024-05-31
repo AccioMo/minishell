@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   variables.c                                        :+:      :+:    :+:   */
+/*   variable.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 00:16:59 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 23:00:12 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,18 +107,22 @@ int	ft_variables(t_token *token, t_shell *shell)
 		{
 			j = 0;
 			variables++;
-			token->args[i] = ft_remove_quotes(token->args[i]);
 			token->args[i] = ft_replace_variable(token->args[i], shell);
 			variable_cmd = ft_cmd_split(token->args[i]);
-			token->args = ft_remove_from_array(token->args, i);
-			while (variable_cmd[j])
+			if (ft_array_len(variable_cmd) > 1)
 			{
-				token->args = ft_append_to_array(token->args, variable_cmd[j]);
-				j++;
+				token->args = ft_remove_from_array(token->args, i);
+				while (variable_cmd[j])
+				{
+					token->args = ft_append_to_array(token->args, variable_cmd[j]);
+					j++;
+				}
+				i += j;
+				if (!token->args[i])
+					return (-1);
 			}
-			i += j;
-			if (!token->args[i])
-				return (-1);
+			else
+				token->args[i] = ft_remove_quotes(token->args[i]);
 		}//i believe this is wrong, makhsch it7ydo l quotes mn var ila kano fiha.
 		else if ((ft_strncmp(token->args[i], "\"*\"\0", 4) \
 				|| ft_strncmp(token->args[i], "\'*\'\0", 4)) \

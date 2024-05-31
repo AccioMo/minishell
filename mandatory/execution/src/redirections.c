@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 19:14:42 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 21:45:58 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,12 @@ int	ft_redir_append_function(t_token *token)
 	return (fd);
 }
 
+void	sig_herdoc_handler(int sig)
+{
+	(void)sig;
+	ft_putstr_fd("\n", 1);
+}
+
 int	ft_redir_heredoc_function(t_token *token)
 {
 	char	*buffer;
@@ -73,6 +79,7 @@ int	ft_redir_heredoc_function(t_token *token)
 
 	input = NULL;
 	buffer = NULL;
+	signal(SIGINT, &sig_herdoc_handler);
 	while (is_limiter(buffer, token->args[0]) == 0)
 	{
 		input = ft_realloc(input, buffer);
@@ -81,7 +88,6 @@ int	ft_redir_heredoc_function(t_token *token)
 		buffer = get_next_line(0);
 		if (!buffer)
 			break ;
-		// signal(SIGINT, &sig_herdoc_handler);
 		// signal(SIGQUIT, &sig_herdoc_handler);//needs its own function to replace the latest line with endl
 	}
 	if (pipe(fdin) < 0)

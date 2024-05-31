@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 19:49:14 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 23:06:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,11 +30,22 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	return (shell->exit_code);
 }
 
+int ft_ambiguous_redirect(t_token *token, t_shell *shell)
+{
+	ft_variables(token, shell);
+	if (ft_array_len(token->args) == 1 && ft_strlen(token->args[0]) > 0)
+		return (EXIT_SUCCESS);
+	ft_putstr_fd("minishell: ", 2);
+	ft_putstr_fd(token->args[0], 2);
+	ft_putstr_fd(": ambiguous redirect\n", 2);
+	return (EXIT_FAILURE);
+}
+
 int	ft_redirections_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	// if (!token || (token->type >= REDIR_HEREDOC && token->type <= REDIR_IN))
-	// 	if (!token || ft_ambiguous_redirect(token->left, shell))
-	// 		return (EXIT_FAILURE);
+	if (!token || (token->type >= REDIR_HEREDOC && token->type <= REDIR_IN))
+		if (!token || ft_ambiguous_redirect(token->left, shell))
+			return (EXIT_FAILURE);
 	if (token->type == REDIR_IN)
 	{
 		fdin = ft_redir_in_function(token->left);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 00:26:54 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:25:43 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,9 @@ int	ft_redir_out_function(t_token *token)
 	// 	ft_putstr_fd(": ambiguous redirect\n", 2);//dont touch this
 	// 	return (-1);//dont touch this
 	// }//dont touch this
+
+	// i didnt touch this
+	
 	fd = open(token->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{

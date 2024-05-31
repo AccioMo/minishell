@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 00:17:50 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:12:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,28 @@ int	ft_change_env_value(t_list *env, char *name, char *value)
 		env = ft_lstnew(name);
 	}
 	return (EXIT_SUCCESS);
+}
+
+int	ft_dir_exists(t_token *token)
+{
+	struct stat	statbuf;
+
+	if (stat(token->args[1], &statbuf) != 0)
+	{
+		if (errno == ENOENT)
+		{
+			ft_putstr_fd("minishell: cd: ", STDERR);
+			ft_putstr_fd(token->args[1], STDERR);
+			ft_putstr_fd(": No such file or directory\n", STDERR);
+			return (EXIT_FAILURE);
+		}
+		else
+		{
+			perror("stat");
+			return (EXIT_FAILURE);
+		}
+	}
+	return (!(S_ISDIR(statbuf.st_mode)));
 }
 
 int	ft_first_condition(t_shell *shell)

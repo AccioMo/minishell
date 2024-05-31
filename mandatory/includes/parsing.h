@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 22:52:31 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 17:35:25 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define PARSING_H
 
 # include <stdio.h>
-# include <termios.h>
 # include "minishell.h"
 # include "readline/readline.h"
 # include "readline/history.h"

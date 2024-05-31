@@ -26,10 +26,9 @@ PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 EXEC_HEADER = $(HEADER_DIR)execution.h
 EXEC_SRC_DIR = mandatory/execution/src/
 EXEC_OBJ_DIR = mandatory/execution/obj/
-EXECUTION_FILES = 	executor.c ft_cd.c ft_echo.c ft_exit.c ft_export.c ft_pwd.c \
-					ft_unset.c pipex.c exec_utils1.c redirections.c priority.c \
-					ft_env.c builtin_exec.c exec_utils2.c wildcard_management.c \
-					variable_expansion.c ft_export_2.c exec_utils3.c variables.c
+EXECUTION_FILES = 	define_priority.c ft_cd.c ft_echo.c ft_exit.c ft_export.c builtin.c \
+					ft_unset.c execution.c exec_utils1.c redirections.c exec_utils3.c ft_pwd.c \
+					ft_env.c exec_utils2.c wildcard.c first_priority.c variable.c variable_utils.c
 EXECUTION_SRC = $(addprefix $(EXEC_SRC_DIR), $(EXECUTION_FILES))
 EXECUTION_OBJ = $(addprefix $(EXEC_OBJ_DIR), $(EXECUTION_FILES:.c=.o))
 

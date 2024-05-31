@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   pipex.c                                            :+:      :+:    :+:   */
+/*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 22:23:16 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 18:41:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,6 +88,15 @@ char	**ft_list_to_array(t_list *env)
 	return (env_array);
 }
 
+void	ft_enable_echoctl(void)
+{
+	struct termios	term;
+
+	tcgetattr(STDIN_FILENO, &term);
+	term.c_lflag |= ECHOCTL;
+	tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	**env_array;
@@ -97,6 +106,7 @@ int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
+		ft_enable_echoctl();
 		if (fdin < 0)
 			exit(EXIT_FAILURE);
 		ft_dup_pipes(fdin, fdout);
@@ -112,6 +122,18 @@ int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 	return (EXIT_SUCCESS);
 }
 
+void	sig2_handler(int signum)
+{
+	if (signum == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3\n", 2);
+	}
+	else if (signum == SIGINT)
+	{
+		ft_putstr_fd("\n", 1);
+	}
+}
+
 int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	*last_cmd;
@@ -122,6 +144,8 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 		return (ft_execute_builtin(token, fdout, shell));
 	if (ft_strncmp(token->args[0], "./minishell\0", 12) == 0)
 		ft_increment_shellvl(shell);
+	signal(SIGINT, &sig2_handler);
+	signal(SIGQUIT, &sig2_handler);
 	if (ft_execution_process(token, fdin, fdout, shell))
 		return (EXIT_FAILURE);
 	last_cmd = token->args[ft_array_len(token->args) - 1];

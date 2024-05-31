@@ -6,11 +6,29 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 20:24:41 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 17:36:22 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+// int	ft_change_existing_var(t_shell *shell, char *var)
+// {
+// 	char	*tmp;
+// 	int		i;
+
+// 	i = 0;
+// 	tmp = ft_substr(var, 0, ft_index(var, '=') + 1);
+// 	if (!tmp)
+// 		return (EXIT_FAILURE);
+// 	if (ft_change_env_value(shell->env, tmp, ft_strchr(var, '=') + 1))
+// 	{
+// 		free(tmp);
+// 		return (EXIT_SUCCESS);
+// 	}
+// 	free(tmp);
+// 	return (EXIT_FAILURE);
+// }
 
 int	ft_print_shell(t_list *env, int fdout)
 {
@@ -39,60 +57,7 @@ int	ft_print_shell(t_list *env, int fdout)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_change_var(char **var)
-{
-	int		i;
-	int		j;
-	char	*new_var;
-
-	i = 0;
-	j = 0;
-	new_var = (char *)malloc(sizeof(char) * (ft_strlen(*var) + 3));
-	if (!new_var)
-		return (EXIT_FAILURE);
-	while ((*var)[i] && (*var)[i] != '=')
-		new_var[j++] = (*var)[i++];
-	new_var[j++] = '=';
-	new_var[j++] = '"';
-	while ((*var)[i])
-		new_var[j++] = (*var)[i++];
-	new_var[j++] = '"';
-	new_var[j] = '\0';
-	free(*var);
-	*var = new_var;
-	return (EXIT_SUCCESS);
-}
-
-// char	**ft_realloc_env(t_list *env, int size, char *new_var)
-// {
-// 	char	**new_env;
-// 	int		i;
-
-// 	i = 0;
-// 	if (ft_count_char(new_var, '=') > 1)
-// 		ft_change_var(&new_var);
-// 	new_env = (char **)malloc(sizeof(char *) * (size + 1));
-// 	if (!new_env)
-// 		return (NULL);
-// 	while (env[i])
-// 	{
-// 		new_env[i] = ft_strdup(env[i]);
-// 		if (!new_env[i])
-// 		{
-// 			ft_free(new_env);
-// 			return (NULL);
-// 		}
-// 		i++;
-// 	}
-// 	new_env[i] = ft_strdup(new_var);
-// 	if (!new_env[i])
-// 		return (ft_free(new_env), NULL);
-// 	new_env[i + 1] = NULL;
-// 	ft_free(env);
-// 	return (new_env);
-// }
-
-int	ft_export_lines_saver(char *new_var, t_list *env)
+static int	ft_export_lines_saver(char *new_var, t_list *env)
 {
 	t_list	*head;
 
@@ -114,6 +79,35 @@ int	ft_export_lines_saver(char *new_var, t_list *env)
 	}
 	ft_lstadd_back(&head, ft_lstnew(new_var));
 	return (EXIT_SUCCESS);
+}
+
+static int	ft_var_exist(t_shell *shell, char *var)
+{
+	char	*tmp;
+	int		i;
+	int		equal_pos;
+
+	i = 0;
+	equal_pos = ft_get_index(var, '=');
+	if (equal_pos <= 0)
+	{
+		ft_putstr_fd("export: `", 2);
+		ft_putstr_fd(var, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (EXIT_FAILURE);
+	}
+	tmp = ft_substr(var, 0, ft_get_index(var, '='));
+	if (!tmp)
+		return (EXIT_FAILURE);
+	if (ft_getenv(tmp, shell->env))
+	{
+		free(tmp);
+		// if (ft_change_existing_var(shell, var) == EXIT_FAILURE)
+		// 	return (EXIT_FAILURE);
+		return (1);
+	}
+	free(tmp);
+	return (0);
 }
 
 int	ft_export(t_token *token, t_shell *shell, int fdout)

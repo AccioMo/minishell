@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 21:28:57 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/05/31 18:23:43 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,11 +18,12 @@
 # include <unistd.h>
 # include <fcntl.h>
 # include <dirent.h>
-# include "libft.h"
-# include "get_next_line.h"
-# include "ft_printf.h"
 # include <errno.h>
 # include <signal.h>
+# include <termios.h>
+# include "libft.h"
+# include "ft_printf.h"
+# include "get_next_line.h"
 # include "readline/readline.h"
 # include "readline/history.h"
 
@@ -74,13 +75,17 @@ typedef struct s_token
 
 typedef struct s_shell
 {
-	t_token	*root;
-	t_list	*env;
-	int		exit_code;
+	t_token			*root;
+	t_list			*env;
+	struct termios	term;
+	int				exit_code;
 }	t_shell;
 
 int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
+
 void	ft_free(char **ptr);
+
+void	ft_toggle_cannonical_mode(void);
 
 /*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
 /*Returns NULL if there is no key with that name*/

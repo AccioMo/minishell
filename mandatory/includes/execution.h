@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 23:56:56 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 17:35:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 # define EXECUTION_H
 
 # include "minishell.h"
-# include <termios.h>
 # include <sys/stat.h>
 
 /*A mimit of echo function with -n option only*/
@@ -53,9 +52,6 @@ int		ft_change_env_value(t_list *env, char *name, char *value);
 
 /*Q function that do what strjoin do but it free the first param if the code is equal to or smaller than 2 or free the second param if the code is bigger than or equal to 2 or both if code == 2*/
 char	*ft_strjoin_free(char *s1, char *s2, int code);
-
-/*A function that checks is the arg passed with export has and already saved var in the env*/
-int		ft_var_exist(t_shell *shell, char *var);
 
 /*A function that returns the position of a char in an an array of chars*/
 /*Returns -1 if the char not found*/

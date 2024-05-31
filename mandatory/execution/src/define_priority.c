@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   executor.c                                         :+:      :+:    :+:   */
+/*   define_priority.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 00:06:05 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/05/31 18:12:36 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,9 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		ft_pipe_token(token, fdin, fdout, shell);
 	while (wait(&shell->exit_code) > 0)
 		;
+	shell->exit_code >>= 8 & 0x000000ff;
+	if (shell->exit_code == SIGQUIT)
+		ft_putstr_fd("Quit: 3\n", 1);
 	return (shell->exit_code);
 }
 
@@ -34,6 +37,7 @@ int	ft_redirections_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	if (token->type == REDIR_IN)
 	{
 		ft_variables(token->left, shell);//3lach hadi manhzohach lfo w tcalla mra whda???
+		// mn3raf
 		fdin = ft_redir_in_function(token->left);
 		return (ft_redirections_token(token->right, fdin, fdout, shell));
 	}

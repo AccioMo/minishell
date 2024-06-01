@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 19:14:04 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:16:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,17 @@ double	ft_gettimeofday(void)
 	return ((double)tv.tv_sec + (double)tv.tv_usec / 1000000);
 }
 
+void	ft_clear(void)
+{
+	ft_putstr_fd("\033[2J", 1);
+	ft_putstr_fd("\033[H", 1);
+}
+
 static void	ft_minishell(t_shell *shell)
 {
 	char	*buffer;
 
+	ft_clear();
 	while (TRUE)
 	{
 		ft_disable_echoctl();

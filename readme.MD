@@ -29,7 +29,7 @@ ERROR HANDLING:
 	3. error on WORD token containing PARENTHESES or SUBSHELL containing WORD.
 
 TODO:
-	handle ambiguous redirect
+	handle wildcard
 	handle cd delete parent dir problem
 
 ```

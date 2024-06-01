@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 20:42:24 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/04 20:29:42 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:16:33 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,17 +32,19 @@ char	*get_next_line(int fd)
 
 	if (fd < 0 || fd > INT_MAX || BUFFER_SIZE <= 0 || BUFFER_SIZE > INT_MAX)
 		return (NULL);
-	if (read(fd, 0, 0) == -1)
-		return (free(buffer), buffer = NULL, NULL);
 	line = NULL;
 	if (!allocate_buffer(&buffer))
 		return (NULL);
 	while (buffer)
 	{
-		buffer = ft_read(fd, buffer);
+		if (ft_read(fd, buffer) < 0)
+			return (buffer = NULL);
 		line = ft_realloc(line, buffer);
 		if (line == NULL)
-			return (free(buffer), buffer = NULL, line);
+		{
+			free(buffer);
+			return (buffer = NULL);
+		}
 		if (*(line + ft_linelen(line) - 1) == '\n')
 			return (line);
 	}

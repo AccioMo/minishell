@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 18:35:37 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 17:53:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_index(char *str, char c)
 	return (i);
 }
 
-static int	ft_reserved_word(char *str)
+int	ft_reserved_word(char *str)
 {
 	if (!ft_strncmp(str, "||", 2))
 		return (1);

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/22 19:41:01 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:40:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -114,12 +114,12 @@ int	ft_parse(char *line, t_shell *shell)
 	i = 0;
 	if (ft_open_quotes(line))
 	{
-		ft_throw_error("syntax error: open quotes", line);
+		ft_throw_syntax_error(line);
 		return (EXIT_FAILURE);
 	}
 	if (ft_open_parentheses(line))
 	{
-		ft_throw_error("syntax error: open parentheses", line);
+		ft_throw_syntax_error(line);
 		return (EXIT_FAILURE);
 	}
 	if (ft_stage_one(line, &shell->root))

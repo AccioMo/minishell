@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 22:03:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 19:14:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,6 +61,14 @@ void	sig_handler(int signal)
 	if (signal == SIGQUIT)
 		rl_redisplay();
 	return ;
+}
+
+double	ft_gettimeofday(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((double)tv.tv_sec + (double)tv.tv_usec / 1000000);
 }
 
 static void	ft_minishell(t_shell *shell)

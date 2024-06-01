@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 23:13:18 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/01 17:03:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <signal.h>
 # include <termios.h>
+# include <sys/time.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "readline/readline.h"
@@ -44,14 +45,6 @@
 # define S_REDIR_HEREDOC "<<"
 
 int	g_signal;
-
-typedef enum e_iot
-{
-	READ,
-	WRITE,
-	APPEND,
-	HEREDOC,
-}	t_iot;
 
 typedef enum e_type
 {
@@ -81,6 +74,8 @@ typedef struct s_shell
 	struct termios	term;
 	int				exit_code;
 }	t_shell;
+
+double	ft_gettimeofday(void);
 
 int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 

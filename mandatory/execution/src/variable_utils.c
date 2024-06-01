@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   variable_expansion.c                               :+:      :+:    :+:   */
+/*   variable_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/25 19:28:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:47:27 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,7 @@ int	ft_expand(t_token *token, t_shell *shell)
 	{
 		ft_variables(token, shell);
 		ft_wildcard(token);
+		ft_quotes(token->args);
 		i++;
 	}
 	return (0);

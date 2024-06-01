@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 23:00:12 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 20:46:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -121,16 +121,7 @@ int	ft_variables(t_token *token, t_shell *shell)
 				if (!token->args[i])
 					return (-1);
 			}
-			else
-				token->args[i] = ft_remove_quotes(token->args[i]);
-		}//i believe this is wrong, makhsch it7ydo l quotes mn var ila kano fiha.
-		else if ((ft_strncmp(token->args[i], "\"*\"\0", 4) \
-				|| ft_strncmp(token->args[i], "\'*\'\0", 4)) \
-				&& (ft_strchr(token->args[i], '\'') \
-				&& ft_strchr(token->args[i], '\"')))
-			token->args[i] = ft_remove_quotes(token->args[i]);
-		else
-			token->args[i] = ft_remove_quotes(token->args[i]);
+		}
 		i++;
 	}
 	return (variables);

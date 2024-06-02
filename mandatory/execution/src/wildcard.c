@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/02 17:57:12 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/02 19:17:14 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,28 +70,31 @@ char	**ft_append_to_array(char **args, char *new_arg)
 
 int	ft_widcard_match(char *pattern, char *str)
 {
-	char	*end_pattern;
-	char	*start;
-	int		end;
-	int		wildcard;
+	int		i;
+	int		j;
 
+	i = 0;
+	j = 0;
 	if (!pattern || !str)
 		return (0);
-	wildcard = ft_index(pattern, '*');
-	if (wildcard != 0)
-		start = ft_strnstr(str, pattern, wildcard);
-	else
-		start = str;
-	if (ft_strchr(pattern + wildcard + 1, '*'))
-		end = ft_widcard_match(pattern + wildcard + 1, start);
-	else
+	while (pattern[i])
 	{
-		end_pattern = ft_strchr(pattern, '*') + 1;
-		end = ft_strnstr(start + ft_strlen(start) - \
-			ft_strlen(end_pattern), end_pattern, -1) != NULL;
+		if (pattern[i] == '\"')
+			i += ft_index(&pattern[i + 1], '\"') + 1;
+		else if (pattern[i] == '\'')
+			i += ft_index(&pattern[i + 1], '\'') + 1;
+		else if (pattern[i] == '*')
+		{
+			while (pattern[i] == '*')
+				i++;
+			while (str[j] && str[j] != pattern[i])
+				j++;
+		}
+		else if (pattern[i] != str[j])
+			return (0);
+		else
+			i++;
 	}
-	if (!start || !end)
-		return (0);
 	return (1);
 }
 
@@ -153,7 +156,9 @@ int	ft_wildcard(t_token *token, int i)
 	token->args[i] = ft_remove_quotes(token->args[i]);
 	k = ft_handle_wildecard(token, token->args[i]);
 	if (k > 0)
+	{
 		token->args = ft_remove_from_array(token->args, i);
-	i += k;
-	return (k - 1);
+		k--;
+	}
+	return (k);
 }

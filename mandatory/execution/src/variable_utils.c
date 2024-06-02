@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/01 17:55:39 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:02:50 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,9 +82,16 @@ int	ft_expand(t_token *token, t_shell *shell)
 		ft_expand(token->right, shell);
 	if (token->type == WORD)
 	{
-		ft_variables(token, shell);
-		ft_wildcard(token);
-		i++;
+		while (token->args[i])
+		{
+			if (ft_contains_variable(token->args[i]))
+				i += ft_variables(token, shell, i);
+			else if (ft_found_wildcard(token->args[i]))
+				i += ft_wildcard(token, i);
+			else
+				token->args[i] = ft_remove_quotes(token->args[i]);
+			i++;
+		}
 	}
 	return (0);
 }

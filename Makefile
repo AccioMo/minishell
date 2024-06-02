@@ -8,6 +8,7 @@ GNL = $(GNL_DIR)get_next_line.c $(GNL_DIR)get_next_line_utils.c
 GNL_HEADER = $(GNL_DIR)get_next_line.h
 
 NAME = minishell
+MINISHELL_HEADER = $(HEADER_DIR)minishell.h
 HEADER_DIR = mandatory/includes/
 BONUS_HEADER_DIR = bonus/includes/
 RL_HEADER_DIR =  ~/brew/opt/readline/include/
@@ -77,11 +78,11 @@ $(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(GNL)
 	@$(CC) $(FLAGS) $(LIBS) $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL) -o $(NAME)
 	@echo "$(CYAN)$(BOLD)Minishell Created Succefully √$(RESET)"
 
-$(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER)
+$(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER) $(MINISHELL_HEADER)
 	$(update_progress)
 	@$(CC) $(FLAGS) -I $(RL_HEADER_DIR) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
-$(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER)
+$(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER) $(MINISHELL_HEADER)
 	$(update_progress)
 	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 11:42:53 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/01/11 20:40:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 16:14:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ char	*ft_realloc(char *line, char *buffer)
 		return (line);
 	l_line = ft_linelen(line);
 	l_buffer = ft_bufferlen(buffer);
+	if (l_buffer == 0)
+		return (line);
 	str = (char *)malloc(sizeof(char) * (l_line + l_buffer + 1));
 	if (!str)
 		return (free(line), NULL);
@@ -68,7 +70,7 @@ char	*ft_realloc(char *line, char *buffer)
 	return (str);
 }
 
-char	*ft_read(int fd, char *buffer)
+int	ft_read(int fd, char *buffer)
 {
 	int	rd;
 
@@ -78,12 +80,12 @@ char	*ft_read(int fd, char *buffer)
 	else
 	{
 		rd = read(fd, buffer, BUFFER_SIZE);
-		if (rd == 0)
+		if (rd < 0)
 		{
 			free(buffer);
-			return (NULL);
+			return (rd);
 		}
 		*(buffer + rd) = '\0';
 	}
-	return (buffer);
+	return (rd);
 }

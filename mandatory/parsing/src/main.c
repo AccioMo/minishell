@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 18:26:13 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:04:20 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,10 +63,25 @@ void	sig_handler(int signal)
 	return ;
 }
 
+double	ft_gettimeofday(void)
+{
+	struct timeval	tv;
+
+	gettimeofday(&tv, NULL);
+	return ((double)tv.tv_sec + (double)tv.tv_usec / 1000000);
+}
+
+void	ft_clear(void)
+{
+	ft_putstr_fd("\033[2J", 1);
+	ft_putstr_fd("\033[H", 1);
+}
+
 static void	ft_minishell(t_shell *shell)
 {
 	char	*buffer;
 
+	ft_clear();
 	while (TRUE)
 	{
 		ft_disable_echoctl();

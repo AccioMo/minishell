@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 18:08:54 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:03:34 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,10 +16,10 @@ int	ft_handle_pipe(char *str, int start, int end, t_token **token)
 {
 	if (!ft_add_token(PIPE, "|", token))
 		return (EXIT_FAILURE);
-	if (ft_stage_three(str, start, &(*token)->left))
+	if (ft_stage_three(str, start, &(*token)->left) && !(*token)->left)
 	{
 		if (!(*token)->left)
-			ft_throw_error("syntax error near unexpected token", "|");
+			ft_throw_syntax_error("|");
 		return (EXIT_FAILURE);
 	}
 	if (ft_stage_two(&str[start + 1], end - (start - 1), &(*token)->right))
@@ -59,13 +59,13 @@ int	ft_handle_and(char *str, int end, t_token **token)
 	if (ft_stage_two(str, end, &(*token)->left))
 	{
 		if (!(*token)->left)
-			ft_throw_error("syntax error near unexpected token", "&&");
+			ft_throw_syntax_error("&&");
 		return (EXIT_FAILURE);
 	}
 	if (ft_stage_one(&str[end + 2], &(*token)->right))
 	{
 		if (!(*token)->right)
-			ft_throw_error("syntax error near unexpected token", "newline");
+			ft_throw_syntax_error("newline");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -78,13 +78,13 @@ int	ft_handle_or(char *str, int end, t_token **token)
 	if (ft_stage_two(str, end, &(*token)->left))
 	{
 		if (!(*token)->left)
-			ft_throw_error("syntax error near unexpected token", "||");
+			ft_throw_syntax_error("||");
 		return (EXIT_FAILURE);
 	}
 	if (ft_stage_one(&str[end + 2], &(*token)->right))
 	{
 		if (!(*token)->right)
-			ft_throw_error("syntax error near unexpected token", "newline");
+			ft_throw_syntax_error("newline");
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

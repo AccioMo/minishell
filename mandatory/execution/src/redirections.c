@@ -3,16 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 04:25:08 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/01 16:56:15 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-int		herdoc_signal;
 
 static int	is_limiter(char *str, char *limiter)
 {
@@ -71,16 +69,10 @@ void	sig_herdoc_handler(int sig)
 {
 	if (sig == SIGINT)
 	{
-		herdoc_signal = 1;
+		close(0);
+		g_signal = SIGINT;
 		rl_on_new_line();
-		// rl_replace_line("", 0);
-		// ft_putstr_fd("\n", 1);
-		rl_redisplay();
-	}
-	else if (sig == SIGQUIT)
-	{
-		herdoc_signal = 1;
-        rl_redisplay();
+		ft_putstr_fd("\n", 1);
 	}
 	return ;
 }
@@ -89,12 +81,15 @@ int	ft_redir_heredoc_function(t_token *token)
 {
 	char	*buffer;
 	char	*input;
-	int		fdin[2];
+	int		stdin_copy;
+	int		end[2];
 
 	input = NULL;
 	buffer = NULL;
-	herdoc_signal = 0;
-	while (is_limiter(buffer, token->args[0]) == 0 && herdoc_signal == 0)
+	g_signal = 0;
+	stdin_copy = dup(0);
+	signal(SIGINT, sig_herdoc_handler);
+	while (!is_limiter(buffer, token->args[0]))
 	{
 		input = ft_realloc(input, buffer);
 		free(buffer);
@@ -102,15 +97,19 @@ int	ft_redir_heredoc_function(t_token *token)
 		buffer = get_next_line(0);
 		if (!buffer)
 			break ;
-		signal(SIGQUIT, &sig_herdoc_handler);
-		signal(SIGINT, &sig_herdoc_handler);//something is wrong with ctrl^C; cursor can still move when closing
 	}
-	if (herdoc_signal == 1)
-		return (free(input), EXIT_FAILURE);
-	if (pipe(fdin) < 0)
-		return (EXIT_FAILURE);
-	ft_putstr_fd(input, fdin[1]);//manfreeyiwch had l input z3ma la?
+	if (g_signal == SIGINT)
+	{
+		dup2(stdin_copy, 0);
+		close(stdin_copy);
+		free(input);
+		return (-1);
+	}
+	close(stdin_copy);
+	if (pipe(end))
+		return (-1);
+	ft_putstr_fd(input, end[1]);
 	free(input);
-	close(fdin[1]);
-	return (fdin[0]);
+	close(end[1]);
+	return (end[0]);
 }

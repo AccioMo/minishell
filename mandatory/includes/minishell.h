@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 18:00:09 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:03:44 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include <errno.h>
 # include <signal.h>
 # include <termios.h>
+# include <sys/time.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "readline/readline.h"
@@ -46,14 +47,6 @@
 # define S_REDIR_HEREDOC "<<"
 
 int	g_signal;
-
-typedef enum e_iot
-{
-	READ,
-	WRITE,
-	APPEND,
-	HEREDOC,
-}	t_iot;
 
 typedef enum e_type
 {
@@ -84,6 +77,8 @@ typedef struct s_shell
 	int				exit_code;
 }	t_shell;
 
+double	ft_gettimeofday(void);
+
 int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
 void	ft_free(char **ptr);
@@ -112,5 +107,11 @@ int		ft_whitespace(char c);
 int		ft_perror(char *cmd);
 
 void	ft_free_tree(t_token *token);
+
+int		ft_found_wildcard(char *str);
+
+int		ft_handle_wildecard(t_token *token, char *pattern);
+
+int		ft_contains_variable(char *str);
 
 #endif

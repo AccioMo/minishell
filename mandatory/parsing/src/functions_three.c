@@ -6,17 +6,16 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 18:23:47 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:03:53 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	ft_throw_error(char *msg, char *word)
+int	ft_throw_syntax_error(char *word)
 {
 	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(msg, 2);
-	ft_putstr_fd(" `", 2);
+	ft_putstr_fd("syntax error near unexpected token `", 2);
 	ft_putstr_fd(word, 2);
 	ft_putstr_fd("`.\n", 2);
 	return (EXIT_FAILURE);
@@ -36,7 +35,7 @@ int	ft_skip_parentheses(char *str)
 		else if (!ft_strncmp(&str[i], "\'", 1))
 			i += ft_index(&str[i + 1], '\'') + 1;
 		else if (!ft_strncmp(&str[i], "(", 1))
-			i += ft_skip_parentheses(&str[i]);
+			i += ft_skip_parentheses(&str[i]) + 1;
 		else if (!ft_strncmp(&str[i], ")", 1))
 			return (i);
 		else
@@ -50,8 +49,6 @@ int	ft_parse_word(char *str, int end, t_token **token)
 	char	*word;
 
 	word = ft_substr(str, 0, end);
-	if (!ft_add_token(WORD, NULL, token))
-		return (EXIT_FAILURE);
 	(*token)->args = ft_cmd_split(word);
 	if ((*token)->args == NULL)
 		return (EXIT_FAILURE);
@@ -77,7 +74,8 @@ t_token	*ft_add_token(t_type type, char *str, t_token **token)
 	{
 		new->args = (char **)malloc(sizeof(char *) * 2);
 		if (!new->args)
-            return (NULL);
+			return (NULL);
+		new->args[1] = NULL;
 		new->args[0] = str;
 	}
 	*token = new;
@@ -87,6 +85,7 @@ t_token	*ft_add_token(t_type type, char *str, t_token **token)
 int	ft_stage_four(char *str, int end, t_token **token)
 {
 	char	*word;
+	int		p;
 	int		i;
 
 	i = 0;
@@ -96,15 +95,32 @@ int	ft_stage_four(char *str, int end, t_token **token)
 			i++;
 		else if (!ft_strncmp(&str[i], "(", 1))
 		{
-			word = ft_substr(&str[i + 1], 0, ft_skip_parentheses(&str[i + 1]));
-			if (ft_add_token(SUBSHELL, NULL, token))
+			if (!ft_add_token(SUBSHELL, NULL, token))
 				return (EXIT_FAILURE);
-			if (ft_stage_one(word, &(*token)->right))
-				return (EXIT_FAILURE);
+			p = ft_skip_parentheses(&str[i]);
+			while (++p < end)
+			{
+				if (!ft_whitespace(str[p]))
+					return (ft_throw_syntax_error(&str[p]));
+			}
+			p = ft_skip_parentheses(&str[i]);
+			word = ft_substr(&str[i + 1], 0, p - 1);
+			ft_stage_one(word, &(*token)->right);
 			return (EXIT_SUCCESS);
 		}
 		else
 		{
+			p = i;
+			if (!ft_add_token(WORD, NULL, token))
+				return (EXIT_FAILURE);
+			while (p < end)
+			{
+				if (!ft_strncmp(&str[p], "\"", 1))
+					p += ft_index(&str[p + 1], '\"') + 1;
+				else if (str[p] == '(')
+					return (ft_throw_syntax_error(&str[p]));
+				p++;
+			}
 			word = ft_substr(&str[i], 0, end - i);
 			if (!word)
 				return (EXIT_FAILURE);

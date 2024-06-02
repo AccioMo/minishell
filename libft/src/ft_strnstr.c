@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 15:17:10 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 20:18:51 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/02 17:54:27 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,12 @@ char	*ft_strnstr(const char *haystack, const char *needle, size_t len)
 {
 	if (!haystack || !needle || !len)
 		return (NULL);
-	while (*haystack || !*needle)
+	while ((*haystack && len) || !*needle)
 	{
 		if (find_match(haystack, needle, len))
 			return ((char *)haystack);
 		haystack++;
+		len--;
 	}
 	return (NULL);
 }

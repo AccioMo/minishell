@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/01 20:44:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/02 17:57:12 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ char	**ft_append_to_array(char **args, char *new_arg)
 
 int	ft_widcard_match(char *pattern, char *str)
 {
+	char	*end_pattern;
 	char	*start;
 	int		end;
 	int		wildcard;
@@ -84,13 +85,17 @@ int	ft_widcard_match(char *pattern, char *str)
 	if (ft_strchr(pattern + wildcard + 1, '*'))
 		end = ft_widcard_match(pattern + wildcard + 1, start);
 	else
-		end = ft_strnstr(start, ft_strchr(pattern, '*') + 1, -1) != NULL;
+	{
+		end_pattern = ft_strchr(pattern, '*') + 1;
+		end = ft_strnstr(start + ft_strlen(start) - \
+			ft_strlen(end_pattern), end_pattern, -1) != NULL;
+	}
 	if (!start || !end)
 		return (0);
 	return (1);
 }
 
-static int	ft_handle_wildecard(t_token *token, char *pattern)
+int	ft_handle_wildecard(t_token *token, char *pattern)
 {
 	struct dirent	*dir_entry;
 	char			cwd[PATH_MAX];
@@ -122,33 +127,33 @@ static int	ft_handle_wildecard(t_token *token, char *pattern)
 	return (len);
 }
 
-int	ft_wildcard(t_token *token)
+int	ft_found_wildcard(char *str)
 {
-	int		i;
-	int		j;
-	int		k;
+	int	j;
 
-	i = 0;
-	while (token->args[i])
+	j = 0;
+	while (str[j])
 	{
-		j = 0;
-		while (token->args[i][j])
-		{
-			if (token->args[i][j] == '\"')
-				j += ft_index(&token->args[i][j + 1], '\"');
-			else if (token->args[i][j] == '\'')
-				j += ft_index(&token->args[i][j + 1], '\'');
-			else if (token->args[i][j] == '*')
-			{
-				k = ft_handle_wildecard(token, token->args[i]);
-				if (k > 0 && k-- > -1)
-					token->args = ft_remove_from_array(token->args, i);
-				i += k;
-				break ;
-			}
+		if (str[j] == '\"')
+			j += ft_index(&str[j + 1], '\"') + 1;
+		else if (str[j] == '\'')
+			j += ft_index(&str[j + 1], '\'') + 1;
+		else if (str[j] == '*')
+			return (1);
+		else
 			j++;
-		}
-		i++;
 	}
-	return (j);
+	return (0);
+}
+
+int	ft_wildcard(t_token *token, int i)
+{
+	int	k;
+
+	token->args[i] = ft_remove_quotes(token->args[i]);
+	k = ft_handle_wildecard(token, token->args[i]);
+	if (k > 0)
+		token->args = ft_remove_from_array(token->args, i);
+	i += k;
+	return (k - 1);
 }

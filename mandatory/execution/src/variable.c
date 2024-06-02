@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 20:46:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/02 17:50:30 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ static char	*ft_replace_variable(char *str, t_shell *shell)
 	return (new);
 }
 
-static int	ft_contains_variable(char *str)
+int	ft_contains_variable(char *str)
 {
 	int	i;
 
@@ -92,37 +92,29 @@ static int	ft_contains_variable(char *str)
 	return (0);
 }
 
-int	ft_variables(t_token *token, t_shell *shell)
+int	ft_variables(t_token *token, t_shell *shell, int i)
 {
-	char	**variable_cmd;
-	int		variables;
-	int		i;
+	char	**var_cmd;
 	int		j;
+	int		k;
 
-	i = 0;
-	variables = 0;
-	while (token->args[i])
+	j = 0;
+	k = 0;
+	token->args[i] = ft_replace_variable(token->args[i], shell);
+	var_cmd = ft_cmd_split(token->args[i]);
+	token->args = ft_remove_from_array(token->args, i);
+	while (var_cmd[j])
 	{
-		if (ft_contains_variable(token->args[i]))
-		{
-			j = 0;
-			variables++;
-			token->args[i] = ft_replace_variable(token->args[i], shell);
-			variable_cmd = ft_cmd_split(token->args[i]);
-			if (ft_array_len(variable_cmd) > 1)
-			{
-				token->args = ft_remove_from_array(token->args, i);
-				while (variable_cmd[j])
-				{
-					token->args = ft_append_to_array(token->args, variable_cmd[j]);
-					j++;
-				}
-				i += j;
-				if (!token->args[i])
-					return (-1);
-			}
-		}
-		i++;
+		if (ft_found_wildcard(var_cmd[j]))
+			k += ft_handle_wildecard(token, var_cmd[j]);
+		else
+			token->args = ft_append_to_array(token->args, var_cmd[j]);
+		j++;
 	}
-	return (variables);
+	i += j;
+	if (!token->args[i])
+		return (-1);
+	if (ft_array_len(&token->args[i]) == 1 || token->args[i][0] == '\"')
+		token->args[i] = ft_remove_quotes(token->args[i]);
+	return (i - 1);
 }

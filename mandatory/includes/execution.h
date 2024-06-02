@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 16:45:14 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/02 17:52:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,10 +42,6 @@ void	ft_exit(t_token *token, t_shell *env);
 
 /*A function that prints the env vars*/
 int		ft_env(t_list *env, int fdout);
-
-/*A function that reallocate a 2D array with a new subArray or Overwrite the existing one*/
-/*Returns NULL if Malloc Failed*/
-char	**ft_realloc_env(char **env, int size, char *new_var);
 
 /*A function that change the value of a variable in side the 2DArray env*/
 int		ft_change_env_value(t_list *env, char *name, char *value);
@@ -86,10 +82,10 @@ int	ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell);
 int	ft_pipe_function(t_token *token, int fdin, t_shell *shell);
 
 /*A function that expand variables to there values from the env*/
-int	ft_variables(t_token *token, t_shell *shell);
+int	ft_variables(t_token *token, t_shell *shell, int i);
 
 /*A function that changes the '*' to a dir content*/
-int	ft_wildcard(t_token *token);
+int	ft_wildcard(t_token *token, int i);
 
 char	*ft_remove_quotes(char *str);
 

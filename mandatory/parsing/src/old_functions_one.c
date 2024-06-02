@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   old_functions_one.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 19:52:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 18:25:21 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,6 +42,8 @@ t_token	*ft_add_token(t_type type, char *str, t_token **token)
 	if (*token)
 		return (*token);
 	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
 	new->type = type;
 	new->left = NULL;
 	new->right = NULL;
@@ -49,21 +51,27 @@ t_token	*ft_add_token(t_type type, char *str, t_token **token)
 	if (str)
 	{
 		new->args = (char **)malloc(sizeof(char *) * 2);
+		if (!new->args)
+			return (NULL);
 		new->args[0] = str;
 	}
 	*token = new;
 	return (new);
 }
 
-void	ft_parse_word(char *str, int end, t_token **token)
+int	ft_parse_word(char *str, int end, t_token **token)
 {
 	char	*word;
 
 	word = ft_substr(str, 0, end);
-	ft_add_token(WORD, NULL, token);
+	if (ft_add_token(WORD, NULL, token))
+		return (EXIT_FAILURE);
 	(*token)->args = ft_cmd_split(word);
+	if ((*token)->args == NULL)
+		return (EXIT_FAILURE);
 	free(word);
 	free(str);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_throw_error(char *msg, char *word)
@@ -89,14 +97,16 @@ int	ft_stage_four(char *str, int end, t_token **token)
 		else if (!ft_strncmp(&str[i], "(", 1))
 		{
 			word = ft_substr(&str[i + 1], 0, ft_skip_parentheses(&str[i + 1]));
-			ft_add_token(SUBSHELL, NULL, token);
+			if (ft_add_token(SUBSHELL, NULL, token))
+				return (EXIT_FAILURE);
 			ft_stage_one(word, &(*token)->right);
 			return (EXIT_SUCCESS);
 		}
 		else
 		{
 			word = ft_substr(&str[i], 0, end - i);
-			ft_parse_word(word, end, token);
+			if (ft_parse_word(word, end, token))
+				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
 		}
 	}
@@ -118,7 +128,8 @@ int	ft_stage_three(char *str, int end, t_token **token)
 			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], ">>", 2))
 		{
-			ft_add_token(REDIR_APPEND, ">>", token);
+			if (ft_add_token(REDIR_APPEND, ">>", token))
+				return (EXIT_FAILURE);
 			j = i + 2 + ft_word_len(&str[i + 2]);
 			word = ft_merge(str, i, &str[j], end - j);
 			if (ft_stage_four(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left) && !(*token)->left)
@@ -129,7 +140,8 @@ int	ft_stage_three(char *str, int end, t_token **token)
 		}
 		else if (!ft_strncmp(&str[i], "<<", 2))
 		{
-			ft_add_token(REDIR_HEREDOC, "<<", token);
+			if (ft_add_token(REDIR_HEREDOC, "<<", token))
+				return (EXIT_FAILURE);
 			j = i + 2 + ft_word_len(&str[i + 2]);
 			word = ft_merge(str, i, &str[j], end - j);
 			if (ft_stage_four(&str[i + 2], ft_word_len(&str[i + 2]), &(*token)->left) && !(*token)->left)
@@ -140,7 +152,8 @@ int	ft_stage_three(char *str, int end, t_token **token)
 		}
 		else if (!ft_strncmp(&str[i], "<", 1))
 		{
-			ft_add_token(REDIR_IN, "<", token);
+			if (ft_add_token(REDIR_IN, "<", token))
+				return (EXIT_FAILURE);
 			j = i + 1 + ft_word_len(&str[i + 1]);
 			word = ft_merge(str, i, &str[j], end - j);
 			if (ft_stage_four(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left) && !(*token)->left)
@@ -151,7 +164,8 @@ int	ft_stage_three(char *str, int end, t_token **token)
 		}
 		else if (!ft_strncmp(&str[i], ">", 1))
 		{
-			ft_add_token(REDIR_OUT, ">", token);
+			if (ft_add_token(REDIR_OUT, ">", token))
+				return (EXIT_FAILURE);
 			j = i + 1 + ft_word_len(&str[i + 1]);
 			word = ft_merge(str, i, &str[j], end - j);
 			if (ft_stage_four(&str[i + 1], ft_word_len(&str[i + 1]), &(*token)->left) && !(*token)->left)
@@ -178,7 +192,8 @@ int	ft_stage_two(char *str, int end, t_token **token)
 			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], "|", 1))
 		{
-			ft_add_token(PIPE, "|", token);
+			if (ft_add_token(PIPE, "|", token))
+				return (EXIT_FAILURE);
 			if (ft_stage_three(str, i, &(*token)->left))
 			{
 				if (!(*token)->left)
@@ -214,7 +229,8 @@ int	ft_stage_one(char *str, t_token **token)
 			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], "&&", 2))
 		{
-			ft_add_token(AND, "&&", token);
+			if (ft_add_token(AND, "&&", token))
+				return (EXIT_FAILURE);
 			if (ft_stage_two(str, i, &(*token)->left))
 			{
 				if (!(*token)->left)
@@ -231,7 +247,8 @@ int	ft_stage_one(char *str, t_token **token)
 		}
 		else if (!ft_strncmp(&str[i], "||", 2))
 		{
-			ft_add_token(OR, "||", token);
+			if (ft_add_token(OR, "||", token))
+				return (EXIT_FAILURE);
 			if (ft_stage_two(str, i, &(*token)->left))
 			{
 				if (!(*token)->left)

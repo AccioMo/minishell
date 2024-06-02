@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_three.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 18:32:13 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 18:23:47 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,15 +45,19 @@ int	ft_skip_parentheses(char *str)
 	return (i);
 }
 
-void	ft_parse_word(char *str, int end, t_token **token)
+int	ft_parse_word(char *str, int end, t_token **token)
 {
 	char	*word;
 
 	word = ft_substr(str, 0, end);
-	ft_add_token(WORD, NULL, token);
+	if (!ft_add_token(WORD, NULL, token))
+		return (EXIT_FAILURE);
 	(*token)->args = ft_cmd_split(word);
+	if ((*token)->args == NULL)
+		return (EXIT_FAILURE);
 	free(word);
 	free(str);
+	return (EXIT_SUCCESS);
 }
 
 t_token	*ft_add_token(t_type type, char *str, t_token **token)
@@ -63,6 +67,8 @@ t_token	*ft_add_token(t_type type, char *str, t_token **token)
 	if (*token)
 		return (*token);
 	new = (t_token *)malloc(sizeof(t_token));
+	if (!new)
+		return (NULL);
 	new->type = type;
 	new->left = NULL;
 	new->right = NULL;
@@ -70,6 +76,8 @@ t_token	*ft_add_token(t_type type, char *str, t_token **token)
 	if (str)
 	{
 		new->args = (char **)malloc(sizeof(char *) * 2);
+		if (!new->args)
+            return (NULL);
 		new->args[0] = str;
 	}
 	*token = new;
@@ -89,14 +97,19 @@ int	ft_stage_four(char *str, int end, t_token **token)
 		else if (!ft_strncmp(&str[i], "(", 1))
 		{
 			word = ft_substr(&str[i + 1], 0, ft_skip_parentheses(&str[i + 1]));
-			ft_add_token(SUBSHELL, NULL, token);
-			ft_stage_one(word, &(*token)->right);
+			if (ft_add_token(SUBSHELL, NULL, token))
+				return (EXIT_FAILURE);
+			if (ft_stage_one(word, &(*token)->right))
+				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
 		}
 		else
 		{
 			word = ft_substr(&str[i], 0, end - i);
-			ft_parse_word(word, end, token);
+			if (!word)
+				return (EXIT_FAILURE);
+			if (ft_parse_word(word, end, token))
+				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
 		}
 	}

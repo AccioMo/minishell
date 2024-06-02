@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 20:06:07 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 18:08:54 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,8 @@
 
 int	ft_handle_pipe(char *str, int start, int end, t_token **token)
 {
-	ft_add_token(PIPE, "|", token);
+	if (!ft_add_token(PIPE, "|", token))
+		return (EXIT_FAILURE);
 	if (ft_stage_three(str, start, &(*token)->left))
 	{
 		if (!(*token)->left)
@@ -53,7 +54,8 @@ int	ft_stage_two(char *str, int end, t_token **token)
 
 int	ft_handle_and(char *str, int end, t_token **token)
 {
-	ft_add_token(AND, "&&", token);
+	if (!ft_add_token(AND, "&&", token))
+		return (EXIT_FAILURE);
 	if (ft_stage_two(str, end, &(*token)->left))
 	{
 		if (!(*token)->left)
@@ -71,7 +73,8 @@ int	ft_handle_and(char *str, int end, t_token **token)
 
 int	ft_handle_or(char *str, int end, t_token **token)
 {
-	ft_add_token(OR, "||", token);
+	if (!ft_add_token(OR, "||", token))
+		return (EXIT_FAILURE);
 	if (ft_stage_two(str, end, &(*token)->left))
 	{
 		if (!(*token)->left)

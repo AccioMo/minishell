@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/30 18:35:37 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 17:57:55 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ char	*ft_merge(char *part_one, int limit_one, char *part_two, int limit_two)
 	i = 0;
 	len = limit_one + limit_two + 1;
 	new = (char *)malloc(sizeof(char) * (len));
+	if (!new)
+		return (NULL);
 	ft_strlcpy(new, part_one, limit_one + 1);
 	ft_strlcat(new, part_two, len);
 	return (new);

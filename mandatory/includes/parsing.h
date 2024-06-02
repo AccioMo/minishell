@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 22:03:14 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 18:04:18 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,6 @@
 
 int		ft_parse(char *line, t_shell *shell);
 int		ft_stage_one(char *str, t_token **token);
-int		ft_rev_index(char *str, char c);
 int		ft_word_len(char *str);
 char	*ft_merge(char *part_one, int limit_one, char *part_two, int limit_two);
 char	**ft_cmd_split(char *str);

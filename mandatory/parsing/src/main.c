@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/05/31 22:03:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/01 18:26:13 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ static void	ft_minishell(t_shell *shell)
 		add_history(buffer);
 		ft_parse(buffer, shell);
 		free(buffer);
-		// ft_print_tree(shell->root);
 		shell->exit_code = ft_priority_token(shell->root, 0, 1, shell);
 		rl_on_new_line();
 		shell->root = NULL;
@@ -104,6 +103,7 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
+	atexit(f);
 	tcgetattr(STDIN_FILENO, &shell.term);
 	signal(g_signal, sig_assign);
 	shell.root = NULL;

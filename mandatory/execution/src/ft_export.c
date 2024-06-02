@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 22:34:41 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 19:40:39 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,29 +65,28 @@ static int	ft_export_lines_saver(char *new_var, t_list *env)
 
 static int	ft_var_exist(t_shell *shell, char *var)
 {
-	char	*tmp;
-	int		i;
+	char	*var_name;
+	char	*var_value;
 	int		equal_pos;
 
-	i = 0;
 	equal_pos = ft_get_index(var, '=');
-	if (equal_pos <= 0)
+	var_name = ft_substr(var, 0, equal_pos);
+	if (!var_name)
+		return(EXIT_FAILURE);
+	var_value = ft_getenv(var_name, shell->env);
+	if (!var_value)
 	{
-		ft_putstr_fd("export: `", 2);
-		ft_putstr_fd(var, 2);
-		ft_putstr_fd("': not a valid identifier\n", 2);
-		return (EXIT_FAILURE);
+		free(var_name);
+		return(EXIT_FAILURE);
 	}
-	tmp = ft_substr(var, 0, ft_get_index(var, '='));
-	if (!tmp)
-		return (EXIT_FAILURE);
-	if (ft_getenv(tmp, shell->env))
+	else
 	{
-		free(tmp);
-		return (1);
+		var_name = ft_strjoin_free(var_name, "=", 1);
+		if (ft_change_env_value(shell->env, var_name, ft_strchr(var, '=') + 1))
+            return(EXIT_FAILURE);
 	}
-	free(tmp);
-	return (0);
+	free(var_name);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_export(t_token *token, t_shell *shell, int fdout)
@@ -100,9 +99,7 @@ int	ft_export(t_token *token, t_shell *shell, int fdout)
 	while (token->args[++j])
 	{
 		if (ft_strchr(token->args[j], '=') == NULL)
-			token->args[j] = ft_strjoin_free(token->args[j], "=", 0);
-		if (ft_var_exist(shell, token->args[j]))
-			continue ;
+			return (EXIT_SUCCESS);
 		if (ft_isalpha(token->args[j][0]) == 0)
 		{
 			ft_putstr_fd("export: `", fdout);
@@ -110,6 +107,8 @@ int	ft_export(t_token *token, t_shell *shell, int fdout)
 			ft_putstr_fd("': not a valid identifier\n", fdout);
 			return (EXIT_FAILURE);
 		}
+		if (!ft_var_exist(shell, token->args[j]))
+			continue ;
 		if (ft_export_lines_saver(token->args[j], shell->env))
 			return (EXIT_FAILURE);
 	}

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 23:11:24 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:39:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_change_env_value(t_list *env, char *name, char *value)
 	}
 	if (env == NULL)
 	{
-		name = ft_strjoin(name, value);
+		name = ft_strjoin_free(name, value, 1);
 		if (!name)
 			return (EXIT_FAILURE);
 		env = ft_lstnew(name);

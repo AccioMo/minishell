@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/02 18:03:44 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 18:13:57 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,8 +26,6 @@
 # include "get_next_line.h"
 # include "readline/readline.h"
 # include "readline/history.h"
-
-# define malloc(x) NULL
 
 # define TRUE 1
 # define FALSE 0

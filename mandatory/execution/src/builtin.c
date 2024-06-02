@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 19:42:57 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/02 19:42:14 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,18 +37,20 @@ int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
 			token->args[ft_array_len(token->args) - 1]))
 		return (EXIT_FAILURE);
 	if (ft_strncmp(token->args[0], "echo\0", 5) == 0)
-		return (ft_echo(token, fdout));
+		shell->exit_code = ft_echo(token, fdout);
 	else if (ft_strncmp(token->args[0], "pwd\0", 4) == 0)
-		return (ft_pwd(fdout, shell->env));
+		shell->exit_code = ft_pwd(fdout, shell->env);
 	else if (ft_strncmp(token->args[0], "cd\0", 3) == 0)
-		return (ft_cd(token, shell));
+		shell->exit_code = ft_cd(token, shell);
 	if (ft_strncmp(token->args[0], "export\0", 7) == 0)
-		return (ft_export(token, shell, fdout));
+		shell->exit_code = ft_export(token, shell, fdout);
 	else if (ft_strncmp(token->args[0], "unset\0", 6) == 0)
-		return (ft_unset(token, shell->env));
+		shell->exit_code = ft_unset(token, shell->env);
 	else if (ft_strncmp(token->args[0], "env\0", 4) == 0)
-		return (ft_env(shell->env, fdout));
+		shell->exit_code = ft_env(shell->env, fdout);
 	else if (ft_strncmp(token->args[0], "exit\0", 5) == 0)
 		ft_exit(token, shell);
-	return (0);
+	if (fdout != 1)
+		close(fdout);
+	return (shell->exit_code);
 }

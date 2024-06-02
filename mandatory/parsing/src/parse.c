@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parse.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 17:40:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/02 18:04:50 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,11 +128,5 @@ int	ft_parse(char *line, t_shell *shell)
 		shell->root = NULL;
 		return (EXIT_FAILURE);
 	}
-	// if (ft_late_work(shell->root, shell)) //Moved to execution
-	// {
-	// 	// ft_free_tree(shell->root);
-	// 	shell->root = NULL;
-	// 	return (EXIT_FAILURE);
-	// }
 	return (EXIT_SUCCESS);
 }

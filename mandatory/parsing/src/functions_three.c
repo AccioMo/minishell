@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_three.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 19:13:19 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/02 18:03:53 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,14 +44,17 @@ int	ft_skip_parentheses(char *str)
 	return (i);
 }
 
-void	ft_parse_word(char *str, int end, t_token **token)
+int	ft_parse_word(char *str, int end, t_token **token)
 {
 	char	*word;
 
 	word = ft_substr(str, 0, end);
 	(*token)->args = ft_cmd_split(word);
+	if ((*token)->args == NULL)
+		return (EXIT_FAILURE);
 	free(word);
 	free(str);
+	return (EXIT_SUCCESS);
 }
 
 t_token	*ft_add_token(t_type type, char *str, t_token **token)
@@ -119,7 +122,10 @@ int	ft_stage_four(char *str, int end, t_token **token)
 				p++;
 			}
 			word = ft_substr(&str[i], 0, end - i);
-			ft_parse_word(word, end, token);
+			if (!word)
+				return (EXIT_FAILURE);
+			if (ft_parse_word(word, end, token))
+				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
 		}
 	}

@@ -6,20 +6,16 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 12:41:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 20:11:09 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/04 00:36:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	ft_exit(t_token *token, t_shell *env)
+void	ft_exit(t_shell *env)
 {
-	if (token->args[1])
-		fprintf(stderr, "minishell: exit: too many arguments\n");
-	else
-	{
-		ft_free_tree(env->root);
-		ft_lstclear(&env->env, free);
-		exit(0);
-	}
+	ft_putstr_fd("exit\n", 1);
+	ft_free_tree(env->root);
+	ft_lstclear(&env->env, free);
+	exit(0);
 }

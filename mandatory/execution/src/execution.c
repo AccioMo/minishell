@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/01 17:10:43 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/04 00:14:48 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	ft_increment_shellvl(t_shell *shell)
 	shell_lvl = ft_itoa(shell_lvl_int);
 	if (!shell_lvl)
 		return ;
-	ft_change_env_value(shell->env, "SHLVL=", shell_lvl);
+	ft_set_env(shell->env, "SHLVL=", shell_lvl);
 	free(shell_lvl);
 }
 
@@ -151,7 +151,7 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	if (ft_execution_process(token, fdin, fdout, shell))
 		return (EXIT_FAILURE);
 	last_cmd = token->args[ft_array_len(token->args) - 1];
-	if (ft_change_env_value(shell->env, "_=", last_cmd))
+	if (ft_set_env(shell->env, "_=", last_cmd))
 		return (EXIT_FAILURE);
 	if (fdin != 0)
 		close(fdin);

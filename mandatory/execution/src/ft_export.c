@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/03 23:40:30 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/04 00:14:48 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ static int	ft_export_lines_saver(char *new_var, t_list *env)
 
 	head = env;
 	if (ft_strncmp(new_var, "_\0", 2))
-		if (ft_change_env_value(env, "_=", "export"))
+		if (ft_set_env(env, "_=", "export"))
 			return (EXIT_FAILURE);
 	while (env)
 	{
@@ -82,7 +82,7 @@ static int	ft_var_exist(t_shell *shell, char *var)
 	else
 	{
 		var_name = ft_realloc(var_name, "=");
-		if (ft_change_env_value(shell->env, var_name, ft_strchr(var, '=') + 1))
+		if (ft_set_env(shell->env, var_name, ft_strchr(var, '=') + 1))
 			return (EXIT_FAILURE);
 	}
 	free(var_name);

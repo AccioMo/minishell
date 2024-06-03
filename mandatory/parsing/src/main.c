@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/02 18:04:20 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:32:21 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ t_list	*ft_create_env(char **env)
 	int		i;
 
 	i = 0;
-	if (!env)
+	if (!env || !env[0])
 		return (NULL);
 	env_var = ft_strdup(env[i++]);
 	if (!env_var)
@@ -81,7 +81,6 @@ static void	ft_minishell(t_shell *shell)
 {
 	char	*buffer;
 
-	ft_clear();
 	while (TRUE)
 	{
 		ft_disable_echoctl();
@@ -118,14 +117,12 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
-	atexit(f);
+	ft_clear();
 	tcgetattr(STDIN_FILENO, &shell.term);
 	signal(g_signal, sig_assign);
 	shell.root = NULL;
 	shell.exit_code = 0;
 	shell.env = ft_create_env(env);
-	if (!shell.env)
-		return (ft_perror("minishell"));
 	ft_minishell(&shell);
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);

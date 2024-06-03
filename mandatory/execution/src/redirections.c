@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 16:56:15 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/03 23:48:31 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,10 +93,10 @@ int	ft_redir_heredoc_function(t_token *token)
 	{
 		input = ft_realloc(input, buffer);
 		free(buffer);
-		ft_putstr_fd("> ", 1);
-		buffer = get_next_line(0);
+		buffer = readline("> ");
 		if (!buffer)
 			break ;
+		buffer = ft_realloc(buffer, "\n");
 	}
 	if (g_signal == SIGINT)
 	{

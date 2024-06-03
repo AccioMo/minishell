@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/02 18:39:59 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:39:51 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_change_env_value(t_list *env, char *name, char *value)
 	}
 	if (env == NULL)
 	{
-		name = ft_strjoin_free(name, value, 1);
+		name = ft_strjoin(name, value);
 		if (!name)
 			return (EXIT_FAILURE);
 		env = ft_lstnew(name);
@@ -36,17 +36,16 @@ int	ft_change_env_value(t_list *env, char *name, char *value)
 
 static char	*ft_get_path(char **args, t_list *env)
 {
-	char *path;
+	char	*path;
 
-	path = NULL;
 	if (ft_strncmp(args[1], "/", 1) == 0)
 		path = args[1];
 	else if (ft_strncmp(args[1], "~/", 2) == 0)
-		path = ft_strjoin_free(ft_strdup(ft_getenv("HOME", env)), &args[1][1], 1);
+		path = ft_strjoin(ft_getenv("HOME", env), &args[1][1]);
 	else if (ft_strncmp(args[1], "~", 1) == 0)
-		path = ft_strjoin_free(ft_strjoin_free(ft_strdup(ft_getenv("HOME", env)), "/", 1), &args[1][1], 1);
+		path = ft_realloc(ft_strjoin(ft_getenv("HOME", env), "/"), &args[1][1]);
 	else
-		path = ft_strjoin_free(ft_strjoin_free(ft_strdup(ft_getenv("PWD", env)), "/", 1), args[1], 1);
+		path = ft_realloc(ft_strjoin(ft_getenv("PWD", env), "/"), args[1]);
 	return (path);
 }
 

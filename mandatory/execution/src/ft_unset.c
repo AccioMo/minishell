@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/30 20:30:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/03 23:24:16 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,17 @@
 
 int	ft_delete_env(char *name, t_list *env)
 {
-	t_list	*tmp;
+	t_list	*prev;
 
 	while (env)
 	{
-		if (ft_strncmp(env->content, name, ft_strlen(name)) == 0)
+		if (!ft_strncmp(env->content, name, ft_strlen(name)))
 		{
-			tmp = env->next->next;
+			prev->next = env->next;
 			ft_lstdelone(env, free);
-			env->next = tmp;
 			return (EXIT_SUCCESS);
 		}
+		prev = env;
 		env = env->next;
 	}
 	return (EXIT_SUCCESS);
@@ -44,10 +44,10 @@ int	ft_unset(t_token *token, t_list *env)
 			ft_putstr_fd("': not a valid identifier\n", STDERR_FILENO);
 			return (EXIT_FAILURE);
 		}
-		if (!ft_getenv(token->args[i], env))
-			i++;
+		if (ft_getenv(token->args[i], env))
+			ft_delete_env(token->args[i], env);
 		else
-			return (ft_delete_env(token->args[i], env));
+			i++;
 	}
 	return (EXIT_SUCCESS);
 }

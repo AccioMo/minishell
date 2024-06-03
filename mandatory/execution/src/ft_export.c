@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/02 19:40:39 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/03 23:40:30 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,18 +72,18 @@ static int	ft_var_exist(t_shell *shell, char *var)
 	equal_pos = ft_get_index(var, '=');
 	var_name = ft_substr(var, 0, equal_pos);
 	if (!var_name)
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	var_value = ft_getenv(var_name, shell->env);
 	if (!var_value)
 	{
 		free(var_name);
-		return(EXIT_FAILURE);
+		return (EXIT_FAILURE);
 	}
 	else
 	{
-		var_name = ft_strjoin_free(var_name, "=", 1);
+		var_name = ft_realloc(var_name, "=");
 		if (ft_change_env_value(shell->env, var_name, ft_strchr(var, '=') + 1))
-            return(EXIT_FAILURE);
+			return (EXIT_FAILURE);
 	}
 	free(var_name);
 	return (EXIT_SUCCESS);

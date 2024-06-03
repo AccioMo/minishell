@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/02 19:47:42 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/03 23:40:42 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,11 +45,6 @@ int		ft_env(t_list *env, int fdout);
 
 /*A function that change the value of a variable in side the 2DArray env*/
 int		ft_change_env_value(t_list *env, char *name, char *value);
-
-/*Q function that do what strjoin do but it free the first param if the code */
-/* equal to or smaller than 2 or free the second param if the code is bigger */
-/*than or equal to 2 or both if code == 2*/
-char	*ft_strjoin_free(char *s1, char *s2, int code);
 
 /*A function that returns the position of a char in an an array of chars*/
 /*Returns -1 if the char not found*/

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:10:25 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:16:52 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,31 +47,6 @@ static char	*ft_get_path(char **args, t_list *env)
 	else
 		path = ft_realloc(ft_strjoin(ft_getenv("PWD", env), "/"), args[1]);
 	return (path);
-}
-
-int	ft_dir_exists(char *path, t_shell *shell)
-{
-	struct stat	statbuf;
-
-	ft_set_env(shell->env, "PWD=", path);
-	if (stat(path, &statbuf) != 0)
-	{
-		if (errno == ENOENT)
-		{
-			ft_putstr_fd("minishell: cd: ", STDERR);
-			ft_putstr_fd(path, STDERR);
-			ft_putstr_fd(": No such file or directory\n", STDERR);
-			free(path);
-			return (EXIT_FAILURE);
-		}
-		else
-		{
-			perror("stat");
-			free(path);
-			return (EXIT_FAILURE);
-		}
-	}
-	return (!(S_ISDIR(statbuf.st_mode)));
 }
 
 int	ft_first_condition(t_shell *shell)

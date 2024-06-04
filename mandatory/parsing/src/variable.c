@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 06:11:46 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:28:25 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ static char	*ft_expand_variable(char *str, int *i, t_shell *shell)
 	int		len;
 
 	if (ft_isdigit(*str) && (*i)++)
-		return (NULL);
+		return (ft_strdup(""));
 	else if (*str == '?' && (*i)++)
 		return (ft_itoa(shell->exit_code));
 	else if (*str == '_' && (*i)++)
@@ -46,7 +46,7 @@ static char	*ft_replace_variable(char *str, t_shell *shell)
 	int		i;
 
 	i = 0;
-	new = NULL;
+	new = ft_strdup("");
 	while (str[i])
 	{
 		if (str[i] == '$')

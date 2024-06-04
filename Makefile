@@ -17,7 +17,7 @@ RL_HEADER_DIR =  ~/brew/opt/readline/include/
 PARSE_HEADER = $(HEADER_DIR)parsing.h
 PARSE_SRC_DIR = mandatory/parsing/src/
 PARSE_OBJ_DIR = mandatory/parsing/obj/
-PARSING_FILES = main.c parse.c functions_one.c functions_two.c functions_three.c utils.c str.c
+PARSING_FILES = main.c parse.c functions_one.c functions_two.c functions_three.c utils.c str.c wildcard2.c variable_utils.c wildcard.c variable.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 
@@ -25,10 +25,11 @@ PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
 EXEC_HEADER = $(HEADER_DIR)execution.h
 EXEC_SRC_DIR = mandatory/execution/src/
 EXEC_OBJ_DIR = mandatory/execution/obj/
-EXECUTION_FILES = 	define_priority.c wildcard.c execution.c ft_export.c \
-					builtin.c ft_echo.c variable.c ft_pwd.c exec_utils1.c \
+EXECUTION_FILES = 	define_priority.c execution.c ft_export.c \
+					builtin.c ft_echo.c ft_pwd.c exec_utils1.c \
 					redirections.c ft_env.c first_priority.c exec_utils2.c \
-					ft_cd.c ft_unset.c variable_utils.c ft_exit.c
+					ft_cd.c ft_unset.c ft_exit.c execution_2.c \
+					ft_cd2.c ft_heredoc.c
 EXECUTION_SRC = $(addprefix $(EXEC_SRC_DIR), $(EXECUTION_FILES))
 EXECUTION_OBJ = $(addprefix $(EXEC_OBJ_DIR), $(EXECUTION_FILES:.c=.o))
 

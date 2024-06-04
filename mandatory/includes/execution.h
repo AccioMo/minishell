@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 05:57:03 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:10:42 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,11 @@ int		ft_execute_builtin(t_token *cmd, int fdout, t_shell *env);
 /*A function that checks if the cmd is a builtin*/
 int		ft_is_builtin(t_token *token);
 
-/*The exit function that ends the proccess of minishell*/
-void	ft_exit(t_token *token, t_shell *env);
-
 /*A function that prints the env vars*/
 int		ft_env(t_list *env, int fdout);
 
 /*A function that change the value of a variable in side the 2DArray env*/
-int		ft_change_env_value(t_list *env, char *name, char *value);
+int		ft_set_env(t_list *env, char *name, char *value);
 
 /*A function that returns the position of a char in an an array of chars*/
 /*Returns -1 if the char not found*/

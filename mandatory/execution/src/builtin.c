@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/02 19:49:26 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 00:36:42 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_is_builtin(t_token *token)
 
 int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
 {
-	if (ft_change_env_value(shell->env, "_=",
+	if (ft_set_env(shell->env, "_=",
 			token->args[ft_array_len(token->args) - 1]))
 		return (EXIT_FAILURE);
 	if (ft_strncmp(token->args[0], "echo\0", 5) == 0)
@@ -49,7 +49,7 @@ int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
 	else if (ft_strncmp(token->args[0], "env\0", 4) == 0)
 		shell->exit_code = ft_env(shell->env, fdout);
 	else if (ft_strncmp(token->args[0], "exit\0", 5) == 0)
-		ft_exit(token, shell);
+		ft_exit(shell);
 	if (fdout != 1)
 		close(fdout);
 	return (shell->exit_code);

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 06:01:11 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:11:46 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,7 +104,7 @@ int	ft_variables(t_token *token, t_shell *shell, int i)
 	token->args = ft_remove_from_array(token->args, i);
 	while (var_cmd[j])
 	{
-		if (ft_found_wildcard(var_cmd[j]))
+		if (ft_found_token(var_cmd[j], '*'))
 			k += ft_handle_wildecard(token, var_cmd[j]);
 		else
 			token->args = ft_append_to_array(token->args, var_cmd[j]);

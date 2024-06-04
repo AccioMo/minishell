@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 05:30:00 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:11:19 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,12 +16,23 @@ t_list	*ft_create_env(char **env)
 {
 	t_list	*shell_env;
 	t_list	*new;
+	char	pwd[PATH_MAX];
 	char	*env_var;
 	int		i;
 
 	i = 0;
+	getcwd(pwd, PATH_MAX);
 	if (!env || !env[0])
-		return (NULL);
+	{
+		shell_env = ft_lstnew(ft_strdup("SHLVL=1"));
+		env_var = ft_strjoin("PWD=", pwd);
+		if (!env_var)
+			return (NULL);
+		ft_lstadd_back(&shell_env, ft_lstnew(env_var));
+		if (!shell_env)
+			return (NULL);
+		return (shell_env);
+	}
 	env_var = ft_strdup(env[i++]);
 	if (!env_var)
 		return (NULL);
@@ -88,7 +99,7 @@ static void	ft_minishell(t_shell *shell)
 		signal(SIGINT, &sig_handler);
 		buffer = readline("\033[1m● minishell-v0.7 ❯ \033[0m");
 		if (!buffer)
-			return ;
+			return (ft_exit(shell));
 		add_history(buffer);
 		ft_parse(buffer, shell);
 		free(buffer);
@@ -118,6 +129,8 @@ int	main(int ac, char **av, char **env)
 	shell.root = NULL;
 	shell.exit_code = 0;
 	shell.env = ft_create_env(env);
+	if (!shell.env)
+		return (ft_perror("minishell"));
 	ft_minishell(&shell);
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 06:04:21 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:10:58 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -106,10 +106,12 @@ int		ft_perror(char *cmd);
 
 void	ft_free_tree(t_token *token);
 
-int		ft_found_wildcard(char *str);
+int		ft_found_token(char *str, char c);
 
 int	ft_handle_wildecard(t_token *token, char *pattern);
 
 int		ft_contains_variable(char *str);
+
+void	ft_exit(t_shell *env);
 
 #endif

@@ -6,14 +6,17 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 05:25:37 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:10:25 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_change_env_value(t_list *env, char *name, char *value)
+int	ft_set_env(t_list *env, char *name, char *value)
 {
+	t_list	*head;
+
+	head = env;
 	while (env)
 	{
 		if (!ft_strncmp(env->content, name, ft_strlen(name)))
@@ -26,10 +29,11 @@ int	ft_change_env_value(t_list *env, char *name, char *value)
 	}
 	if (env == NULL)
 	{
+		env = head;
 		name = ft_strjoin(name, value);
 		if (!name)
 			return (EXIT_FAILURE);
-		env = ft_lstnew(name);
+		ft_lstadd_back(&env, ft_lstnew(name));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -40,13 +44,34 @@ static char	*ft_get_path(char **args, t_list *env)
 
 	if (ft_strncmp(args[1], "/", 1) == 0)
 		path = args[1];
-	else if (ft_strncmp(args[1], "~/", 2) == 0)
-		path = ft_strjoin(ft_getenv("HOME", env), &args[1][1]);
-	else if (ft_strncmp(args[1], "~", 1) == 0)
-		path = ft_realloc(ft_strjoin(ft_getenv("HOME", env), "/"), &args[1][1]);
 	else
 		path = ft_realloc(ft_strjoin(ft_getenv("PWD", env), "/"), args[1]);
 	return (path);
+}
+
+int	ft_dir_exists(char *path, t_shell *shell)
+{
+	struct stat	statbuf;
+
+	ft_set_env(shell->env, "PWD=", path);
+	if (stat(path, &statbuf) != 0)
+	{
+		if (errno == ENOENT)
+		{
+			ft_putstr_fd("minishell: cd: ", STDERR);
+			ft_putstr_fd(path, STDERR);
+			ft_putstr_fd(": No such file or directory\n", STDERR);
+			free(path);
+			return (EXIT_FAILURE);
+		}
+		else
+		{
+			perror("stat");
+			free(path);
+			return (EXIT_FAILURE);
+		}
+	}
+	return (!(S_ISDIR(statbuf.st_mode)));
 }
 
 int	ft_first_condition(t_shell *shell)
@@ -59,11 +84,9 @@ int	ft_first_condition(t_shell *shell)
 			ft_perror("");
 		return (EXIT_FAILURE);
 	}
-	if (ft_change_env_value(shell->env, "OLDPWD=",
-			ft_getenv("PWD", shell->env)))
+	if (ft_set_env(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
 		return (EXIT_FAILURE);
-	if (ft_change_env_value(shell->env, "PWD=",
-			ft_getenv("HOME", shell->env)))
+	if (ft_set_env(shell->env, "PWD=", ft_getenv("HOME", shell->env)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -77,20 +100,20 @@ int	ft_second_condition(t_shell *shell, char *pwd)
 		ft_putstr_fd(": No such file or directory\n", STDERR);
 		return (EXIT_FAILURE);
 	}
-	if (ft_change_env_value(shell->env, "OLDPWD=",
-			ft_getenv("PWD", shell->env)))
+	if (ft_set_env(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
 		return (EXIT_FAILURE);
-	if (ft_change_env_value(shell->env, "PWD=", getcwd(pwd, 255)))
+	if (ft_set_env(shell->env, "PWD=", getcwd(pwd, 255)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
 int	ft_cd(t_token *token, t_shell *shell)
 {
-	char	pwd[255];
+	char	pwd[PATH_MAX];
 	char	*path;
 
 	path = ft_get_path(token->args, shell->env);
+	printf("path: %s\n", path);
 	if (!path)
 		return (EXIT_FAILURE);
 	if (token->args[1] == NULL && !ft_first_condition(shell))
@@ -105,10 +128,9 @@ int	ft_cd(t_token *token, t_shell *shell)
 	{
 		if (chdir(path) != 0)
 			ft_perror(path);
-		if (ft_change_env_value(shell->env, "OLDPWD=",
-				ft_getenv("PWD", shell->env)))
+		if (ft_set_env(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
 			return (EXIT_FAILURE);
-		if (ft_change_env_value(shell->env, "PWD=", getcwd(pwd, 255)))
+		if (ft_set_env(shell->env, "PWD=", getcwd(pwd, PATH_MAX)))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

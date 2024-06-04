@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 05:56:41 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:11:34 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,17 +57,17 @@ char	*ft_remove_quotes(char *str)
 	return (word);
 }
 
-int	ft_quotes(char **args)
+int	ft_handle_tilde(t_token *token, int i, t_shell *shell)
 {
-	int	i;
+	char	*home;
+	char	*new;
 
-	i = 0;
-	while (args[i])
-	{
-		if (ft_strchr(args[i], '\"') || ft_strchr(args[i], '\''))
-			args[i] = ft_remove_quotes(args[i]);
-		i++;
-	}
+	home = ft_getenv("HOME", shell->env);
+	if (!home)
+		return (0);
+	new = ft_strjoin(home, token->args[i] + 1);
+	free(token->args[i]);
+	token->args[i] = new;
 	return (0);
 }
 
@@ -86,8 +86,10 @@ int	ft_expand(t_token *token, t_shell *shell)
 		{
 			if (ft_contains_variable(token->args[i]))
 				i += ft_variables(token, shell, i);
-			else if (ft_found_wildcard(token->args[i]))
+			else if (ft_found_token(token->args[i], '*'))
 				i += ft_wildcard(token, i);
+			else if (ft_found_token(token->args[i], '~'))
+				i += ft_handle_tilde(token, i, shell);
 			else
 				token->args[i] = ft_remove_quotes(token->args[i]);
 			i++;

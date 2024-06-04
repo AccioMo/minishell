@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:03:56 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:11:53 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,7 +68,7 @@ int	ft_handle_wildecard(t_token *token, char *pattern)
 	return (len);
 }
 
-int	ft_found_wildcard(char *str)
+int	ft_found_token(char *str, char c)
 {
 	int	j;
 
@@ -79,7 +79,7 @@ int	ft_found_wildcard(char *str)
 			j += ft_index(&str[j + 1], '\"') + 1;
 		else if (str[j] == '\'')
 			j += ft_index(&str[j + 1], '\'') + 1;
-		else if (str[j] == '*')
+		else if (str[j] == c)
 			return (1);
 		else
 			j++;

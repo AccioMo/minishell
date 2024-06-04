@@ -3,70 +3,14 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/02 19:17:14 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/04 06:03:56 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "execution.h"
-
-char	**ft_remove_from_array(char **array, int x)
-{
-	char	**new_array;
-	int		i;
-	int		j;
-
-	i = 0;
-	j = 0;
-	if (!array)
-		return (NULL);
-	while (array[i])
-		i++;
-	new_array = (char **)malloc(sizeof(char *) * i);
-	if (!new_array)
-		return (NULL);
-	i = 0;
-	while (array[i])
-	{
-		if (i == x)
-			free(array[i++]);
-		else
-			new_array[j++] = array[i++];
-	}
-	new_array[j] = NULL;
-	free(array);
-	return (new_array);
-}
-
-char	**ft_append_to_array(char **args, char *new_arg)
-{
-	char	**new_args;
-	int		i;
-
-	i = 0;
-	while (args[i])
-		i++;
-	new_args = malloc(sizeof(char *) * (i + 2));
-	if (!new_args)
-		return (NULL);
-	i = 0;
-	while (args[i])
-	{
-		new_args[i] = args[i];
-		i++;
-	}
-	new_args[i] = ft_strdup(new_arg);
-	if (!new_args[i])
-	{
-		ft_free(new_args);
-		return (NULL);
-	}
-	new_args[i + 1] = NULL;
-	free(args);
-	return (new_args);
-}
+#include "parsing.h"
 
 int	ft_widcard_match(char *pattern, char *str)
 {
@@ -75,8 +19,6 @@ int	ft_widcard_match(char *pattern, char *str)
 
 	i = 0;
 	j = 0;
-	if (!pattern || !str)
-		return (0);
 	while (pattern[i])
 	{
 		if (pattern[i] == '\"')
@@ -106,19 +48,15 @@ int	ft_handle_wildecard(t_token *token, char *pattern)
 	int				len;
 
 	len = 0;
-	getcwd(cwd, sizeof(cwd));
+	if (!pattern)
+		return (0);
+	getcwd(cwd, PATH_MAX);
 	dir = opendir(cwd);
 	if (!dir)
 		return (1);
 	dir_entry = readdir(dir);
 	while (dir_entry)
 	{
-		if (!ft_strncmp(dir_entry->d_name, ".\0", 2) || \
-			!ft_strncmp(dir_entry->d_name, "..\0", 3))
-		{
-			dir_entry = readdir(dir);
-			continue ;
-		}
 		if (ft_widcard_match(pattern, dir_entry->d_name) == 1)
 		{
 			token->args = ft_append_to_array(token->args, dir_entry->d_name);

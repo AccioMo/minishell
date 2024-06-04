@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/03 23:39:51 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/04 05:25:37 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,31 +49,6 @@ static char	*ft_get_path(char **args, t_list *env)
 	return (path);
 }
 
-int	ft_dir_exists(char *path, t_shell *shell)
-{
-	struct stat	statbuf;
-
-	ft_change_env_value(shell->env, "PWD=", path);
-	if (stat(path, &statbuf) != 0)
-	{
-		if (errno == ENOENT)
-		{
-			ft_putstr_fd("minishell: cd: ", STDERR);
-			ft_putstr_fd(path, STDERR);
-			ft_putstr_fd(": No such file or directory\n", STDERR);
-			free(path);
-			return (EXIT_FAILURE);
-		}
-		else
-		{
-			perror("stat");
-			free(path);
-			return (EXIT_FAILURE);
-		}
-	}
-	return (!(S_ISDIR(statbuf.st_mode)));
-}
-
 int	ft_first_condition(t_shell *shell)
 {
 	if (chdir(ft_getenv("HOME", shell->env)) != 0)
@@ -84,9 +59,11 @@ int	ft_first_condition(t_shell *shell)
 			ft_perror("");
 		return (EXIT_FAILURE);
 	}
-	if (ft_change_env_value(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
+	if (ft_change_env_value(shell->env, "OLDPWD=",
+			ft_getenv("PWD", shell->env)))
 		return (EXIT_FAILURE);
-	if (ft_change_env_value(shell->env, "PWD=", ft_getenv("HOME", shell->env)))
+	if (ft_change_env_value(shell->env, "PWD=",
+			ft_getenv("HOME", shell->env)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -100,7 +77,8 @@ int	ft_second_condition(t_shell *shell, char *pwd)
 		ft_putstr_fd(": No such file or directory\n", STDERR);
 		return (EXIT_FAILURE);
 	}
-	if (ft_change_env_value(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
+	if (ft_change_env_value(shell->env, "OLDPWD=",
+			ft_getenv("PWD", shell->env)))
 		return (EXIT_FAILURE);
 	if (ft_change_env_value(shell->env, "PWD=", getcwd(pwd, 255)))
 		return (EXIT_FAILURE);
@@ -127,7 +105,8 @@ int	ft_cd(t_token *token, t_shell *shell)
 	{
 		if (chdir(path) != 0)
 			ft_perror(path);
-		if (ft_change_env_value(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
+		if (ft_change_env_value(shell->env, "OLDPWD=",
+				ft_getenv("PWD", shell->env)))
 			return (EXIT_FAILURE);
 		if (ft_change_env_value(shell->env, "PWD=", getcwd(pwd, 255)))
 			return (EXIT_FAILURE);

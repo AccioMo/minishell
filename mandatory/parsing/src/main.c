@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/03 23:32:21 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/04 05:30:00 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,11 +96,6 @@ static void	ft_minishell(t_shell *shell)
 		rl_on_new_line();
 		shell->root = NULL;
 	}
-}
-
-void	f(void)
-{
-	system("leaks minishell");
 }
 
 void	sig_assign(int signal)

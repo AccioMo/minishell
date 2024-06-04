@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/02 19:48:25 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/04 06:04:21 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,7 @@ typedef struct s_shell
 	int				exit_code;
 }	t_shell;
 
-double	ft_gettimeofday(void);
+double	ft_gettimeofday(void);//huh??
 
 int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
@@ -108,7 +108,7 @@ void	ft_free_tree(t_token *token);
 
 int		ft_found_wildcard(char *str);
 
-int		ft_handle_wildecard(t_token *token, char *pattern);
+int	ft_handle_wildecard(t_token *token, char *pattern);
 
 int		ft_contains_variable(char *str);
 

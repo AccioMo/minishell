@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/03 23:40:42 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/04 05:57:03 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,14 +76,6 @@ int		ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
 int		ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
-int		ft_pipe_function(t_token *token, int fdin, t_shell *shell);
-
-/*A function that expand variables to there values from the env*/
-int		ft_variables(t_token *token, t_shell *shell, int i);
-
-/*A function that changes the '*' to a dir content*/
-int		ft_wildcard(t_token *token, int i);
-
 char	*ft_remove_quotes(char *str);
 
 int		ft_expand(t_token *token, t_shell *shell);
@@ -100,4 +92,17 @@ int		ft_redir_append_function(t_token *token);
 int		ft_redir_heredoc_function(t_token *token);
 
 void	ft_free(char **ptr);
+
+void	ft_enable_echoctl(void);
+
+void	ft_dup_pipes(int fdin, int fdout);
+
+void	ft_increment_shellvl(t_shell *shell);
+
+char	**ft_list_to_array(t_list *env);
+
+int	ft_dir_exists(char *path, t_shell *shell);
+
+int	ft_redir_heredoc_function(t_token *token);
+
 #endif

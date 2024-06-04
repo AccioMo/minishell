@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_priority.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/02 17:09:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/04 05:18:06 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	return (shell->exit_code);
 }
 
-int ft_ambiguous_redirect(t_token *token, t_shell *shell)
+int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
 {
 	ft_expand(token, shell);
 	if (ft_array_len(token->args) == 1 && ft_strlen(token->args[0]) > 0)

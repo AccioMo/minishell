@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_utils.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:11:34 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/05 21:10:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,29 +71,30 @@ int	ft_handle_tilde(t_token *token, int i, t_shell *shell)
 	return (0);
 }
 
+// if (token->left)
+// 	ft_expand(token->left, shell);
+// if (token->right)
+// 	ft_expand(token->right, shell);
+// if (token->type == WORD)
+// }
+// {
+
 int	ft_expand(t_token *token, t_shell *shell)
 {
 	int	i;
 
 	i = 0;
-	if (token->left)
-		ft_expand(token->left, shell);
-	if (token->right)
-		ft_expand(token->right, shell);
-	if (token->type == WORD)
+	while (token->args[i])
 	{
-		while (token->args[i])
-		{
-			if (ft_contains_variable(token->args[i]))
-				i += ft_variables(token, shell, i);
-			else if (ft_found_token(token->args[i], '*'))
-				i += ft_wildcard(token, i);
-			else if (ft_found_token(token->args[i], '~'))
-				i += ft_handle_tilde(token, i, shell);
-			else
-				token->args[i] = ft_remove_quotes(token->args[i]);
-			i++;
-		}
+		if (ft_contains_variable(token->args[i]))
+			i += ft_variables(token, shell, i);
+		else if (ft_found_token(token->args[i], '*'))
+			i += ft_wildcard(token, i);
+		else if (ft_found_token(token->args[i], '~'))
+			i += ft_handle_tilde(token, i, shell);
+		else
+			token->args[i] = ft_remove_quotes(token->args[i]);
+		i++;
 	}
 	return (0);
 }

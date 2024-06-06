@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:09:53 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 05:23:09 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,16 +32,13 @@ int	ft_perror(char *cmd)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
+		return (127);
 	}
 	else if (errno == EACCES)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": permission denied\n", 2);
-	}
-	else if (errno == ENOMEM)
-	{
-		ft_putstr_fd(cmd, 2);
-		ft_putstr_fd(": malloc error\n", 2);
+		return (126);
 	}
 	else
 		perror(cmd);

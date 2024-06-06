@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_priority.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 05:18:06 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:32:14 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,22 @@
 
 int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
+	int	status;
+
 	if (!token)
 		return (EXIT_FAILURE);
 	if (token->type == AND)
-		ft_and_function(token, fdin, fdout, shell);
+		status = ft_and_function(token, fdin, fdout, shell);
 	else if (token->type == OR)
-		ft_or_function(token, fdin, fdout, shell);
+		status = ft_or_function(token, fdin, fdout, shell);
 	else
-		ft_pipe_token(token, fdin, fdout, shell);
+		status = ft_pipe_token(token, fdin, fdout, shell);
 	while (wait(&shell->exit_code) > 0)
 		;
-	shell->exit_code >>= 8 & 0x000000ff;
+	if (WIFEXITED(shell->exit_code))
+		shell->exit_code = WEXITSTATUS(shell->exit_code);
+	else if (shell->exit_code == 1)
+		shell->exit_code = 0;
 	if (shell->exit_code == SIGQUIT)
 		ft_putstr_fd("Quit: 3\n", 1);
 	return (shell->exit_code);

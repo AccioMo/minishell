@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/05 21:10:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/06 08:10:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ char	*ft_remove_quotes(char *str)
 	return (word);
 }
 
-int	ft_handle_tilde(t_token *token, int i, t_shell *shell)
+char	*ft_handle_tilde(char *tilde, t_shell *shell)
 {
 	char	*home;
 	char	*new;
@@ -65,10 +65,10 @@ int	ft_handle_tilde(t_token *token, int i, t_shell *shell)
 	home = ft_getenv("HOME", shell->env);
 	if (!home)
 		return (0);
-	new = ft_strjoin(home, token->args[i] + 1);
-	free(token->args[i]);
-	token->args[i] = new;
-	return (0);
+	new = ft_strjoin(home, tilde + 1);
+	free(tilde);
+	tilde = new;
+	return (new);
 }
 
 // if (token->left)
@@ -81,19 +81,28 @@ int	ft_handle_tilde(t_token *token, int i, t_shell *shell)
 
 int	ft_expand(t_token *token, t_shell *shell)
 {
-	int	i;
+	char	**old_args;
+	int		i;
 
 	i = 0;
-	while (token->args[i])
+	old_args = token->args;
+	token->args = NULL;
+	while (old_args[i])
 	{
-		if (ft_contains_variable(token->args[i]))
-			i += ft_variables(token, shell, i);
-		else if (ft_found_token(token->args[i], '*'))
-			i += ft_wildcard(token, i);
-		else if (ft_found_token(token->args[i], '~'))
-			i += ft_handle_tilde(token, i, shell);
+		if (ft_contains_variable(old_args[i]))
+			ft_variables(old_args[i], token, shell);
+		else if (ft_found_token(old_args[i], '*'))
+		{
+			old_args[i] = ft_remove_quotes(old_args[i]);
+			ft_wildcard(token, old_args[i]);
+		}
+		else if (ft_found_token(old_args[i], '~'))
+			token->args[i] = ft_handle_tilde(old_args[i], shell);
 		else
-			token->args[i] = ft_remove_quotes(token->args[i]);
+		{
+			old_args[i] = ft_remove_quotes(old_args[i]);
+			token->args = ft_append_to_array(token->args, old_args[i]);
+		}
 		i++;
 	}
 	return (0);

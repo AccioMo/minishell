@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:11:53 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:06:51 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,24 +19,28 @@ int	ft_widcard_match(char *pattern, char *str)
 
 	i = 0;
 	j = 0;
-	while (pattern[i])
+	while (pattern[i] && str[j])
 	{
 		if (pattern[i] == '\"')
-			i += ft_index(&pattern[i + 1], '\"') + 1;
+			i += ft_index(&pattern[i + 1], '\"') + 2;
 		else if (pattern[i] == '\'')
-			i += ft_index(&pattern[i + 1], '\'') + 1;
+			i += ft_index(&pattern[i + 1], '\'') + 2;
 		else if (pattern[i] == '*')
 		{
 			while (pattern[i] == '*')
 				i++;
-			while (str[j] && str[j] != pattern[i])
-				j++;
+			ft_strnstr(&str[j], &pattern[i], ft_index(&pattern[i], '*'));
 		}
 		else if (pattern[i] != str[j])
 			return (0);
 		else
+		{
+			j++;
 			i++;
+		}
 	}
+	if (pattern[i] != str[j])
+		return (0);
 	return (1);
 }
 
@@ -45,27 +49,28 @@ int	ft_handle_wildecard(t_token *token, char *pattern)
 	struct dirent	*dir_entry;
 	char			cwd[PATH_MAX];
 	DIR				*dir;
-	int				len;
+	int				matches;
 
-	len = 0;
+	matches = 0;
+	pattern = ft_remove_quotes(pattern);
 	if (!pattern)
 		return (0);
-	getcwd(cwd, PATH_MAX);
 	dir = opendir(cwd);
 	if (!dir)
 		return (1);
 	dir_entry = readdir(dir);
 	while (dir_entry)
 	{
-		if (ft_widcard_match(pattern, dir_entry->d_name) == 1)
+		if ((dir_entry->d_name[0] != '.' || pattern[0] == '.') && \
+			ft_widcard_match(pattern, dir_entry->d_name) == 1)
 		{
 			token->args = ft_append_to_array(token->args, dir_entry->d_name);
-			len++;
+			matches++;
 		}
 		dir_entry = readdir(dir);
 	}
 	closedir(dir);
-	return (len);
+	return (0);
 }
 
 int	ft_found_token(char *str, char c)
@@ -81,22 +86,36 @@ int	ft_found_token(char *str, char c)
 			j += ft_index(&str[j + 1], '\'') + 1;
 		else if (str[j] == c)
 			return (1);
-		else
-			j++;
+		j++;
 	}
 	return (0);
 }
 
-int	ft_wildcard(t_token *token, int i)
+int	ft_wildcard(t_token *token, char *pattern)
 {
-	int	k;
+	struct dirent	*dir_entry;
+	DIR				*dir;
+	int				matches;
 
-	token->args[i] = ft_remove_quotes(token->args[i]);
-	k = ft_handle_wildecard(token, token->args[i]);
-	if (k > 0)
+	matches = 0;
+	if (!pattern)
+		return (0);
+	dir = opendir(".");
+	if (!dir)
+		return (1);
+	dir_entry = readdir(dir);
+	while (dir_entry)
 	{
-		token->args = ft_remove_from_array(token->args, i);
-		k--;
+		if (!(dir_entry->d_name[0] == '.' && pattern[0] != '.') \
+			&& ft_widcard_match(pattern, dir_entry->d_name) == 1)
+		{
+			token->args = ft_append_to_array(token->args, dir_entry->d_name);
+			matches++;
+		}
+		dir_entry = readdir(dir);
 	}
-	return (k);
+	if (matches == 0)
+		token->args = ft_append_to_array(token->args, pattern);
+	closedir(dir);
+	return (0);
 }

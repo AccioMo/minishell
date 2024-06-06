@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_two.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:20:34 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/02 18:04:00 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 07:47:45 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,6 +85,8 @@ int	ft_stage_three(char *str, int end, t_token **token)
 	{
 		if (!ft_strncmp(&str[i], "\"", 1))
 			i += ft_index(&str[i + 1], '\"') + 1;
+		else if (!ft_strncmp(&str[i], "\'", 1))
+			i += ft_index(&str[i + 1], '\'') + 1;
 		else if (!ft_strncmp(&str[i], "(", 1))
 			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], ">>", 2))

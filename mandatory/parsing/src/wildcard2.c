@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:53:38 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 05:54:34 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 07:40:45 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,20 @@ char	**ft_append_to_array(char **args, char *new_arg)
 	int		i;
 
 	i = 0;
+	if (!args)
+	{
+		new_args = (char **)malloc(sizeof(char *) * 2);
+		if (!new_args)
+			return (NULL);
+		new_args[0] = ft_strdup(new_arg);
+		if (!new_args[0])
+		{
+			free(new_args);
+			return (NULL);
+		}
+		new_args[1] = NULL;
+		return (new_args);
+	}
 	while (args[i])
 		i++;
 	new_args = malloc(sizeof(char *) * (i + 2));

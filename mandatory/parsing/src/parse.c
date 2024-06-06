@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 20:19:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/06 10:27:40 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	ft_parse(char *line, t_shell *shell)
 		ft_throw_syntax_error(line);
 		return (EXIT_FAILURE);
 	}
-	if (ft_stage_one(line, &shell->root))
+	if (ft_stage_and(line, &shell->root))
 	{
 		// ft_free_tree(shell->root);
 		shell->root = NULL;

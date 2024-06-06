@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:16:52 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:56:56 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	ft_cd(t_token *token, t_shell *shell)
 	char	*path;
 
 	path = ft_get_path(token->args, shell->env);
-	printf("path: %s\n", path);
 	if (!path)
 		return (EXIT_FAILURE);
 	if (token->args[1] == NULL && !ft_first_condition(shell))

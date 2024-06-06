@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_2.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:15:50 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:28:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 
 	if (!token || token->args == NULL)
 		return (EXIT_FAILURE);
-	if (ft_expand(token, shell))
+	if (ft_expand(token, shell) || token->args == NULL)
 		return (EXIT_FAILURE);
 	if (ft_is_builtin(token))
 		return (ft_execute_builtin(token, fdout, shell));

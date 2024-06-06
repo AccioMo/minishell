@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 06:11:19 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 11:25:16 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,12 +92,20 @@ static void	ft_minishell(t_shell *shell)
 {
 	char	*buffer;
 
+	ft_clear();
 	while (TRUE)
 	{
 		ft_disable_echoctl();
-		signal(SIGQUIT, &sig_handler);
 		signal(SIGINT, &sig_handler);
-		buffer = readline("\033[1m● minishell-v0.7 ❯ \033[0m");
+		signal(SIGQUIT, &sig_handler);
+		if (shell->exit_code == 0)
+			buffer = ft_strjoin("\033[1;32m●\033[0m\033[1m minish-v1.0 ", \
+			getenv("USER"));
+		else
+			buffer = ft_strjoin("\033[1;31m●\033[0m\033[1m minish-v1.0 ", \
+			getenv("USER"));
+		buffer = ft_realloc(buffer, " ❯ \033[0m");
+		buffer = readline(buffer);
 		if (!buffer)
 			return (ft_exit(shell));
 		add_history(buffer);
@@ -107,6 +115,19 @@ static void	ft_minishell(t_shell *shell)
 		rl_on_new_line();
 		shell->root = NULL;
 	}
+}
+
+void	ft_non_interactive(t_shell *shell)
+{
+	char	*buffer;
+
+	buffer = readline(NULL);
+	if (!buffer)
+		ft_exit(shell);
+	ft_parse(buffer, shell);
+	shell->exit_code = ft_priority_token(shell->root, 0, 1, shell);
+	shell->root = NULL;
+	free(buffer);
 }
 
 void	sig_assign(int signal)
@@ -123,7 +144,6 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
-	ft_clear();
 	tcgetattr(STDIN_FILENO, &shell.term);
 	signal(g_signal, sig_assign);
 	shell.root = NULL;
@@ -131,7 +151,10 @@ int	main(int ac, char **av, char **env)
 	shell.env = ft_create_env(env);
 	if (!shell.env)
 		return (ft_perror("minishell"));
-	ft_minishell(&shell);
+	if (isatty(STDIN_FILENO))
+		ft_minishell(&shell);
+	else
+		ft_non_interactive(&shell);
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term);

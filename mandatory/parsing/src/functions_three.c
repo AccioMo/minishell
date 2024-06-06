@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_three.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 05:15:50 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/06 10:27:40 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,8 +38,7 @@ int	ft_skip_parentheses(char *str)
 			i += ft_skip_parentheses(&str[i]) + 1;
 		else if (!ft_strncmp(&str[i], ")", 1))
 			return (i);
-		else
-			i++;
+		i++;
 	}
 	return (i);
 }
@@ -97,15 +96,16 @@ int	ft_stage_four(char *str, int end, t_token **token)
 		{
 			if (!ft_add_token(SUBSHELL, NULL, token))
 				return (EXIT_FAILURE);
-			p = ft_skip_parentheses(&str[i]);
-			while (++p < end)
+			p = ft_skip_parentheses(&str[i]) + i + 1;
+			while (p < end)
 			{
 				if (!ft_whitespace(str[p]))
 					return (ft_throw_syntax_error(&str[p]));
+				p++;
 			}
 			p = ft_skip_parentheses(&str[i]);
 			word = ft_substr(&str[i + 1], 0, p - 1);
-			ft_stage_one(word, &(*token)->right);
+			ft_stage_and(word, &(*token)->right);
 			return (EXIT_SUCCESS);
 		}
 		else

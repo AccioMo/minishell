@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   exec_utils1.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:02:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:28:15 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/07 18:01:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,6 +35,8 @@ void	ft_free(char **ptr)
 	int	i;
 
 	i = 0;
+	if (!ptr)
+		return ;
 	while (ptr[i])
 	{
 		free(ptr[i]);

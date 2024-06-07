@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/06 10:44:55 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 18:00:24 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int			ft_reserved_word(char *str);
 int			ft_throw_syntax_error(char *word);
 void		ft_free(char **ptr);
 
-t_token		*ft_add_token(t_type type, char *str, t_token **token);
+t_token		*ft_add_token(t_type type, t_token **token);
 int			ft_skip_parentheses(char *str);
 int			ft_stage_four(char *str, int end, t_token **token);
 int			ft_stage_three(char *str, int end, t_token **token);

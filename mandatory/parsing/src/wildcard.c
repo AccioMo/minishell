@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/06 10:06:51 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 15:38:45 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,17 +19,18 @@ int	ft_widcard_match(char *pattern, char *str)
 
 	i = 0;
 	j = 0;
-	while (pattern[i] && str[j])
+	while (pattern[i])
 	{
 		if (pattern[i] == '\"')
 			i += ft_index(&pattern[i + 1], '\"') + 2;
 		else if (pattern[i] == '\'')
 			i += ft_index(&pattern[i + 1], '\'') + 2;
-		else if (pattern[i] == '*')
+		else if (pattern[i] == 42)
 		{
-			while (pattern[i] == '*')
+			while (pattern[i] == 42)
 				i++;
-			ft_strnstr(&str[j], &pattern[i], ft_index(&pattern[i], '*'));
+			while (str[j] && pattern[i] != str[j])
+				j++;
 		}
 		else if (pattern[i] != str[j])
 			return (0);
@@ -39,8 +40,6 @@ int	ft_widcard_match(char *pattern, char *str)
 			i++;
 		}
 	}
-	if (pattern[i] != str[j])
-		return (0);
 	return (1);
 }
 

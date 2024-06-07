@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/06 10:56:56 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 20:21:27 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,37 +17,38 @@ int	ft_set_env(t_list *env, char *name, char *value)
 	t_list	*head;
 
 	head = env;
+	name = ft_strjoin(name, "=");
 	while (env)
 	{
 		if (!ft_strncmp(env->content, name, ft_strlen(name)))
 		{
 			free(env->content);
 			env->content = ft_strjoin(name, value);
+			if (!env->content)
+				return (EXIT_FAILURE);
+			free(name);
 			return (EXIT_SUCCESS);
 		}
 		env = env->next;
 	}
 	if (env == NULL)
 	{
-		env = head;
-		name = ft_strjoin(name, value);
+		name = ft_realloc(name, value);
 		if (!name)
 			return (EXIT_FAILURE);
-		ft_lstadd_back(&env, ft_lstnew(name));
+		ft_lstadd_back(&head, ft_lstnew(name));
 	}
 	return (EXIT_SUCCESS);
 }
 
-static char	*ft_get_path(char **args, t_list *env)
-{
-	char	*path;
+// static char	*ft_get_path(char **args, t_list *env)
+// {
+// 	char	*path;
 
-	if (ft_strncmp(args[1], "/", 1) == 0)
-		path = args[1];
-	else
-		path = ft_realloc(ft_strjoin(ft_getenv("PWD", env), "/"), args[1]);
-	return (path);
-}
+// 	if (ft_strncmp(args[1], "/", 1))
+// 		path = ft_realloc(ft_strjoin(ft_getenv("PWD", env), "/"), args[1]);
+// 	return (path);
+// }
 
 int	ft_first_condition(t_shell *shell)
 {
@@ -87,10 +88,9 @@ int	ft_cd(t_token *token, t_shell *shell)
 	char	pwd[PATH_MAX];
 	char	*path;
 
-	path = ft_get_path(token->args, shell->env);
-	if (!path)
-		return (EXIT_FAILURE);
-	if (token->args[1] == NULL && !ft_first_condition(shell))
+	// path = ft_get_path(token->args, shell->env);
+	path = token->args[1];
+	if (path == NULL && !ft_first_condition(shell))
 		return (EXIT_SUCCESS);
 	else if (token->args[1] == NULL)
 		return (EXIT_FAILURE);
@@ -101,7 +101,7 @@ int	ft_cd(t_token *token, t_shell *shell)
 	else
 	{
 		if (chdir(path) != 0)
-			ft_perror(path);
+			return ((ft_perror(path) * 0) + 1);
 		if (ft_set_env(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
 			return (EXIT_FAILURE);
 		if (ft_set_env(shell->env, "PWD=", getcwd(pwd, PATH_MAX)))

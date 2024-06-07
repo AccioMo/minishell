@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/04 06:10:42 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/07 12:45:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int		ft_and_function(t_token *token, int fdin, int fdout, t_shell *shell);
 
 int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
-int		ft_redirections_token(t_token *token, int fi, int fo, t_shell *shell);
+int		ft_redir_token(t_token *token, int fi, int fo, t_shell *shell);
 
 int		ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell);
 

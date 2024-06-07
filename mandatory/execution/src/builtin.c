@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 00:36:42 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 19:33:20 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,5 @@ int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
 		shell->exit_code = ft_env(shell->env, fdout);
 	else if (ft_strncmp(token->args[0], "exit\0", 5) == 0)
 		ft_exit(shell);
-	if (fdout != 1)
-		close(fdout);
 	return (shell->exit_code);
 }

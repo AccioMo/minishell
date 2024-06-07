@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 00:14:48 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 21:07:38 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,90 +27,86 @@ int	ft_print_shell(t_list *env, int fdout)
 		if (env->content[j] == '=')
 		{
 			ft_putchar_fd('=', fdout);
-			ft_putchar_fd('\'', fdout);
+			ft_putchar_fd('\"', fdout);
 			j++;
 		}
 		while (env->content[j])
 			ft_putchar_fd(env->content[j++], fdout);
-		ft_putchar_fd('\'', fdout);
+		ft_putchar_fd('\"', fdout);
 		ft_putchar_fd('\n', fdout);
 		env = env->next;
 	}
 	return (EXIT_SUCCESS);
 }
 
-static int	ft_export_lines_saver(char *new_var, t_list *env)
+int	ft_valid_variable(char *var, int *index)
 {
-	t_list	*head;
+	int	i;
 
-	head = env;
-	if (ft_strncmp(new_var, "_\0", 2))
-		if (ft_set_env(env, "_=", "export"))
-			return (EXIT_FAILURE);
-	while (env)
+	i = 0;
+	if (!var || (!ft_isalpha(var[i]) && var[i] != '_'))
 	{
-		if (!ft_strncmp(env->content, new_var, ft_strlen(new_var)))
-		{
-			free(env->content);
-			env->content = ft_strdup(new_var);
-			if (!env->content)
-				return (EXIT_FAILURE);
-			return (EXIT_SUCCESS);
-		}
-		env = env->next;
+		ft_putstr_fd("export: `", 2);
+		ft_putstr_fd(var, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (EXIT_FAILURE);
 	}
-	ft_lstadd_back(&head, ft_lstnew(new_var));
+	i++;
+	while (var[i] && var[i] != '=' && ft_strncmp(&var[i], "+=", 2))
+	{
+		if (ft_strchr("+-#?!@*$%^&()[]{}|;:<>,./~", var[i]))
+		{
+			ft_putstr_fd("export: `", 2);
+			ft_putstr_fd(var, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
+	*index = i;
 	return (EXIT_SUCCESS);
 }
 
-static int	ft_var_exist(t_shell *shell, char *var)
+int	ft_export_variable(char *name, char *var, t_shell *shell)
 {
-	char	*var_name;
-	char	*var_value;
-	int		equal_pos;
+	char	*value;
 
-	equal_pos = ft_get_index(var, '=');
-	var_name = ft_substr(var, 0, equal_pos);
-	if (!var_name)
-		return (EXIT_FAILURE);
-	var_value = ft_getenv(var_name, shell->env);
-	if (!var_value)
+	value = ft_getenv(name, shell->env);
+	if (!ft_strncmp(var, "+=", 2))
 	{
-		free(var_name);
-		return (EXIT_FAILURE);
-	}
-	else
-	{
-		var_name = ft_realloc(var_name, "=");
-		if (ft_set_env(shell->env, var_name, ft_strchr(var, '=') + 1))
+		if (value)
+			value = ft_strjoin(value, var + 2);
+		if (ft_set_env(shell->env, name, value))
 			return (EXIT_FAILURE);
 	}
-	free(var_name);
+	else if (*var == '=')
+		if (ft_set_env(shell->env, name, var + 1))
+			return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
 
 int	ft_export(t_token *token, t_shell *shell, int fdout)
 {
-	int	j;
+	char	*name;
+	int		status;
+	int		j;
+	int		i;
 
-	j = 0;
+	j = 1;
+	status = 0;
 	if (ft_array_len(token->args) == 1)
 		return (ft_print_shell(shell->env, fdout));
-	while (token->args[++j])
+	while (token->args[j])
 	{
-		if (ft_strchr(token->args[j], '=') == NULL)
-			return (EXIT_SUCCESS);
-		if (ft_isalpha(token->args[j][0]) == 0)
+		if (ft_valid_variable(token->args[j], &i))
+			status = EXIT_FAILURE;
+		else
 		{
-			ft_putstr_fd("export: `", fdout);
-			ft_putstr_fd(token->args[1], fdout);
-			ft_putstr_fd("': not a valid identifier\n", fdout);
-			return (EXIT_FAILURE);
+			name = ft_substr(token->args[j], 0, i);
+			if (ft_export_variable(name, &token->args[j][i], shell))
+				return (EXIT_FAILURE);
 		}
-		if (!ft_var_exist(shell, token->args[j]))
-			continue ;
-		if (ft_export_lines_saver(token->args[j], shell->env))
-			return (EXIT_FAILURE);
+		j++;
 	}
-	return (EXIT_SUCCESS);
+	return (status);
 }

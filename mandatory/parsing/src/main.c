@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/06 11:25:16 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 19:27:13 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,27 +93,28 @@ static void	ft_minishell(t_shell *shell)
 	char	*buffer;
 
 	ft_clear();
-	while (TRUE)
+	while (1)
 	{
+		// double start = ft_gettimeofday();
 		ft_disable_echoctl();
 		signal(SIGINT, &sig_handler);
 		signal(SIGQUIT, &sig_handler);
 		if (shell->exit_code == 0)
-			buffer = ft_strjoin("\033[1;32m●\033[0m\033[1m minish-v1.0 ", \
+			buffer = ft_strjoin("\033[1;32m●\033[0m\033[1m shv1 ", \
 			getenv("USER"));
 		else
-			buffer = ft_strjoin("\033[1;31m●\033[0m\033[1m minish-v1.0 ", \
+			buffer = ft_strjoin("\033[1;31m●\033[0m\033[1m shv1 ", \
 			getenv("USER"));
 		buffer = ft_realloc(buffer, " ❯ \033[0m");
 		buffer = readline(buffer);
 		if (!buffer)
 			return (ft_exit(shell));
 		add_history(buffer);
-		ft_parse(buffer, shell);
-		free(buffer);
-		shell->exit_code = ft_priority_token(shell->root, 0, 1, shell);
-		rl_on_new_line();
-		shell->root = NULL;
+		if (!ft_parse(buffer, shell))
+			ft_priority_token(shell->root, 0, 1, shell);
+		// double parse_t = ft_gettimeofday();
+		// printf("Parsing time: %f\n", ft_gettimeofday() - parse_t);
+		// printf("Loop time: %f\n", ft_gettimeofday() - start);
 	}
 }
 
@@ -121,13 +122,15 @@ void	ft_non_interactive(t_shell *shell)
 {
 	char	*buffer;
 
-	buffer = readline(NULL);
+	buffer = readline("");
+	// ft_putstr_fd("\033[A", 1);
+	// rl_replace_line("", 0);
+	// rl_redisplay();
 	if (!buffer)
 		ft_exit(shell);
-	ft_parse(buffer, shell);
-	shell->exit_code = ft_priority_token(shell->root, 0, 1, shell);
-	shell->root = NULL;
-	free(buffer);
+	add_history(buffer);
+	if (!ft_parse(buffer, shell))
+		ft_priority_token(shell->root, 0, 1, shell);
 }
 
 void	sig_assign(int signal)
@@ -158,5 +161,5 @@ int	main(int ac, char **av, char **env)
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term);
-	return (0);
+	return (shell.exit_code);
 }

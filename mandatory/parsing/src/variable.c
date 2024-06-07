@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/06 09:52:53 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 13:26:45 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,12 +134,11 @@ int	ft_variables(char *str, t_token *token, t_shell *shell)
 			ret++;
 			free(new);
 			new = NULL;
-			int	k = 1;
+			int	k = 0;
 			while (k < (arr_len - 1))
 				token->args = ft_append_to_array(token->args, new_args[k++]);
 			new = ft_strdup(new_args[k]);
 			ret += (arr_len - 1);
-			free(tmp);
 		}
 		else
 		{
@@ -153,16 +152,5 @@ int	ft_variables(char *str, t_token *token, t_shell *shell)
 		token->args = ft_append_to_array(token->args, new);
 		ret++;
 	}
-	// var_cmd = ft_split(token->args[i], ' ');
-	// token->args = ft_remove_from_array(token->args, i);
-	// while (var_cmd[variables])
-	// {
-	// 	if (ft_found_token(var_cmd[variables], '*'))
-	// 		wildcards += ft_handle_wildecard(token, var_cmd[variables]);
-	// 	else
-	// 		token->args = ft_append_to_array(token->args, var_cmd[variables]);
-	// 	variables++;
-	// }
-	// printf("ret = %d\n", ret);
 	return (ret);
 }

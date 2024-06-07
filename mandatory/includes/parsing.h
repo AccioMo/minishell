@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/07 18:00:24 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:21:12 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,5 +45,7 @@ int     ft_variables(char *str, t_token *token, t_shell *shell);
 int     ft_wildcard(t_token *token, char *pattern);
 
 char    *ft_remove_quotes(char *str);
+
+void    sort_arr(char **oldbuff);
 
 #endif

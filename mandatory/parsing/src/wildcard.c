@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard.c                                         :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 15:38:45 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:29:09 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,7 +94,9 @@ int	ft_wildcard(t_token *token, char *pattern)
 {
 	struct dirent	*dir_entry;
 	DIR				*dir;
+    char            **new_arr;
 	int				matches;
+	int				i;
 
 	matches = 0;
 	if (!pattern)
@@ -103,18 +105,23 @@ int	ft_wildcard(t_token *token, char *pattern)
 	if (!dir)
 		return (1);
 	dir_entry = readdir(dir);
+	new_arr = NULL;
 	while (dir_entry)
 	{
 		if (!(dir_entry->d_name[0] == '.' && pattern[0] != '.') \
 			&& ft_widcard_match(pattern, dir_entry->d_name) == 1)
 		{
-			token->args = ft_append_to_array(token->args, dir_entry->d_name);
+			new_arr = ft_append_to_array(new_arr, dir_entry->d_name);
 			matches++;
 		}
 		dir_entry = readdir(dir);
 	}
 	if (matches == 0)
-		token->args = ft_append_to_array(token->args, pattern);
+		new_arr = ft_append_to_array(new_arr, pattern);
+	sort_arr(new_arr);
+	i = -1;
+	while (new_arr[++i])
+		token->args = ft_append_to_array(token->args, new_arr[i]);
 	closedir(dir);
 	return (0);
 }

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:53:38 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/06 07:40:45 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 22:25:38 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,6 +38,38 @@ char	**ft_remove_from_array(char **array, int x)
 	new_array[j] = NULL;
 	free(array);
 	return (new_array);
+}
+
+void    sort_arr(char **oldbuff)
+{
+    char    *str_one;
+    int     i;
+    int     swapped;
+    int     oldBuffSize;
+
+    if (oldbuff == NULL)
+        return ;
+    i = 0;
+    oldBuffSize = 0;
+    while (oldbuff[oldBuffSize] != NULL)
+        oldBuffSize++;
+    swapped = 1;
+    while (swapped)
+    {
+        swapped = 0;
+        i = 0;
+        while (i < oldBuffSize - 1)
+        {
+            if (strcmp(oldbuff[i], oldbuff[i + 1]) > 0)
+            {
+                str_one = oldbuff[i];
+                oldbuff[i] = oldbuff[i + 1];
+                oldbuff[i + 1] = str_one;
+                swapped = 1;
+            }
+            i++;
+        }
+    }
 }
 
 char	**ft_append_to_array(char **args, char *new_arg)

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/07 17:46:52 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 17:18:25 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,10 +110,12 @@ void	ft_free_tree(t_token *token);
 
 int		ft_found_token(char *str, char c);
 
-int	ft_handle_wildecard(t_token *token, char *pattern);
+int		ft_handle_wildecard(t_token *token, char *pattern);
+
+int		ft_set_env(t_list *env, char *name, char *value);
 
 int		ft_contains_variable(char *str);
 
-void	ft_exit(t_shell *env);
+int		ft_exit(t_token *token, t_shell *env);
 
 #endif

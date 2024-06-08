@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 20:21:27 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 17:09:12 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,9 +60,9 @@ int	ft_first_condition(t_shell *shell)
 			ft_perror("");
 		return (EXIT_FAILURE);
 	}
-	if (ft_set_env(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
+	if (ft_set_env(shell->env, "OLDPWD", ft_getenv("PWD", shell->env)))
 		return (EXIT_FAILURE);
-	if (ft_set_env(shell->env, "PWD=", ft_getenv("HOME", shell->env)))
+	if (ft_set_env(shell->env, "PWD", ft_getenv("HOME", shell->env)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
 }
@@ -76,17 +76,36 @@ int	ft_second_condition(t_shell *shell, char *pwd)
 		ft_putstr_fd(": No such file or directory\n", STDERR);
 		return (EXIT_FAILURE);
 	}
-	if (ft_set_env(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
+	if (ft_set_env(shell->env, "OLDPWD", ft_getenv("PWD", shell->env)))
 		return (EXIT_FAILURE);
-	if (ft_set_env(shell->env, "PWD=", getcwd(pwd, 255)))
+	if (ft_set_env(shell->env, "PWD", getcwd(pwd, 255)))
 		return (EXIT_FAILURE);
 	return (EXIT_SUCCESS);
+}
+
+int	ft_cd_error(char *path, t_shell *shell)
+{
+	ft_putstr_fd("minishell: cd: ", 2);
+	if (shell == NULL)
+	{
+		ft_putstr_fd(path, 2);
+		strerror(errno);
+		return (EXIT_FAILURE);
+	}
+	strerror(errno);
+	ft_putstr_fd("error retrieving current directory: \
+getcwd: cannot access parent directories: No such file or directory\n", 2);
+	if (path[ft_strlen(path) - 1] != '/')
+		path = ft_realloc(ft_strjoin(ft_getenv("PWD", shell->env), "/"), path);
+	ft_set_env(shell->env, "PWD", path);
+	return (EXIT_FAILURE);
 }
 
 int	ft_cd(t_token *token, t_shell *shell)
 {
 	char	pwd[PATH_MAX];
 	char	*path;
+	char	*old_pwd;
 
 	// path = ft_get_path(token->args, shell->env);
 	path = token->args[1];
@@ -96,15 +115,19 @@ int	ft_cd(t_token *token, t_shell *shell)
 		return (EXIT_FAILURE);
 	else if (!ft_strncmp(token->args[1], "-\0", 2))
 		return (ft_second_condition(shell, pwd));
-	else if (ft_dir_exists(path, shell))
-		return (EXIT_FAILURE);
 	else
 	{
-		if (chdir(path) != 0)
-			return ((ft_perror(path) * 0) + 1);
-		if (ft_set_env(shell->env, "OLDPWD=", ft_getenv("PWD", shell->env)))
+		old_pwd = getcwd(NULL, 0);
+		if (old_pwd == NULL)
+			perror("getcwd");
+		if (chdir(path))
+			ft_cd_error(path, NULL);
+		if (getcwd(pwd, PATH_MAX) == NULL)
+			return (ft_cd_error(path, shell));
+		printf("pwd = %s\n", pwd);
+		if (ft_set_env(shell->env, "OLDPWD", ft_getenv("PWD", shell->env)))
 			return (EXIT_FAILURE);
-		if (ft_set_env(shell->env, "PWD=", getcwd(pwd, PATH_MAX)))
+		if (ft_set_env(shell->env, "PWD", pwd))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

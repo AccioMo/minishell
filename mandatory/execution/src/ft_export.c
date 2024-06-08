@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 21:07:38 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 17:45:23 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 
 int	ft_print_shell(t_list *env, int fdout)
 {
+	int	ei;
 	int	i;
 	int	j;
 
@@ -22,7 +23,8 @@ int	ft_print_shell(t_list *env, int fdout)
 	{
 		j = 0;
 		ft_putstr_fd("declare -x ", fdout);
-		while (env->content[j] && env->content[j] != '=')
+		ei = ft_index(env->content, '=');
+		while (j < ei)
 			ft_putchar_fd(env->content[j++], fdout);
 		if (env->content[j] == '=')
 		{
@@ -80,8 +82,12 @@ int	ft_export_variable(char *name, char *var, t_shell *shell)
 			return (EXIT_FAILURE);
 	}
 	else if (*var == '=')
+	{
 		if (ft_set_env(shell->env, name, var + 1))
 			return (EXIT_FAILURE);
+	}
+	else
+		ft_lstadd_back(&shell->env, ft_lstnew(ft_strdup(name)));
 	return (EXIT_SUCCESS);
 }
 

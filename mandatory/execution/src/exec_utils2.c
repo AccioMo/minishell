@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:13:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 13:44:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 17:22:47 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,7 +55,7 @@ char	*ft_match_path(char *command, char **paths_env)
 char	**ft_get_paths(char **env)
 {
 	if (!*env)
-		return (ft_split("/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.", ':'));
+		return (NULL);
 	while (*env)
 	{
 		if (!ft_strncmp(*env, "PATH", 4))

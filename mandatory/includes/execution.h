@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/07 12:45:10 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 17:35:14 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int		ft_pwd(int fdout, t_list *env);
 int		ft_cd(t_token *token, t_shell *env);
 
 /*A mimit function of unset shell-builtin functions*/
-int		ft_unset(t_token *token, t_list *env);
+int		ft_unset(t_token *token, t_shell *shell);
 
 /*A mimit function of export shell-builtin functions*/
 int		ft_export(t_token *cmd, t_shell *env, int fdout);

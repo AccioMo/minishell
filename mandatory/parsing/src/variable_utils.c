@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 19:22:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/07 23:25:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -104,8 +104,8 @@ int	ft_expand(t_token *token, t_shell *shell)
 		}
 		else
 		{
-			// if (old_args[i][0] == '~')
-			// 	old_args[i] = ft_handle_tilde(old_args[i], shell);
+			if (old_args[i][0] == '~')
+				old_args[i] = ft_handle_tilde(old_args[i], shell);
 			old_args[i] = ft_remove_quotes(old_args[i]);
 			token->args = ft_append_to_array(token->args, old_args[i]);
 		}

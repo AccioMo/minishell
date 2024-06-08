@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/07 18:00:24 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 15:14:18 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,14 +36,14 @@ int			ft_stage_two(char *str, int end, t_token **token);
 int			ft_stage_or(char *str, int end, t_token **token);
 int			ft_stage_and(char *str, t_token **token);
 
-char    **ft_append_to_array(char **args, char *new_arg);
+char    	**ft_append_to_array(char **args, char *new_arg);
 
 /*A function that expand variables to there values from the env*/
-int     ft_variables(char *str, t_token *token, t_shell *shell);
+int			ft_variables(char *str, t_token *token, t_shell *shell);
 
 /*A function that changes the '*' to a dir content*/
-int     ft_wildcard(t_token *token, char *pattern);
+char		*ft_wildcard(t_token *token, char *pattern);
 
-char    *ft_remove_quotes(char *str);
+char		*ft_remove_quotes(char *str);
 
 #endif

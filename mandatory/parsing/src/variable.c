@@ -6,25 +6,44 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/07 13:26:45 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 15:29:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-static char	*ft_expand_variable(char *str, int *i, t_shell *shell)
+static int	ft_variable_length(char *str)
+{
+	int	len;
+
+	len = 0;
+	while (str[len] && str[len] == '$')
+		len++;
+	if (ft_isdigit(str[len]))
+		len++;
+	else if (str[len] == '?')
+		len++;
+	else if (str[len] == '_')
+		len++;
+	else
+		while (str[len] && ft_isalnum(str[len]))
+			len++;
+	return (len);
+}
+
+static char	*ft_expand_variable(char *str, t_shell *shell)
 {
 	char	*tmp;
 	char	*new;
 	int		len;
 
-	while (*str && *str == '$' && ++(*i))
+	while (*str && *str == '$')
 		str++;
-	if (ft_isdigit(*str) && (*i)++)
+	if (ft_isdigit(*str))
 		return (ft_strdup(""));
-	else if (*str == '?' && (*i)++)
+	else if (*str == '?')
 		return (ft_itoa(shell->exit_code));
-	else if (*str == '_' && (*i)++)
+	else if (*str == '_')
 		return (ft_strdup(ft_getenv("_", shell->env)));
 	else
 	{
@@ -36,7 +55,6 @@ static char	*ft_expand_variable(char *str, int *i, t_shell *shell)
 		tmp = ft_substr(str, 0, len);
 		new = ft_getenv(tmp, shell->env);
 		free(tmp);
-		*i += len;
 		return (ft_strdup(new));
 	}
 }
@@ -65,18 +83,86 @@ int	ft_contains_variable(char *str)
 	return (0);
 }
 
+char	*ft_quoted_variables(char *str, char *new, t_shell *shell)
+{
+	char	*tmp;
+
+	while (*str && *str != '\"')
+	{
+		if (*str == '$')
+		{
+			tmp = ft_expand_variable(++str, shell);
+			str += ft_variable_length(str);
+			new = ft_realloc(new, tmp);
+			free(tmp);
+		}
+		else
+		{
+			tmp = ft_substr(str, 0, 1);
+			new = ft_realloc(new, tmp);
+			str++;
+		}
+	}
+	return (new);
+}
+
+char	*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell)
+{
+	char	**new_args;
+	int		arr_len;
+	char	*tmp;
+	int		k;
+
+	k = 0;
+	tmp = ft_expand_variable(++str, shell);
+	new_args = ft_split(tmp, ' ');
+	free(tmp);
+	if (!new_args || !new_args[0])
+		return (NULL);
+	arr_len = ft_array_len(new_args);
+	new = ft_realloc(new, new_args[0]);
+	if (ft_found_token(new, '*'))
+		return (ft_wildcard(token, new));
+	if (arr_len == 1)
+		return (new);
+	token->args = ft_append_to_array(token->args, new);
+	free(new);
+	new = NULL;
+	while (++k < (arr_len - 1))
+	{
+		if (ft_found_token(new_args[k], '*'))
+			ft_wildcard(token, new_args[k]);
+		else
+			token->args = ft_append_to_array(token->args, new_args[k]);
+	}
+	if (ft_found_token(new_args[k], '*'))
+		ft_wildcard(token, new_args[k]);
+	else
+		new = ft_strdup(new_args[k]);
+	ft_free(new_args);
+	return (new);
+}
+
+int	ft_next_variable(char *str)
+{
+	int	i;
+
+	i = 0;
+	while (str[i] && str[i] != '$' && str[i] != '\"' && str[i] != '\'')
+		i++;
+	return (i);
+}
+
 int	ft_variables(char *str, t_token *token, t_shell *shell)
 {
 	char	*tmp;
 	char	*new;
 	int		len;
-	int		ret;
+	int		v;
 	int		i;
 
 	i = 0;
-	ret = 0;
 	new = NULL;
-	ret--;
 	while (str[i])
 	{
 		if (str[i] == '\'')
@@ -87,70 +173,29 @@ int	ft_variables(char *str, t_token *token, t_shell *shell)
 		}
 		else if (str[i] == '\"')
 		{
-			i++;
-			while (str[i])
-			{
-				if (str[i] == '\"')
-				{
-					i++;
-					break ;
-				}
-				if (str[i] == '$')
-				{
-					tmp = ft_expand_variable(&str[++i], &i, shell);
-					if (tmp[0] == '\0')
-						new = ft_realloc(new, "$");
-					else
-						new = ft_realloc(new, tmp);
-					free(tmp);
-				}
-				else
-				{
-					len = ft_index(&str[i], '$');
-					int len2 = ft_index(&str[i], '\"');
-					if (len2 < len)
-						len = len2;
-					tmp = ft_substr(str, i, len);
-					new = ft_realloc(new, tmp);
-					free(tmp);
-					i += len;
-				}
-			}
+			len = ft_index(&str[++i], '\"') + 1;
+			new = ft_quoted_variables(&str[i], new, shell);
+			i += len;
 		}
 		else if (str[i] == '$')
 		{
-			tmp = ft_expand_variable(&str[++i], &i, shell);
-			char	**new_args = ft_split(tmp, ' ');
-			free(tmp);
-			if (!new_args || !new_args[0])
-				continue ;
-			int	arr_len = ft_array_len(new_args);
-			// printf("arr_len = %d\n", arr_len);
-			new = ft_realloc(new, new_args[0]);
-			if (arr_len == 1)
-				continue ;
-			token->args = ft_append_to_array(token->args, new);
-			new_args++;
-			ret++;
-			free(new);
-			new = NULL;
-			int	k = 0;
-			while (k < (arr_len - 1))
-				token->args = ft_append_to_array(token->args, new_args[k++]);
-			new = ft_strdup(new_args[k]);
-			ret += (arr_len - 1);
+			new = ft_split_variable(&str[i], new, token, shell);
+			i += ft_variable_length(&str[i]);
 		}
 		else
 		{
-			tmp = ft_substr(str, i, 1);
+			v = ft_next_variable(&str[i]);
+			tmp = ft_substr(str, i, v);
 			new = ft_realloc(new, tmp);
-			i++;
+			i += v;
 		}
 	}
 	if (new)
 	{
-		token->args = ft_append_to_array(token->args, new);
-		ret++;
+		if (ft_found_token(new, '*'))
+			ft_wildcard(token, new);
+		else
+			token->args = ft_append_to_array(token->args, new);
 	}
-	return (ret);
+	return (0);
 }

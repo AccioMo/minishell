@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 15:38:45 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 15:13:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	ft_widcard_match(char *pattern, char *str)
 	while (pattern[i])
 	{
 		if (pattern[i] == '\"')
-			i += ft_index(&pattern[i + 1], '\"') + 2;
+			i += ft_index(&pattern[i + 1], '\"') + 2; // could cause segfault
 		else if (pattern[i] == '\'')
 			i += ft_index(&pattern[i + 1], '\'') + 2;
 		else if (pattern[i] == 42)
@@ -90,7 +90,7 @@ int	ft_found_token(char *str, char c)
 	return (0);
 }
 
-int	ft_wildcard(t_token *token, char *pattern)
+char	*ft_wildcard(t_token *token, char *pattern)
 {
 	struct dirent	*dir_entry;
 	DIR				*dir;
@@ -98,10 +98,10 @@ int	ft_wildcard(t_token *token, char *pattern)
 
 	matches = 0;
 	if (!pattern)
-		return (0);
+		return (NULL);
 	dir = opendir(".");
 	if (!dir)
-		return (1);
+		return (NULL);
 	dir_entry = readdir(dir);
 	while (dir_entry)
 	{
@@ -116,5 +116,5 @@ int	ft_wildcard(t_token *token, char *pattern)
 	if (matches == 0)
 		token->args = ft_append_to_array(token->args, pattern);
 	closedir(dir);
-	return (0);
+	return (NULL);
 }

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/07 19:27:13 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 17:49:58 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,10 +25,8 @@ t_list	*ft_create_env(char **env)
 	if (!env || !env[0])
 	{
 		shell_env = ft_lstnew(ft_strdup("SHLVL=1"));
-		env_var = ft_strjoin("PWD=", pwd);
-		if (!env_var)
-			return (NULL);
-		ft_lstadd_back(&shell_env, ft_lstnew(env_var));
+		ft_set_env(shell_env, "PWD", pwd);
+		ft_set_env(shell_env, "PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 		if (!shell_env)
 			return (NULL);
 		return (shell_env);
@@ -95,26 +93,28 @@ static void	ft_minishell(t_shell *shell)
 	ft_clear();
 	while (1)
 	{
-		// double start = ft_gettimeofday();
-		ft_disable_echoctl();
+		tcsetattr(STDIN_FILENO, TCSANOW, &shell->term);
 		signal(SIGINT, &sig_handler);
 		signal(SIGQUIT, &sig_handler);
+		char *dir = ft_strnstr(ft_getenv("PWD", shell->env), ft_getenv("HOME", shell->env), -1);
+		if (dir)
+			dir = ft_strjoin("~", &dir[ft_strlen(getenv("HOME"))]);
+		else
+			dir = ft_strdup(ft_getenv("PWD", shell->env));
 		if (shell->exit_code == 0)
 			buffer = ft_strjoin("\033[1;32m●\033[0m\033[1m shv1 ", \
-			getenv("USER"));
+			dir);
 		else
 			buffer = ft_strjoin("\033[1;31m●\033[0m\033[1m shv1 ", \
-			getenv("USER"));
+			dir);
+		free(dir);
 		buffer = ft_realloc(buffer, " ❯ \033[0m");
 		buffer = readline(buffer);
 		if (!buffer)
-			return (ft_exit(shell));
+			return ;
 		add_history(buffer);
 		if (!ft_parse(buffer, shell))
 			ft_priority_token(shell->root, 0, 1, shell);
-		// double parse_t = ft_gettimeofday();
-		// printf("Parsing time: %f\n", ft_gettimeofday() - parse_t);
-		// printf("Loop time: %f\n", ft_gettimeofday() - start);
 	}
 }
 
@@ -123,11 +123,11 @@ void	ft_non_interactive(t_shell *shell)
 	char	*buffer;
 
 	buffer = readline("");
-	// ft_putstr_fd("\033[A", 1);
-	// rl_replace_line("", 0);
-	// rl_redisplay();
+	ft_putstr_fd("\033[A", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
 	if (!buffer)
-		ft_exit(shell);
+		ft_exit(NULL, shell);
 	add_history(buffer);
 	if (!ft_parse(buffer, shell))
 		ft_priority_token(shell->root, 0, 1, shell);

@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:53:38 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 22:25:38 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/09 11:12:29 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,7 @@ void    sort_arr(char **oldbuff)
 
     if (oldbuff == NULL)
         return ;
-    i = 0;
-    oldBuffSize = 0;
-    while (oldbuff[oldBuffSize] != NULL)
-        oldBuffSize++;
+    oldBuffSize = ft_array_len(oldbuff);
     swapped = 1;
     while (swapped)
     {

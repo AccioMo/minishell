@@ -3,41 +3,68 @@
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/08 17:45:23 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/09 11:33:57 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
+char    **ft_sort_env(t_list *env)
+{
+    char **arr;
+    int     i;
+
+    i = 0;
+    arr = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
+    if (!arr)
+        return (NULL);
+    while (env)
+    {
+        arr[i] = ft_strdup(env->content);
+        printf("%s\n", arr[i]);
+        env = env->next;
+        i++;
+    }
+    arr[i] = NULL;
+    sort_arr(arr);
+    return (arr);
+}
+
 int	ft_print_shell(t_list *env, int fdout)
 {
-	int	ei;
-	int	i;
-	int	j;
+	int     ei;
+	int     i;
+	int     j;
+	char    **arr;
 
-	i = 0;
-	while (env)
+	i = -1;
+    arr = ft_sort_env(env);
+    if (!arr)
+        return (EXIT_FAILURE);
+	while (arr[++i])
 	{
 		j = 0;
 		ft_putstr_fd("declare -x ", fdout);
-		ei = ft_index(env->content, '=');
+		ei = ft_index(arr[i], '=');
 		while (j < ei)
-			ft_putchar_fd(env->content[j++], fdout);
-		if (env->content[j] == '=')
+			ft_putchar_fd(arr[i][j++], fdout);
+		if (arr[i][j] == '=')
 		{
 			ft_putchar_fd('=', fdout);
 			ft_putchar_fd('\"', fdout);
 			j++;
 		}
-		while (env->content[j])
-			ft_putchar_fd(env->content[j++], fdout);
-		ft_putchar_fd('\"', fdout);
+        else
+            continue ;
+        while (arr[i][j])
+            ft_putchar_fd(arr[i][j++], fdout);
+        ft_putchar_fd('\"', fdout);
 		ft_putchar_fd('\n', fdout);
-		env = env->next;
 	}
+    ft_free(arr);
 	return (EXIT_SUCCESS);
 }
 

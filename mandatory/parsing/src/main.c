@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/08 17:49:58 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 19:57:51 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,9 +123,9 @@ void	ft_non_interactive(t_shell *shell)
 	char	*buffer;
 
 	buffer = readline("");
-	ft_putstr_fd("\033[A", 1);
-	rl_replace_line("", 0);
-	rl_redisplay();
+	// ft_putstr_fd("\033[A", 1);
+	// rl_replace_line("", 0);
+	// rl_redisplay();
 	if (!buffer)
 		ft_exit(NULL, shell);
 	add_history(buffer);
@@ -163,3 +163,10 @@ int	main(int ac, char **av, char **env)
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term);
 	return (shell.exit_code);
 }
+// echo hello >> =$sdfdsf* >> =$sdsdfsdf* =*
+// cat    <| ls
+//  echo hi >./test_files/invalid_permission | echo bye
+// ls >"./outfiles/outfile with spaces"
+// cd /tmp && ls -al >     "hello    world"   && ls -al && cat "hello    world" && rm -fr "hello    world"
+// cd /aaaaaaaa && echo $?
+// /bin

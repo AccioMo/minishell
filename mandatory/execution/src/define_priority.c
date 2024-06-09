@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 19:59:41 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/09 17:53:42 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,8 +41,8 @@ int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
 {
 	char	*file;
 
-	if (token->type == REDIR_HEREDOC)
-		return (EXIT_SUCCESS);
+	if (!token)
+		return (EXIT_FAILURE);
 	file = ft_strdup(token->args[0]);
 	if (ft_expand(token, shell))
 	{
@@ -67,7 +67,7 @@ int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		return (EXIT_FAILURE);
 	if (token->type >= REDIR_HEREDOC && token->type <= REDIR_IN)
 	{
-		if (ft_ambiguous_redirect(token->left, shell))
+		if (token->type != REDIR_HEREDOC && ft_ambiguous_redirect(token->left, shell))
 			return (EXIT_FAILURE);
 		if (token->type == REDIR_IN)
 			fdin = ft_redir_in_function(token->left);

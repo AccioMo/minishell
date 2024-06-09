@@ -30,7 +30,7 @@ ERROR HANDLING:
 
 TODO:
 	handle wildcard
-	handle cd delete parent dir problem
+	handle expansion in heredoc
 
 ```
 

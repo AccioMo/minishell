@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/08 17:09:12 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/08 19:53:31 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,7 +124,6 @@ int	ft_cd(t_token *token, t_shell *shell)
 			ft_cd_error(path, NULL);
 		if (getcwd(pwd, PATH_MAX) == NULL)
 			return (ft_cd_error(path, shell));
-		printf("pwd = %s\n", pwd);
 		if (ft_set_env(shell->env, "OLDPWD", ft_getenv("PWD", shell->env)))
 			return (EXIT_FAILURE);
 		if (ft_set_env(shell->env, "PWD", pwd))

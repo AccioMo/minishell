@@ -1,71 +1,63 @@
 /* ************************************************************************** */
-/*                                                                            */
+/*		                                                                      */
 /*                                                        :::      ::::::::   */
 /*   ft_export.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 18:02:47 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/09 11:33:57 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/09 16:03:04 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-char    **ft_sort_env(t_list *env)
+char	**ft_sort_env(t_list *env)
 {
-    char **arr;
-    int     i;
+	char	**arr;
+	int		i;
 
-    i = 0;
-    arr = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
-    if (!arr)
-        return (NULL);
-    while (env)
-    {
-        arr[i] = ft_strdup(env->content);
-        printf("%s\n", arr[i]);
-        env = env->next;
-        i++;
-    }
-    arr[i] = NULL;
-    sort_arr(arr);
-    return (arr);
+	i = 0;
+	arr = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
+	if (!arr)
+		return (NULL);
+	while (env)
+	{
+		arr[i] = ft_strdup(env->content);
+		printf("%s\n", arr[i]);
+		env = env->next;
+		i++;
+	}
+	arr[i] = NULL;
+	sort_arr(arr);
+	return (arr);
 }
 
 int	ft_print_shell(t_list *env, int fdout)
 {
-	int     ei;
-	int     i;
-	int     j;
-	char    **arr;
+	char	**arr;
+	int		i;
+	int		j;
 
 	i = -1;
-    arr = ft_sort_env(env);
-    if (!arr)
-        return (EXIT_FAILURE);
-	while (arr[++i])
+	arr = ft_sort_env(env);
+	while (arr && arr[++i])
 	{
 		j = 0;
 		ft_putstr_fd("declare -x ", fdout);
-		ei = ft_index(arr[i], '=');
-		while (j < ei)
+		while (arr[i][j] != '=' && arr[i][j])
 			ft_putchar_fd(arr[i][j++], fdout);
-		if (arr[i][j] == '=')
-		{
-			ft_putchar_fd('=', fdout);
-			ft_putchar_fd('\"', fdout);
-			j++;
-		}
-        else
-            continue ;
-        while (arr[i][j])
-            ft_putchar_fd(arr[i][j++], fdout);
-        ft_putchar_fd('\"', fdout);
+		if (arr[i][j] != '=')
+			continue ;
+		ft_putchar_fd('=', fdout);
+		ft_putchar_fd('\"', fdout);
+		j++;
+		while (arr[i][j])
+			ft_putchar_fd(arr[i][j++], fdout);
+		ft_putchar_fd('\"', fdout);
 		ft_putchar_fd('\n', fdout);
 	}
-    ft_free(arr);
-	return (EXIT_SUCCESS);
+	return (ft_free(arr), EXIT_SUCCESS);
 }
 
 int	ft_valid_variable(char *var, int *index)

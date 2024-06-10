@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/09 18:36:40 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 21:37:41 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,182 +39,105 @@ int	ft_mini_wildcard_match(char *pattern, char *str)
 	return (1);
 }
 
-char	*ft_mini_wildcard(t_token *token, char *pattern)
+char	*ft_quotes_wildcard(char *pattern, t_shell *shell)
 {
-	struct dirent	*dir_entry;
-	DIR				*dir;
-    char            **new_arr;
-	int				matches;
-	int				i;
+	char	*tmp;
+	int 	pe;
 
-	matches = 0;
-	if (!pattern)
-		return (NULL);
-	dir = opendir(".");
-	if (!dir)
-		return (NULL);
-	dir_entry = readdir(dir);
-	new_arr = NULL;
-	while (dir_entry)
+	pe = ft_index(pattern, '\"');
+	tmp = ft_substr(pattern, 0, pe);
+	if (ft_contains_variable(tmp))
 	{
-		if (!(dir_entry->d_name[0] == '.' && pattern[0] != '.') \
-			&& ft_mini_wildcard_match(pattern, dir_entry->d_name) == 1)
-		{
-			new_arr = ft_append_to_array(new_arr, dir_entry->d_name);
-			matches++;
-		}
-		dir_entry = readdir(dir);
+		pattern += pe + 1;
+		tmp = ft_quoted_variables(tmp, shell);
+		pattern = ft_strjoin(tmp, pattern);
+		pe = ft_strlen(tmp);
 	}
-	if (matches == 0)
-	{
-		pattern = ft_remove_quotes(pattern);
-		new_arr = ft_append_to_array(new_arr, pattern);
-	}
-	// sort_arr(new_arr);
-	i = -1;
-	while (new_arr[++i])
-		token->args = ft_append_to_array(token->args, new_arr[i]);
-	closedir(dir);
-	return (NULL);
+	free(tmp);
+	return (pattern);
 }
 
-int	ft_wildcard_match(char *pattern, char *str, t_token *token, t_shell *shell)
+char	*ft_handle_wildcard(char *pattern, int *i, char **str, t_shell *shell)
 {
-	int		i;
-	int		o;
-	int		ps;
+	char	*tmp_str;
 	int		pe;
 
+	tmp_str = *str;
+	if (tmp_str && ft_strncmp(tmp_str, pattern, *i))
+		return (NULL);
+	pattern += *i;
+	while (*pattern == '*')
+		pattern++;
+	pattern += (*pattern == '\'') || (*pattern == '\"');
+	while (tmp_str && *tmp_str && *tmp_str != *pattern)
+		tmp_str++;
+	if (*(pattern - 1) == '\'')
+	{
+		pe = ft_index(pattern, '\'');
+		if (tmp_str && ft_strncmp(tmp_str, pattern, pe))
+			return (NULL);
+		pattern += pe + 1;
+		tmp_str += pe;
+	}
+	else if (*(pattern - 1) == '\"')
+		pattern = ft_quotes_wildcard(pattern, shell);
+	*i = 0;
+	*str = tmp_str;
+	return (pattern);
+}
+
+char	*ft_single_quotes_wildcard(char *pattern, int i)
+{
+	char	*tmp;
+	int		pe;
+
+	pe = ft_index(&pattern[i + 1], '\'') + 1;
+	tmp = ft_substr(&pattern[i + 1], 0, pe);
+	pattern = ft_substr(pattern, i, pe);
+	pattern = ft_realloc(pattern, tmp);
+	free(tmp);
+	return (pattern);
+}
+
+char	*ft_wildcard_variable(char *pattern, int *i, t_token *token, t_shell *shell)
+{
+	char	*vars;
+	char	*tmp;
+	int		pe;
+
+	tmp = ft_substr(pattern, 0, *i);
+	vars = ft_split_variable(&pattern[*i], tmp, token, shell);
+	pe = *i + ft_variable_length(&pattern[*i]);
+	*i = ft_strlen(vars);
+	pattern = ft_realloc(vars, &pattern[pe]);
+	return (pattern);
+}
+
+char	*ft_wildcard_match(char *pattern, char *str, t_token *token, t_shell *shell)
+{
+	int	i;
+
 	i = 0;
-	o = 0;
-	ps = 0;
-	pe = 0;
 	while (pattern[i])
 	{
 		if (pattern[i] == '$')
-		{
-			char *tmp = ft_substr(&pattern[ps], 0, i);
-			tmp = ft_split_variable(&pattern[i], tmp, token, shell);
-			i += ft_variable_length(&pattern[i]);
-			pattern = ft_realloc(tmp, &pattern[i]);
-			ps = 0;
-			i = 0;
-		}
-		else if (pattern[i] == '*' || pattern[i] == '\'' || pattern[i] == '\"')
-		{
-			if (ft_strncmp(&str[o], &pattern[ps], i - ps))
-				return (0);
-			o += (i - ps);
-			if (pattern[i] == '*')
-			{
-				while (pattern[i] == '*')
-					i++;
-				if (pattern[i] == '\'')
-				{
-					i++;
-					while (str[o] && str[o] != pattern[i])
-						o++;
-					pe = ft_index(&pattern[i], '\'');
-					if (ft_strncmp(&str[o], &pattern[i], pe))
-						return (0);
-					ps = i + pe + 1;
-					i = ps;
-					o += pe;
-				}
-				else if (pattern[i] == '\"')
-				{
-					i++;
-					while (str[o] && str[o] != pattern[i])
-						o++;
-					pe = ft_index(&pattern[i], '\"');
-					char *tmp = ft_substr(&pattern[i], 0, pe);
-					if (ft_contains_variable(tmp))
-					{
-						ps = i + pe + 1;
-						tmp = ft_quoted_variables(tmp, shell);
-						pattern = ft_strjoin(tmp, &pattern[ps]);
-						pe = ft_strlen(tmp);
-						ps = 0;
-					}
-					free(tmp);
-					if (ft_strncmp(&str[o], &pattern[i], pe))
-						return (0);
-					i = ps;
-					o += pe;
-				}
-				else
-				{
-					while (str[o] && str[o] != pattern[i])
-						o++;
-					ps = i;
-				}
-			}
-			else if (pattern[i] == '\'')
-			{
-				i++;
-				pe = ft_index(&pattern[i], '\'');
-				if (ft_strncmp(&str[o], &pattern[i], pe))
-					return (0);
-				ps = i + pe + 1;
-				i = ps;
-				o += pe;
-			}
-			else if (pattern[i] == '\"')
-			{
-				i++;
-				pe = ft_index(&pattern[i], '\"');
-				char *tmp = ft_substr(&pattern[i], 0, pe);
-				if (ft_contains_variable(tmp))
-				{
-					ps = i + pe + 1;
-					tmp = ft_quoted_variables(tmp, shell);
-					pattern = ft_strjoin(tmp, &pattern[ps]);
-					pe = ft_strlen(tmp);
-					ps = 0;
-					i = 0;
-				}
-				free(tmp);
-				if (ft_strncmp(&str[o], &pattern[i], pe))
-					return (0);
-				ps = i + pe + 1;
-				i = ps;
-				o += pe;
-			}
-		}
+			pattern = ft_wildcard_variable(pattern, &i, token, shell);
+		else if (pattern[i] == '*')
+			pattern = ft_handle_wildcard(pattern, &i, &str, shell);
+		else if (pattern[i] == '\'')
+			pattern = ft_single_quotes_wildcard(pattern, i);
+		else if (pattern[i] == '\"')
+			pattern = ft_realloc(ft_substr(pattern, 0, i), \
+				ft_quotes_wildcard(&pattern[i + 1], shell));
 		else
 			i++;
+		if (!pattern)
+			return (0);
 	}
-	return (1);
+	if (str && ft_strncmp(str, pattern, i))
+		return (0);
+	return (pattern);
 }
-
-// int	ft_handle_wildecard(t_token *token, char *pattern, t_shell *shell)
-// {
-// 	struct dirent	*dir_entry;
-// 	char			cwd[PATH_MAX];
-// 	DIR				*dir;
-// 	int				matches;
-
-// 	matches = 0;
-// 	pattern = ft_remove_quotes(pattern);
-// 	if (!pattern)
-// 		return (0);
-// 	dir = opendir(cwd);
-// 	if (!dir)
-// 		return (1);
-// 	dir_entry = readdir(dir);
-// 	while (dir_entry)
-// 	{
-// 		if ((dir_entry->d_name[0] != '.' || pattern[0] == '.') && \
-// 			ft_widcard_match(pattern, dir_entry->d_name, token, shell) == 1)
-// 		{
-// 			token->args = ft_append_to_array(token->args, dir_entry->d_name);
-// 			matches++;
-// 		}
-// 		dir_entry = readdir(dir);
-// 	}
-// 	closedir(dir);
-// 	return (0);
-// }
 
 int	ft_found_token(char *str, char c)
 {
@@ -234,7 +157,7 @@ int	ft_found_token(char *str, char c)
 	return (0);
 }
 
-char	*ft_wildcard(t_token *token, char *pattern, t_shell *shell)
+char	*ft_wildcard(char *pattern, t_token *token, t_shell *shell)
 {
 	struct dirent	*dir_entry;
 	DIR				*dir;

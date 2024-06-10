@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/09 17:45:21 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 21:37:18 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -123,8 +123,8 @@ char	*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell)
 		return (NULL);
 	arr_len = ft_array_len(new_args);
 	new = ft_realloc(new, new_args[0]);
-	// if (ft_strchr(new, '*'))
-	// 	return (ft_mini_wildcard(token, new));
+	if (ft_strchr(new, '*'))
+		return (ft_wildcard(new, token, shell));
 	if (arr_len == 1)
 		return (new);
 	token->args = ft_append_to_array(token->args, new);
@@ -133,14 +133,11 @@ char	*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell)
 	while (++k < (arr_len - 1))
 	{
 		if (ft_strchr(new_args[k], '*'))
-			ft_mini_wildcard(token, new_args[k]);
+			ft_wildcard(new_args[k], token, shell);
 		else
 			token->args = ft_append_to_array(token->args, new_args[k]);
 	}
-	// if (ft_strchr(new_args[k], '*'))
-	// 	ft_mini_wildcard(token, new_args[k]);
-	// else
-		new = ft_strdup(new_args[k]);
+	new = ft_strdup(new_args[k]);
 	ft_free(new_args);
 	return (new);
 }
@@ -196,7 +193,7 @@ int	ft_variables(char *str, t_token *token, t_shell *shell)
 	if (new)
 	{
 		if (ft_found_token(new, '*'))
-			ft_mini_wildcard(token, new);
+			ft_wildcard(new, token, shell);
 		else
 			token->args = ft_append_to_array(token->args, new);
 	}

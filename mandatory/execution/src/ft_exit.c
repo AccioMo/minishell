@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 12:41:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/07 23:13:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 16:45:19 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ int	ft_exit(t_token *token, t_shell *shell)
 	int	i;
 
 	i = 0;
-	ft_putstr_fd("exit\n", 2);
+	ft_putstr_fd("exit", 2);
 	if (token->args[1] && !ft_is_number(token->args[1]))
 	{
 		ft_putstr_fd("minishell: exit: ", 2);

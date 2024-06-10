@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/09 18:13:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 21:38:30 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,13 +42,15 @@ char    	**ft_append_to_array(char **args, char *new_arg);
 int			ft_variables(char *str, t_token *token, t_shell *shell);
 
 /*A function that changes the '*' to a dir content*/
-char		*ft_wildcard(t_token *token, char *pattern, t_shell *shell);
+char		*ft_wildcard(char *pattern, t_token *token, t_shell *shell);
 
 int			ft_variable_length(char *str);
 
-int			ft_wildcard_match(char *pattern, char *str, t_token *token, t_shell *shell);
+char		*ft_wildcard_match(char *pattern, char *str, t_token *token, t_shell *shell);
 
-char		*ft_mini_wildcard(t_token *token, char *pattern);
+char	*ft_handle_wildcard(char *pattern, int *i, char **str, t_shell *shell);
+
+char	*ft_single_quotes_wildcard(char *pattern, int i);
 
 char		*ft_quoted_variables(char *str, t_shell *shell);
 

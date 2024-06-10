@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/09 18:10:51 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 21:37:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,10 +97,10 @@ int	ft_expand(t_token *token, t_shell *shell)
 	token->args = NULL;
 	while (old_args[i])
 	{
-		if (ft_found_token(old_args[i], '*'))
-			ft_wildcard(token, old_args[i], shell);
-		else if (ft_contains_variable(old_args[i]))
+		if (ft_contains_variable(old_args[i]))
 			ft_variables(old_args[i], token, shell);
+		else if (ft_found_token(old_args[i], '*'))
+			ft_wildcard(old_args[i], token, shell);
 		else
 		{
 			if (old_args[i][0] == '~')

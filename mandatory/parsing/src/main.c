@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/08 19:57:51 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 18:39:27 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ static void	ft_minishell(t_shell *shell)
 	ft_clear();
 	while (1)
 	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &shell->term);
+		tcsetattr(STDIN_FILENO, TCSANOW, &shell->terminos);
 		signal(SIGINT, &sig_handler);
 		signal(SIGQUIT, &sig_handler);
 		char *dir = ft_strnstr(ft_getenv("PWD", shell->env), ft_getenv("HOME", shell->env), -1);
@@ -147,7 +147,7 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
-	tcgetattr(STDIN_FILENO, &shell.term);
+	tcgetattr(STDIN_FILENO, &shell.terminos);
 	signal(g_signal, sig_assign);
 	shell.root = NULL;
 	shell.exit_code = 0;
@@ -160,7 +160,7 @@ int	main(int ac, char **av, char **env)
 		ft_non_interactive(&shell);
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
-	tcsetattr(STDIN_FILENO, TCSANOW, &shell.term);
+	tcsetattr(STDIN_FILENO, TCSANOW, &shell.terminos);
 	return (shell.exit_code);
 }
 // echo hello >> =$sdfdsf* >> =$sdsdfsdf* =*

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/09 17:53:42 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 18:40:37 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,9 @@
 
 int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	int	status;
+	int		exit_code;
+	int		status;
+	pid_t	pid;
 
 	if (!token)
 		return (EXIT_FAILURE);
@@ -26,8 +28,12 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		status = ft_pipe_token(token, fdin, fdout, shell);
 	else
 		status = ft_redir_token(token, fdin, fdout, shell);
-	while (wait(&shell->exit_code) > 0)
-		;
+	while (wait(&exit_code) > 0)
+	{
+		pid = wait(&exit_code);
+		if (pid == shell->last_pid)
+			shell->exit_code = exit_code;
+	}
 	if (status)
 		shell->exit_code = status;
 	else if (WIFEXITED(shell->exit_code))

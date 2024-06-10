@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/10 21:38:30 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 21:43:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ int			ft_stage_two(char *str, int end, t_token **token);
 int			ft_stage_or(char *str, int end, t_token **token);
 int			ft_stage_and(char *str, t_token **token);
 
-char    	**ft_append_to_array(char **args, char *new_arg);
+char		**ft_append_to_array(char **args, char *new_arg);
 
 /*A function that expand variables to there values from the env*/
 int			ft_variables(char *str, t_token *token, t_shell *shell);
@@ -58,4 +58,21 @@ char		*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell);
 
 char		*ft_remove_quotes(char *str);
 
+int			ft_stage_and(char *str, t_token **token);
+
+int			ft_stage_four(char *str, int end, t_token **token);
+
+int			ft_handle_and(char *str, int end, t_token **token);
+
+int			ft_handle_parentheses(char *str, int end, t_token **token);
+
+int			ft_parse_word(char *str, int end, t_token **token);
+
+t_list		*ft_env_ignored(void);
+
+void		sig_handler(int signal);
+
+void		ft_disable_echoctl(void);
+
+t_list		*ft_create_env(char **env);
 #endif

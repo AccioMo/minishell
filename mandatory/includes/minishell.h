@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/10 18:39:07 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 21:43:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,9 +84,8 @@ int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
 void	ft_free(char **ptr);
 
-void	ft_toggle_cannonical_mode(void);
-
-/*A function to grab any value of a key in a 2d array,e.g: Value of name User is loginDialk*/
+/*A function to grab any value of a key in a 2d
+array,e.g: Value of name User is loginDialk*/
 /*Returns NULL if there is no key with that name*/
 char	*ft_getenv(char *name, t_list *arr);
 
@@ -94,11 +93,11 @@ char	*ft_getenv(char *name, t_list *arr);
 int		ft_array_len(char **arr);
 
 /*A function that copies a 2darray and return it*/
-char	**copy_env(char **env);
 
 char	**ft_append_to_array(char **args, char *new_arg);
 
-/*A function  that realocate a 2d array with new dat for a 2d array double pointer*/
+/*A function  that realocate a 2d array with new
+data for a 2d array double pointer*/
 char	**ft_remove_from_array(char **array, int x);
 
 int		ft_index(char *str, char c);
@@ -117,4 +116,5 @@ int		ft_contains_variable(char *str);
 
 int		ft_exit(t_token *token, t_shell *env);
 
+void	sort_arr(char **oldbuff);
 #endif

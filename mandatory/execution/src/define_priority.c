@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:40:37 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 21:43:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,11 +112,18 @@ int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell)
 
 int	ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
+	int	exit_status;
+
 	if (!token)
 		return (EXIT_FAILURE);
+	exit_status = 0;
 	if (token->type == WORD)
-		return (ft_exec_function(token, fdin, fdout, shell));
+		exit_status = ft_exec_function(token, fdin, fdout, shell);
 	else if (token->type == SUBSHELL)
-		return (ft_priority_token(token->right, fdin, fdout, shell));
-	return (EXIT_FAILURE);
+		exit_status = ft_priority_token(token->right, fdin, fdout, shell);
+	if (fdin != 0)
+		close(fdin);
+	if (fdout != 1)
+		close(fdout);
+	return (exit_status);
 }

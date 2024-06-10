@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/08 19:53:31 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/10 21:43:25 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,15 +40,6 @@ int	ft_set_env(t_list *env, char *name, char *value)
 	}
 	return (EXIT_SUCCESS);
 }
-
-// static char	*ft_get_path(char **args, t_list *env)
-// {
-// 	char	*path;
-
-// 	if (ft_strncmp(args[1], "/", 1))
-// 		path = ft_realloc(ft_strjoin(ft_getenv("PWD", env), "/"), args[1]);
-// 	return (path);
-// }
 
 int	ft_first_condition(t_shell *shell)
 {
@@ -105,9 +96,7 @@ int	ft_cd(t_token *token, t_shell *shell)
 {
 	char	pwd[PATH_MAX];
 	char	*path;
-	char	*old_pwd;
 
-	// path = ft_get_path(token->args, shell->env);
 	path = token->args[1];
 	if (path == NULL && !ft_first_condition(shell))
 		return (EXIT_SUCCESS);
@@ -117,9 +106,6 @@ int	ft_cd(t_token *token, t_shell *shell)
 		return (ft_second_condition(shell, pwd));
 	else
 	{
-		old_pwd = getcwd(NULL, 0);
-		if (old_pwd == NULL)
-			perror("getcwd");
 		if (chdir(path))
 			ft_cd_error(path, NULL);
 		if (getcwd(pwd, PATH_MAX) == NULL)

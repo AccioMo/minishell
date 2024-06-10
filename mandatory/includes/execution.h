@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/08 17:35:14 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/09 16:10:27 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,6 @@ void	ft_increment_shellvl(t_shell *shell);
 
 char	**ft_list_to_array(t_list *env);
 
-int	ft_dir_exists(char *path, t_shell *shell);
-
-int	ft_redir_heredoc_function(t_token *token);
+int		ft_redir_heredoc_function(t_token *token);
 
 #endif

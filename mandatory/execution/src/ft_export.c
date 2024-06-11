@@ -67,7 +67,7 @@ int	ft_valid_variable(char *var, int *index)
 	i = 0;
 	if (!var || (!ft_isalpha(var[i]) && var[i] != '_'))
 	{
-		ft_putstr_fd("export: `", 2);
+		ft_putstr_fd("minishell: export: `", 2);
 		ft_putstr_fd(var, 2);
 		ft_putstr_fd("': not a valid identifier\n", 2);
 		return (EXIT_FAILURE);
@@ -77,7 +77,7 @@ int	ft_valid_variable(char *var, int *index)
 	{
 		if (ft_strchr("+-#?!@*$%^&()[]{}|;:<>,./~", var[i]))
 		{
-			ft_putstr_fd("export: `", 2);
+			ft_putstr_fd("minishell: export: `", 2);
 			ft_putstr_fd(var, 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			return (EXIT_FAILURE);

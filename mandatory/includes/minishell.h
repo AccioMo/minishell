@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/10 21:43:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/11 22:42:49 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_shell
 {
 	t_token			*root;
 	t_list			*env;
+	int				subshell;
 	struct termios	terminos;
 	pid_t			last_pid;
 	int				exit_code;

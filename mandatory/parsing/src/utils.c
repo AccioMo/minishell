@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   utils.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/02 18:05:12 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/11 21:25:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,15 @@ int	ft_word_len(char *str)
 	while (str[len] && ft_whitespace(str[len]))
 		len++;
 	while (str[len] && !ft_whitespace(str[len]) && !ft_reserved_word(&str[len]))
+	{
+		if (str[len] == '\"')
+			while (str[++len] && str[len] != '\"')
+				;
+		if (str[len] == '\'')
+			while (str[++len] && str[len] != '\'')
+				;
 		len++;
+	}
 	return (len);
 }
 

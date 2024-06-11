@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/08 17:41:56 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/11 21:22:21 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,33 @@ int	ft_delete_env(char *name, t_shell *shell)
 	return (EXIT_SUCCESS);
 }
 
+int	ft_valid_unset(char *name)
+{
+	int	i;
+
+	i = 0;
+	if (!name || (!ft_isalpha(name[i]) && name[i] != '_'))
+	{
+		ft_putstr_fd("minishell: unset: `", 2);
+		ft_putstr_fd(name, 2);
+		ft_putstr_fd("': not a valid identifier\n", 2);
+		return (EXIT_FAILURE);
+	}
+	i++;
+	while (name[i])
+	{
+		if (ft_strchr("+-#?!@*$%^&()[]{}|;:<>,./~\'\"", name[i]))
+		{
+			ft_putstr_fd("minishell: unset: `", 2);
+			ft_putstr_fd(name, 2);
+			ft_putstr_fd("': not a valid identifier\n", 2);
+			return (EXIT_FAILURE);
+		}
+		i++;
+	}
+	return (EXIT_SUCCESS);
+}
+
 int	ft_unset(t_token *token, t_shell *shell)
 {
 	int		i;
@@ -48,13 +75,8 @@ int	ft_unset(t_token *token, t_shell *shell)
 	i = 1;
 	while (token->args[i])
 	{
-		if (!ft_isalpha(token->args[i][0]))
-		{
-			ft_putstr_fd("unset: `", 2);
-			ft_putstr_fd(token->args[i], 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
+		if (ft_valid_unset(token->args[i]))
 			return (EXIT_FAILURE);
-		}
 		if (ft_getenv(token->args[i], shell->env))
 			ft_delete_env(token->args[i], shell);
 		i++;

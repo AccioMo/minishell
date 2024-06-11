@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_one.c                                    :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/09 16:16:22 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/11 17:19:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_handle_pipe(char *str, int start, int end, t_token **token)
 {
 	if (!ft_add_token(PIPE, token))
 		return (EXIT_FAILURE);
-	if (ft_stage_three(str, start, &(*token)->left) && !(*token)->left)
+	if (ft_stage_three(str, start, &(*token)->left))
 	{
 		if (!(*token)->left)
 			return (ft_throw_syntax_error("|"));
@@ -110,4 +110,24 @@ int	ft_handle_and(char *str, int end, t_token **token)
 		return (PARSING_FAILURE);
 	}
 	return (EXIT_SUCCESS);
+}
+
+int	ft_stage_and(char *str, t_token **token)
+{
+	int	i;
+
+	i = 0;
+	while (str[i])
+	{
+		if (!ft_strncmp(&str[i], "\"", 1))
+			i += ft_index(&str[i + 1], '\"') + 1;
+		else if (!ft_strncmp(&str[i], "\'", 1))
+			i += ft_index(&str[i + 1], '\'') + 1;
+		else if (!ft_strncmp(&str[i], "(", 1))
+			i += ft_skip_parentheses(&str[i]);
+		else if (!ft_strncmp(&str[i], "&&", 2))
+			return (ft_handle_and(str, i, token));
+		i++;
+	}
+	return (ft_stage_or(str, i, token));
 }

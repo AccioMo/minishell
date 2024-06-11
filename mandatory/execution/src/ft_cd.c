@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/10 21:43:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/11 22:13:58 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,14 @@ int	ft_cd_error(char *path, t_shell *shell)
 	ft_putstr_fd("minishell: cd: ", 2);
 	if (shell == NULL)
 	{
+		if (errno == ENOENT)
+			ft_putstr_fd("HOME not set\n", 2);
+		else if (errno == ENOTDIR)
+			ft_putstr_fd("not a directory: ", 2);
+		else if (errno == EACCES)
+			ft_putstr_fd("permission denied: ", 2);
+		else
+			ft_putstr_fd(path, 2);
 		ft_putstr_fd(path, 2);
 		strerror(errno);
 		return (EXIT_FAILURE);
@@ -107,7 +115,7 @@ int	ft_cd(t_token *token, t_shell *shell)
 	else
 	{
 		if (chdir(path))
-			ft_cd_error(path, NULL);
+			return (ft_cd_error(path, NULL));
 		if (getcwd(pwd, PATH_MAX) == NULL)
 			return (ft_cd_error(path, shell));
 		if (ft_set_env(shell->env, "OLDPWD", ft_getenv("PWD", shell->env)))

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/09 16:10:27 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/11 21:10:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,10 +75,14 @@ int		ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
 char	*ft_remove_quotes(char *str);
 
-int		ft_expand(t_token *token, t_shell *shell);
+int		ft_expand_variables(t_token *token, t_shell *shell);
 
-/*A function that checks if a directory exists or no*/
-int		ft_dir_exists(char *pth, t_shell *shell);
+int		ft_expand_wildcard(t_token *token);
+
+int		ft_parentheses_subshell(t_token *token, int fdin, int fdout, t_shell *shell);
+
+int		ft_pipe_subshell(t_token *token, int fdin, int fdout, t_shell *shell);
+
 /*RIDERICTIONS FUNCTION HERE*/
 int		ft_redir_in_function(t_token *token);
 

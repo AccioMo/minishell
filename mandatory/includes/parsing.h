@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/10 21:43:50 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/11 16:47:15 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,19 +42,23 @@ char		**ft_append_to_array(char **args, char *new_arg);
 int			ft_variables(char *str, t_token *token, t_shell *shell);
 
 /*A function that changes the '*' to a dir content*/
-char		*ft_wildcard(char *pattern, t_token *token, t_shell *shell);
+char		*ft_wildcard(char *pattern, t_token *token);
 
 int			ft_variable_length(char *str);
 
-char		*ft_wildcard_match(char *pattern, char *str, t_token *token, t_shell *shell);
+char		*ft_wildcard_match(char *pattern, char *str);
 
-char	*ft_handle_wildcard(char *pattern, int *i, char **str, t_shell *shell);
+char		*ft_quotes_wildcard(char *pattern, t_shell *shell);
 
-char	*ft_single_quotes_wildcard(char *pattern, int i);
+char		*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell);
 
 char		*ft_quoted_variables(char *str, t_shell *shell);
 
-char		*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell);
+char		*ft_remove_wd_backslash(char *str);
+
+// char		*ft_no_var_wildcard(char *pattern, t_token *token);
+
+char		*ft_quoted_wildcard(char *str);
 
 char		*ft_remove_quotes(char *str);
 
@@ -71,6 +75,8 @@ int			ft_parse_word(char *str, int end, t_token **token);
 t_list		*ft_env_ignored(void);
 
 void		sig_handler(int signal);
+
+char		**ft_wildcard_split(char *str);
 
 void		ft_disable_echoctl(void);
 

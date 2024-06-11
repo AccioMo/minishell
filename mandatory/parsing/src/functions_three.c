@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_three.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/09 16:16:49 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/10 21:48:18 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,4 +112,21 @@ int	ft_handle_parentheses(char *str, int end, t_token **token)
 	word = ft_substr(str, 1, p - 1);
 	ft_stage_and(word, &(*token)->right);
 	return (EXIT_SUCCESS);
+}
+
+int	ft_stage_four(char *str, int end, t_token **token)
+{
+	int		i;
+
+	i = 0;
+	while (str[i] && i < end)
+	{
+		if (ft_whitespace(str[i]))
+			i++;
+		else if (!ft_strncmp(&str[i], "(", 1))
+			return (ft_handle_parentheses(&str[i], end - i, token));
+		else
+			return (ft_parse_word(&str[i], end - i, token));
+	}
+	return (PARSING_FAILURE);
 }

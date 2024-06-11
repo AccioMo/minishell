@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/10 18:52:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/11 17:25:41 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,8 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 
 	if (!token || token->args == NULL)
 		return (EXIT_FAILURE);
-	if (ft_expand(token, shell) || token->args == NULL)
+	if (ft_expand_variables(token, shell) || ft_expand_wildcard(token) \
+		|| token->args == NULL)
 		return (EXIT_FAILURE);
 	if (ft_strncmp(token->args[0], ".\0", 2) == 0 || \
 		ft_strncmp(token->args[0], "..\0", 3) == 0)

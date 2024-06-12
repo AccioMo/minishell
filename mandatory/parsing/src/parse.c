@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 10:04:54 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 10:06:16 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,6 +83,7 @@ int	valid_line(char *line)
 			return (1);
 		i++;
 	}
+	free(line);
 	return (0);
 }
 

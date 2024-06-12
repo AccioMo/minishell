@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 22:42:49 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 11:36:15 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,6 +96,12 @@ int		ft_array_len(char **arr);
 /*A function that copies a 2darray and return it*/
 
 char	**ft_append_to_array(char **args, char *new_arg);
+
+char	*ft_quoted_variables(char *str, t_shell *shell);
+
+char	*ft_expand_variable(char *str, t_shell *shell);
+
+int		ft_variable_length(char *str);
 
 /*A function  that realocate a 2d array with new
 data for a 2d array double pointer*/

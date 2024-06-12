@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 10:04:09 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 11:28:24 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,22 +49,15 @@ t_list	*ft_create_env(char **env)
 	return (shell_env);
 }
 
-void	ft_disable_echoctl(void)
-{
-	struct termios	new_termios;
-
-	tcgetattr(STDIN_FILENO, &new_termios);
-	new_termios.c_lflag &= ~ECHOCTL;
-	tcsetattr(STDIN_FILENO, TCSANOW, &new_termios);
-}
-
 void	sig_handler(int signal)
 {
 	if (signal == SIGINT)
 	{
-		rl_on_new_line();
-		rl_replace_line("", 0);
 		ft_putstr_fd("\n", 1);
+		rl_on_new_line();
+		if (waitpid(-1, NULL, WNOHANG) == 0)
+			return ;
+		rl_replace_line("", 1);
 		rl_redisplay();
 	}
 	if (signal == SIGQUIT)
@@ -90,12 +83,11 @@ static void	ft_minishell(t_shell *shell)
 {
 	char	*buffer;
 
-	// ft_clear();
 	while (1)
 	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &shell->terminos);
-		signal(SIGINT, &sig_handler);
 		signal(SIGQUIT, &sig_handler);
+		signal(SIGINT, &sig_handler);
+		tcsetattr(STDIN_FILENO, TCSANOW, &shell->terminos);
 		buffer = readline("minishell$ ");
 		if (!buffer)
 			return ;
@@ -145,9 +137,10 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
-	atexit(f);
+	// atexit(f);
 	tcgetattr(STDIN_FILENO, &shell.terminos);
 	signal(g_signal, sig_assign);
+	rl_catch_signals = 0;
 	shell.root = NULL;
 	shell.exit_code = 0;
 	shell.env = ft_create_env(env);
@@ -160,7 +153,7 @@ int	main(int ac, char **av, char **env)
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.terminos);
-	// ft_putstr_fd("exit\n", 1);
+	ft_putstr_fd("exit\n", 1);
 	return (shell.exit_code);
 }
 // echo hello >> =$sdfdsf* >> =$sdsdfsdf* =*

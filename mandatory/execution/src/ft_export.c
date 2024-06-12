@@ -24,7 +24,6 @@ char	**ft_sort_env(t_list *env)
 	while (env)
 	{
 		arr[i] = ft_strdup(env->content);
-		printf("%s\n", arr[i]);
 		env = env->next;
 		i++;
 	}
@@ -47,14 +46,15 @@ int	ft_print_shell(t_list *env, int fdout)
 		ft_putstr_fd("declare -x ", fdout);
 		while (arr[i][j] != '=' && arr[i][j])
 			ft_putchar_fd(arr[i][j++], fdout);
-		if (arr[i][j] != '=')
-			continue ;
-		ft_putchar_fd('=', fdout);
-		ft_putchar_fd('\"', fdout);
-		j++;
-		while (arr[i][j])
-			ft_putchar_fd(arr[i][j++], fdout);
-		ft_putchar_fd('\"', fdout);
+		if (arr[i][j] == '=')
+		{
+			ft_putchar_fd('=', fdout);
+			ft_putchar_fd('\"', fdout);
+			j++;
+			while (arr[i][j])
+				ft_putchar_fd(arr[i][j++], fdout);
+			ft_putchar_fd('\"', fdout);
+		}
 		ft_putchar_fd('\n', fdout);
 	}
 	return (ft_free(arr), EXIT_SUCCESS);
@@ -102,7 +102,9 @@ int	ft_export_variable(char *name, char *var, t_shell *shell)
 	}
 	else if (*var == '=')
 	{
-		if (ft_set_env(shell->env, name, var + 1))
+		if (!shell->env)
+			shell->env = ft_lstnew(ft_strjoin(name, var));
+		else if (ft_set_env(shell->env, name, var + 1))
 			return (EXIT_FAILURE);
 	}
 	else

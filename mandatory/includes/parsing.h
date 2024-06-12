@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 10:05:07 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 10:28:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,8 +79,6 @@ t_list		*ft_env_ignored(void);
 void		sig_handler(int signal);
 
 char		**ft_wildcard_split(char *str);
-
-void		ft_disable_echoctl(void);
 
 t_list		*ft_create_env(char **env);
 #endif

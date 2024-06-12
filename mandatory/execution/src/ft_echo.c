@@ -3,14 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:11:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 19:07:49 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:37:41 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+int ft_ignore_flag(char *name, int c)
+{
+    int i;
+
+    i = 0;
+    while (name[i])
+    {
+        if (name[i] != c)
+            return (0);
+        i++;
+    }
+    return (1);
+}
 
 int	ft_has_flag(char **args)
 {
@@ -21,8 +35,13 @@ int	ft_has_flag(char **args)
 	c = 0;
 	while (args[j])
 	{
-		if (args[j][0] == '-' && args[j][1] == 'n' && args[j][2] == '\0')
-			c++;
+		if (args[j][0] == '-' && args[j][1] == 'n')
+        {
+            if (ft_ignore_flag(&args[j][1], 'n'))
+			    c++;
+            else
+                break ;
+        }
 		else
 			break ;
 		j++;

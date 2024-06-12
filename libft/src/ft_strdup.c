@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 20:23:33 by mzeggaf           #+#    #+#             */
-/*   Updated: 2023/11/02 22:24:22 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:32:43 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,8 @@ char	*ft_strdup(const char *s1)
 	char	*ptr;
 	int		len;
 
+	if (!s1)
+		return (NULL);
 	len = ft_strlen(s1) + 1;
 	ptr = (char *)malloc(len);
 	if (!ptr)

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 10:28:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:36:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ char		*ft_remove_wd_backslash(char *str);
 
 // char		*ft_no_var_wildcard(char *pattern, t_token *token);
 
-char		*ft_quoted_wildcard(char *str);
+char		*ft_backslash_wildcard(char *str);
 
 char		*ft_remove_quotes(char *str);
 
@@ -79,6 +79,8 @@ t_list		*ft_env_ignored(void);
 void		sig_handler(int signal);
 
 char		**ft_wildcard_split(char *str);
+
+char		*ft_var_backslash_wildcard(char *str);
 
 t_list		*ft_create_env(char **env);
 #endif

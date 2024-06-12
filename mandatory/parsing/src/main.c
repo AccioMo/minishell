@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 11:28:24 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 13:01:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,10 +49,21 @@ t_list	*ft_create_env(char **env)
 	return (shell_env);
 }
 
+int	set_exit_code(int exit_code, int set)
+{
+	static int	code;
+
+	if (set)
+		code = exit_code;
+	return (code);
+}
+
 void	sig_handler(int signal)
 {
+	g_signal = signal;
 	if (signal == SIGINT)
 	{
+		set_exit_code(1, TRUE);
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
 		if (waitpid(-1, NULL, WNOHANG) == 0)
@@ -65,28 +76,14 @@ void	sig_handler(int signal)
 	return ;
 }
 
-double	ft_gettimeofday(void)
-{
-	struct timeval	tv;
-
-	gettimeofday(&tv, NULL);
-	return ((double)tv.tv_sec + (double)tv.tv_usec / 1000000);
-}
-
-void	ft_clear(void)
-{
-	ft_putstr_fd("\033[2J", 1);
-	ft_putstr_fd("\033[H", 1);
-}
-
 static void	ft_minishell(t_shell *shell)
 {
 	char	*buffer;
 
+	signal(SIGINT, &sig_handler);
+	signal(SIGQUIT, &sig_handler);
 	while (1)
 	{
-		signal(SIGQUIT, &sig_handler);
-		signal(SIGINT, &sig_handler);
 		tcsetattr(STDIN_FILENO, TCSANOW, &shell->terminos);
 		buffer = readline("minishell$ ");
 		if (!buffer)
@@ -94,6 +91,7 @@ static void	ft_minishell(t_shell *shell)
 		if (!valid_line(buffer))
 			continue ;
 		add_history(buffer);
+		shell->exit_code = set_exit_code(0, FALSE);
 		if (!ft_parse(buffer, shell))
 			ft_priority_token(shell->root, 0, 1, shell);
 		if (!shell->root)
@@ -108,19 +106,14 @@ void	ft_non_interactive(t_shell *shell)
 	char	*buffer;
 
 	buffer = readline("");
-	// ft_putstr_fd("\033[A", 1);
-	// rl_replace_line("", 0);
-	// rl_redisplay();
+	ft_putstr_fd("\033[A", 1);
+	rl_replace_line("", 0);
+	rl_redisplay();
 	if (!buffer)
 		ft_exit(NULL, shell);
 	add_history(buffer);
 	if (!ft_parse(buffer, shell))
 		ft_priority_token(shell->root, 0, 1, shell);
-}
-
-void	sig_assign(int signal)
-{
-	g_signal = signal;
 }
 
 void	f(void)
@@ -139,7 +132,6 @@ int	main(int ac, char **av, char **env)
 	}
 	// atexit(f);
 	tcgetattr(STDIN_FILENO, &shell.terminos);
-	signal(g_signal, sig_assign);
 	rl_catch_signals = 0;
 	shell.root = NULL;
 	shell.exit_code = 0;
@@ -153,7 +145,7 @@ int	main(int ac, char **av, char **env)
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.terminos);
-	ft_putstr_fd("exit\n", 1);
+	// ft_putstr_fd("exit\n", 1);
 	return (shell.exit_code);
 }
 // echo hello >> =$sdfdsf* >> =$sdsdfsdf* =*

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 11:35:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:36:16 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -128,7 +128,7 @@ char	*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell)
 	}
 	arr_len = ft_array_len(new_args);
 	new = ft_realloc(new, new_args[0]);
-	new = ft_quoted_wildcard(new);
+	new = ft_var_backslash_wildcard(new);
 	if (arr_len == 1)
 	{
 		ft_free(new_args);
@@ -139,7 +139,7 @@ char	*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell)
 	new = NULL;
 	while (++k < (arr_len - 1))
 	{
-		new_args[k] = ft_quoted_wildcard(new_args[k]);
+		new_args[k] = ft_var_backslash_wildcard(new_args[k]);
 		token->args = ft_append_to_array(token->args, new_args[k]);
 	}
 	new = ft_strdup(new_args[k]);
@@ -195,7 +195,7 @@ int	ft_variables(char *str, t_token *token, t_shell *shell)
 		{
 			v = ft_next_variable(&str[i]);
 			tmp = ft_substr(str, i, v);
-			tmp = ft_quoted_wildcard(tmp);
+			tmp = ft_var_backslash_wildcard(tmp);
 			new = ft_realloc(new, tmp);
 			free(tmp);
 			i += v;

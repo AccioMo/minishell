@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 09:57:38 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 12:36:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,6 +41,8 @@ char	*ft_remove_quotes(char *str)
 
 	i = 0;
 	j = 0;
+	if (!str)
+		return (NULL);
 	word = (char *)malloc(sizeof(char) * (ft_arg_len(str) + 1));
 	if (!word)
 		return (NULL);
@@ -56,9 +58,8 @@ char	*ft_remove_quotes(char *str)
 			word[i++] = str[j];
 		j++;
 	}
-	free(str);
 	word[i] = '\0';
-	return (word);
+	return (free(str), word);
 }
 
 char	*ft_handle_tilde(char *tilde, t_shell *shell)
@@ -98,8 +99,8 @@ int	ft_expand_variables(t_token *token, t_shell *shell)
 		{
 			if (old_args[i][0] == '~')
 				old_args[i] = ft_handle_tilde(old_args[i], shell);
+			old_args[i] = ft_backslash_wildcard(old_args[i]);
 			old_args[i] = ft_remove_quotes(old_args[i]);
-			old_args[i] = ft_quoted_wildcard(old_args[i]);
 			token->args = ft_append_to_array(token->args, old_args[i]);
 		}
 		i++;

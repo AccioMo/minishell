@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 13:01:04 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 20:11:25 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -63,7 +63,7 @@ void	sig_handler(int signal)
 	g_signal = signal;
 	if (signal == SIGINT)
 	{
-		set_exit_code(1, TRUE);
+		set_exit_code(1, true);
 		ft_putstr_fd("\n", 1);
 		rl_on_new_line();
 		if (waitpid(-1, NULL, WNOHANG) == 0)
@@ -91,29 +91,16 @@ static void	ft_minishell(t_shell *shell)
 		if (!valid_line(buffer))
 			continue ;
 		add_history(buffer);
-		shell->exit_code = set_exit_code(0, FALSE);
+		shell->exit_code = set_exit_code(0, false);
 		if (!ft_parse(buffer, shell))
+		{
 			ft_priority_token(shell->root, 0, 1, shell);
-		if (!shell->root)
-			return ;
+			if (!shell->root)
+				return ;
+		}
 		ft_free_tree(shell->root);
 		shell->root = NULL;
 	}
-}
-
-void	ft_non_interactive(t_shell *shell)
-{
-	char	*buffer;
-
-	buffer = readline("");
-	ft_putstr_fd("\033[A", 1);
-	rl_replace_line("", 0);
-	rl_redisplay();
-	if (!buffer)
-		ft_exit(NULL, shell);
-	add_history(buffer);
-	if (!ft_parse(buffer, shell))
-		ft_priority_token(shell->root, 0, 1, shell);
 }
 
 void	f(void)
@@ -133,6 +120,7 @@ int	main(int ac, char **av, char **env)
 	// atexit(f);
 	tcgetattr(STDIN_FILENO, &shell.terminos);
 	rl_catch_signals = 0;
+	shell.heredocs = NULL;
 	shell.root = NULL;
 	shell.exit_code = 0;
 	shell.env = ft_create_env(env);
@@ -141,11 +129,12 @@ int	main(int ac, char **av, char **env)
 	if (isatty(STDIN_FILENO))
 		ft_minishell(&shell);
 	else
-		ft_non_interactive(&shell);
+		ft_putstr_fd("minishell: not a tty\n", 2);
+	ft_clear_heredocs(shell.heredocs);
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.terminos);
-	// ft_putstr_fd("exit\n", 1);
+	ft_putstr_fd("exit\n", 1);
 	return (shell.exit_code);
 }
 // echo hello >> =$sdfdsf* >> =$sdsdfsdf* =*

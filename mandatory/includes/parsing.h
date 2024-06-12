@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 12:36:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 20:11:08 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,50 +37,26 @@ int			ft_stage_or(char *str, int end, t_token **token);
 int			ft_stage_and(char *str, t_token **token);
 
 char		**ft_append_to_array(char **args, char *new_arg);
-
-/*A function that expand variables to there values from the env*/
 int			ft_variables(char *str, t_token *token, t_shell *shell);
-
 int			valid_line(char *line);
-
-/*A function that changes the '*' to a dir content*/
 char		*ft_wildcard(char *pattern, t_token *token);
-
 int			ft_variable_length(char *str);
-
 char		*ft_wildcard_match(char *pattern, char *str);
-
 char		*ft_quotes_wildcard(char *pattern, t_shell *shell);
-
-char		*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell);
-
+char		*ft_split_variable(char *str, char *new, t_token *tok, t_shell *sh);
 char		*ft_quoted_variables(char *str, t_shell *shell);
-
 char		*ft_remove_wd_backslash(char *str);
-
-// char		*ft_no_var_wildcard(char *pattern, t_token *token);
-
 char		*ft_backslash_wildcard(char *str);
-
 char		*ft_remove_quotes(char *str);
-
 int			ft_stage_and(char *str, t_token **token);
-
 int			ft_stage_four(char *str, int end, t_token **token);
-
 int			ft_handle_and(char *str, int end, t_token **token);
-
 int			ft_handle_parentheses(char *str, int end, t_token **token);
-
 int			ft_parse_word(char *str, int end, t_token **token);
-
-t_list		*ft_env_ignored(void);
-
+void		ft_clear_heredocs(t_heredoc *heredocs);
 void		sig_handler(int signal);
-
 char		**ft_wildcard_split(char *str);
-
 char		*ft_var_backslash_wildcard(char *str);
-
 t_list		*ft_create_env(char **env);
+
 #endif

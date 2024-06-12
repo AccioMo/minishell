@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/10 21:48:18 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:38:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,8 +110,9 @@ int	ft_handle_parentheses(char *str, int end, t_token **token)
 	}
 	p = ft_skip_parentheses(str);
 	word = ft_substr(str, 1, p - 1);
-	ft_stage_and(word, &(*token)->right);
-	return (EXIT_SUCCESS);
+	p = ft_stage_and(word, &(*token)->right);
+	free(word);
+	return (p);
 }
 
 int	ft_stage_four(char *str, int end, t_token **token)

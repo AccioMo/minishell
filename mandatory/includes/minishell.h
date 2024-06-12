@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 11:36:15 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 20:14:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,14 +21,13 @@
 # include <errno.h>
 # include <signal.h>
 # include <termios.h>
+# include <stdbool.h>
 # include <sys/time.h>
 # include "libft.h"
 # include "get_next_line.h"
 # include "readline/readline.h"
 # include "readline/history.h"
 
-# define TRUE 1
-# define FALSE 0
 # define EXIT_SUCCESS 0
 # define EXIT_FAILURE 1
 
@@ -69,59 +68,43 @@ typedef struct s_token
 	char			**args;
 }	t_token;
 
+typedef struct s_heredoc
+{
+	int					fd;
+	struct s_heredoc	*next;
+}	t_heredoc;
+
 typedef struct s_shell
 {
 	t_token			*root;
 	t_list			*env;
+	t_heredoc		*heredocs;
 	int				subshell;
 	struct termios	terminos;
 	pid_t			last_pid;
 	int				exit_code;
 }	t_shell;
 
-double	ft_gettimeofday(void);//huh??
-
 int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
-
 void	ft_free(char **ptr);
-
-/*A function to grab any value of a key in a 2d
-array,e.g: Value of name User is loginDialk*/
-/*Returns NULL if there is no key with that name*/
 char	*ft_getenv(char *name, t_list *arr);
-
-/*A function that return the size of a 2D array*/
 int		ft_array_len(char **arr);
-
-/*A function that copies a 2darray and return it*/
-
 char	**ft_append_to_array(char **args, char *new_arg);
-
 char	*ft_quoted_variables(char *str, t_shell *shell);
-
 char	*ft_expand_variable(char *str, t_shell *shell);
-
 int		ft_variable_length(char *str);
-
-/*A function  that realocate a 2d array with new
-data for a 2d array double pointer*/
+void	sig_handler(int signal);
+int		set_exit_code(int exit_code, int set);
 char	**ft_remove_from_array(char **array, int x);
-
 int		ft_index(char *str, char c);
-
 int		ft_whitespace(char c);
-
 int		ft_perror(char *cmd);
-
 void	ft_free_tree(t_token *token);
-
 int		ft_found_token(char *str, char c);
-
 int		ft_set_env(t_list *env, char *name, char *value);
-
+int		ft_redir_heredoc_function(char *limiter, t_shell *shell);
 int		ft_contains_variable(char *str);
-
 int		ft_exit(t_token *token, t_shell *env);
-
 void	sort_arr(char **oldbuff);
+
 #endif

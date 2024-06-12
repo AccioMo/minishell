@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:20:34 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 17:17:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 18:39:52 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,11 @@ int	ft_handle_append(char *str, int start, int end, t_token **token)
 	if (ft_stage_four(&str[start], len, &(*token)->left) && !(*token)->left)
 		return (ft_throw_syntax_error(">>"));
 	if (ft_stage_three(wd, ft_strlen(wd), &(*token)->right) && (*token)->right)
+	{
+		free(wd);
 		return (PARSING_FAILURE);
+	}
+	free(wd);
 	return (EXIT_SUCCESS);
 }
 
@@ -40,7 +44,11 @@ int	ft_handle_heredoc(char *str, int start, int end, t_token **token)
 	if (ft_stage_four(&str[start], len, &(*token)->left) && !(*token)->left)
 		return (ft_throw_syntax_error("<<"));
 	if (ft_stage_three(wd, ft_strlen(wd), &(*token)->right) && (*token)->right)
+	{
+		free(wd);
 		return (PARSING_FAILURE);
+	}
+	free(wd);
 	return (EXIT_SUCCESS);
 }
 
@@ -56,7 +64,11 @@ int	ft_handle_redir_in(char *str, int start, int end, t_token **token)
 	if (ft_stage_four(&str[start], len, &(*token)->left) && !(*token)->left)
 		return (ft_throw_syntax_error("<"));
 	if (ft_stage_three(wd, ft_strlen(wd), &(*token)->right) && (*token)->right)
+	{
+		free(wd);
 		return (PARSING_FAILURE);
+	}
+	free(wd);
 	return (EXIT_SUCCESS);
 }
 
@@ -72,7 +84,11 @@ int	ft_handle_redir_out(char *str, int start, int end, t_token **token)
 	if (ft_stage_four(&str[start], len, &(*token)->left) && !(*token)->left)
 		return (ft_throw_syntax_error(">"));
 	if (ft_stage_three(wd, ft_strlen(wd), &(*token)->right) && (*token)->right)
+	{
+		free(wd);
 		return (PARSING_FAILURE);
+	}
+	free(wd);
 	return (EXIT_SUCCESS);
 }
 

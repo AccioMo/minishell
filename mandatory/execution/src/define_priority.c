@@ -6,42 +6,11 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 14:03:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 19:46:26 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
-{
-	int		exit_code;
-	int		status;
-
-	if (!token)
-		return (EXIT_FAILURE);
-	if (token->type == AND)
-		status = ft_and_function(token, fdin, fdout, shell);
-	else if (token->type == OR)
-		status = ft_or_function(token, fdin, fdout, shell);
-	else if (token->type == PIPE)
-	{
-		shell->subshell = 1;
-		status = ft_pipe_token(token, fdin, fdout, shell);
-		shell->subshell = 0;
-	}
-	else
-		status = ft_redir_token(token, fdin, fdout, shell);
-	waitpid(shell->last_pid, &shell->exit_code, 0);
-	while (wait(&exit_code) > 0)
-		;
-	if (status)
-		shell->exit_code = status;
-	else if (WIFEXITED(shell->exit_code))
-		shell->exit_code = WEXITSTATUS(shell->exit_code);
-	if (shell->exit_code == SIGQUIT)
-		ft_putstr_fd("Quit: 3\n", 1);
-	return (shell->exit_code);
-}
 
 int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
 {
@@ -67,6 +36,17 @@ int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
 	return (EXIT_SUCCESS);
 }
 
+int	ft_next_heredoc(t_shell *shell)
+{
+	int	fd;
+
+	if (!shell->heredocs)
+		return (-1);
+	fd = shell->heredocs->fd;
+	shell->heredocs = shell->heredocs->next;
+	return (fd);
+}
+
 int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	if (!token || fdin < 0 || fdout < 0)
@@ -79,7 +59,7 @@ int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		if (token->type == REDIR_IN)
 			fdin = ft_redir_in_function(token->left);
 		else if (token->type == REDIR_HEREDOC)
-			fdin = ft_redir_heredoc_function(token->left, shell);
+			fdin = ft_next_heredoc(shell);
 		else if (token->type == REDIR_OUT)
 			fdout = ft_redir_out_function(token->left);
 		else if (token->type == REDIR_APPEND)
@@ -103,6 +83,8 @@ int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		if (pipe(end) < 0)
 			perror("pipe");
 		ft_redir_token(token->left, fdin, end[1], shell);
+		if (fdin != 0)
+			close(fdin);
 		close(end[1]);
 		status = ft_pipe_token(token->right, end[0], fdout, shell);
 		close(end[0]);
@@ -116,19 +98,21 @@ int	ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	int	exit_status;
 
 	if (!token)
+	{
+		if (!shell->subshell)
+			ft_close_fds(fdin, fdout);
 		return (EXIT_FAILURE);
+	}
 	exit_status = 0;
 	if (token->type == WORD)
 		exit_status = ft_exec_function(token, fdin, fdout, shell);
 	else if (token->type == SUBSHELL)
 	{
 		shell->subshell = 1;
-		exit_status = ft_priority_token(token->right, fdin, fdout, shell);
+		exit_status = ft_first_token(token->right, fdin, fdout, shell);
 		shell->subshell = 0;
 	}
-	if (fdin != 0)
-		close(fdin);
-	if (fdout != 1)
-		close(fdout);
+	if (!shell->subshell)
+		ft_close_fds(fdin, fdout);
 	return (exit_status);
 }

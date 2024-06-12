@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/11 17:21:43 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 09:57:38 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,24 +36,27 @@ static int	ft_arg_len(char *str)
 char	*ft_remove_quotes(char *str)
 {
 	char	*word;
+	int		j;
 	int		i;
 
 	i = 0;
+	j = 0;
 	word = (char *)malloc(sizeof(char) * (ft_arg_len(str) + 1));
 	if (!word)
 		return (NULL);
-	while (*str && !ft_whitespace(*str))
+	while (str[j] && !ft_whitespace(*str))
 	{
-		if (*str == '\"')
-			while (*++str && *str != '\"')
-				word[i++] = *str;
-		else if (*str == '\'')
-			while (*++str && *str != '\'')
-				word[i++] = *str;
+		if (str[j] == '\"')
+			while (str[++j] && str[j] != '\"')
+				word[i++] = str[j];
+		else if (str[j] == '\'')
+			while (str[++j] && str[j] != '\'')
+				word[i++] = str[j];
 		else
-			word[i++] = *str;
-		str++;
+			word[i++] = str[j];
+		j++;
 	}
+	free(str);
 	word[i] = '\0';
 	return (word);
 }
@@ -77,14 +80,6 @@ char	*ft_handle_tilde(char *tilde, t_shell *shell)
 	return (tilde);
 }
 
-// if (token->left)
-// 	ft_expand_variables(token->left, shell);
-// if (token->right)
-// 	ft_expand_variables(token->right, shell);
-// if (token->type == WORD)
-// }
-// {
-
 int	ft_expand_variables(t_token *token, t_shell *shell)
 {
 	char	**old_args;
@@ -103,12 +98,13 @@ int	ft_expand_variables(t_token *token, t_shell *shell)
 		{
 			if (old_args[i][0] == '~')
 				old_args[i] = ft_handle_tilde(old_args[i], shell);
-			old_args[i] = ft_quoted_wildcard(old_args[i]);
 			old_args[i] = ft_remove_quotes(old_args[i]);
+			old_args[i] = ft_quoted_wildcard(old_args[i]);
 			token->args = ft_append_to_array(token->args, old_args[i]);
 		}
 		i++;
 	}
+	ft_free(old_args);
 	return (0);
 }
 
@@ -133,5 +129,6 @@ int	ft_expand_wildcard(t_token *token)
 		}
 		i++;
 	}
+	ft_free(old_args);
 	return (0);
 }

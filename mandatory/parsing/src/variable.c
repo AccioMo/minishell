@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 20:51:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 00:54:37 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,13 +119,21 @@ char	*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell)
 		return (new);
 	new_args = ft_split(tmp, ' ');
 	free(tmp);
-	if (!new_args || !new_args[0])
+	if (!new_args)
 		return (new);
+	if (!new_args[0])
+	{
+		ft_free(new_args);
+		return (new);
+	}
 	arr_len = ft_array_len(new_args);
 	new = ft_realloc(new, new_args[0]);
 	new = ft_quoted_wildcard(new);
 	if (arr_len == 1)
+	{
+		ft_free(new_args);
 		return (new);
+	}
 	token->args = ft_append_to_array(token->args, new);
 	free(new);
 	new = NULL;
@@ -165,6 +173,7 @@ int	ft_variables(char *str, t_token *token, t_shell *shell)
 		{
 			tmp = ft_substr(str, i + 1, ft_index(&str[i + 1], '\''));
 			new = ft_realloc(new, tmp);
+			free(tmp);
 			i += ft_index(&str[i + 1], '\'') + 2;
 		}
 		else if (str[i] == '\"')
@@ -172,6 +181,7 @@ int	ft_variables(char *str, t_token *token, t_shell *shell)
 			len = ft_index(&str[++i], '\"') + 1;
 			tmp = ft_quoted_variables(&str[i], shell);
 			new = ft_realloc(new, tmp);
+			free(tmp);
 			i += len;
 		}
 		else if (str[i] == '$')
@@ -187,10 +197,12 @@ int	ft_variables(char *str, t_token *token, t_shell *shell)
 			tmp = ft_substr(str, i, v);
 			tmp = ft_quoted_wildcard(tmp);
 			new = ft_realloc(new, tmp);
+			free(tmp);
 			i += v;
 		}
 	}
 	if (new)
 		token->args = ft_append_to_array(token->args, new);
+	free(new);
 	return (0);
 }

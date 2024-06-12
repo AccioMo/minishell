@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/11 17:25:41 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 00:51:56 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,9 +28,10 @@ int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 		env_array = ft_list_to_array(shell->env);
 		cmd_path = ft_allocate_cmd(token->args, env_array);
 		if (!cmd_path)
-			return (EXIT_FAILURE);
+			exit(ft_exit(NULL, shell));
 		execve(cmd_path, token->args, env_array);
-		exit(ft_perror(token->args[0]));
+		ft_perror(token->args[0]);
+		exit(ft_exit(NULL, shell));
 	}
 	else if (pid < 0)
 		return (ft_perror("fork"));

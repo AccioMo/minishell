@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/07 19:53:05 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 10:04:54 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,30 @@ int	ft_open_parentheses(char *line)
 	return (p);
 }
 
+int	valid_line(char *line)
+{
+	int	i;
+
+	i = 0;
+	while (line[i])
+	{
+		if (!ft_whitespace(line[i]))
+			return (1);
+		i++;
+	}
+	return (0);
+}
+
 int	ft_parse(char *line, t_shell *shell)
 {
 	int		status;
 	int		i;
 
 	i = 0;
-	shell->root = NULL;
-	while (ft_whitespace(line[i]))
-		i++;
-	if (!line[i])
-		return (EXIT_FAILURE);
 	if (ft_open_quotes(line) || ft_open_parentheses(line))
 	{
 		shell->exit_code = ft_throw_syntax_error(line);
+		free(line);
 		return (EXIT_FAILURE);
 	}
 	status = ft_stage_and(line, &shell->root);
@@ -94,7 +104,6 @@ int	ft_parse(char *line, t_shell *shell)
 	{
 		ft_free_tree(shell->root);
 		shell->exit_code = status;
-		shell->root = NULL;
 		return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

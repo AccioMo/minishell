@@ -129,7 +129,8 @@ int	ft_export(t_token *token, t_shell *shell, int fdout)
 		{
 			name = ft_substr(token->args[j], 0, i);
 			if (ft_export_variable(name, &token->args[j][i], shell))
-				return (EXIT_FAILURE);
+				return (free(name), EXIT_FAILURE);
+			free(name);
 		}
 		j++;
 	}

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 21:20:39 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 10:04:09 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,27 +96,18 @@ static void	ft_minishell(t_shell *shell)
 		tcsetattr(STDIN_FILENO, TCSANOW, &shell->terminos);
 		signal(SIGINT, &sig_handler);
 		signal(SIGQUIT, &sig_handler);
-		char *dir = ft_strnstr(ft_getenv("PWD", shell->env), ft_getenv("HOME", shell->env), -1);
-		if (dir)
-			dir = ft_strjoin("~", &dir[ft_strlen(getenv("HOME"))]);
-		else
-			dir = ft_strdup(ft_getenv("PWD", shell->env));
-		if (shell->exit_code == 0)
-			buffer = ft_strjoin("\033[1;32m●\033[0m\033[1m shv1 ", \
-			dir);
-		else
-			buffer = ft_strjoin("\033[1;31m●\033[0m\033[1m shv1 ", \
-			dir);
-		free(dir);
-		buffer = ft_realloc(buffer, " ❯ \033[0m");
-		buffer = readline(buffer);
+		buffer = readline("minishell$ ");
 		if (!buffer)
 			return ;
+		if (!valid_line(buffer))
+			continue ;
 		add_history(buffer);
 		if (!ft_parse(buffer, shell))
 			ft_priority_token(shell->root, 0, 1, shell);
 		if (!shell->root)
 			return ;
+		ft_free_tree(shell->root);
+		shell->root = NULL;
 	}
 }
 
@@ -140,6 +131,11 @@ void	sig_assign(int signal)
 	g_signal = signal;
 }
 
+void	f(void)
+{
+	system("leaks minishell");
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
@@ -149,6 +145,7 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
+	atexit(f);
 	tcgetattr(STDIN_FILENO, &shell.terminos);
 	signal(g_signal, sig_assign);
 	shell.root = NULL;

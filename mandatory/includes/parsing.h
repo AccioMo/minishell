@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 16:47:15 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 10:05:07 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,6 +40,8 @@ char		**ft_append_to_array(char **args, char *new_arg);
 
 /*A function that expand variables to there values from the env*/
 int			ft_variables(char *str, t_token *token, t_shell *shell);
+
+int			valid_line(char *line);
 
 /*A function that changes the '*' to a dir content*/
 char		*ft_wildcard(char *pattern, t_token *token);

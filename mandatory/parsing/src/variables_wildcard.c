@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/11 15:21:02 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 16:47:04 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 00:40:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,8 @@ char	*ft_quoted_wildcard(char *str)
 	int		i;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i])
 	{
 		if (str[i] == '\'')
@@ -55,6 +57,8 @@ char	*ft_remove_wd_backslash(char *str)
 	int		i;
 
 	i = 0;
+	if (!str)
+		return (NULL);
 	while (str[i])
 	{
 		if (!ft_strncmp(&str[i], "\\*", 2))

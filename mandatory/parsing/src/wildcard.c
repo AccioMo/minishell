@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/11 16:47:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 00:39:08 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -162,13 +162,15 @@ char	*ft_wildcard(char *pattern, t_token *token)
 	}
 	if (matches == 0)
 	{
-		pattern = ft_remove_wd_backslash(pattern);
+		pattern = ft_remove_wd_backslash(ft_strdup(pattern));
 		new_arr = ft_append_to_array(new_arr, pattern);
+		free(pattern);
 	}
-	// sort_arr(new_arr);
+	sort_arr(new_arr);
 	i = -1;
 	while (new_arr[++i])
 		token->args = ft_append_to_array(token->args, new_arr[i]);
+	ft_free(new_arr);
 	closedir(dir);
 	return (NULL);
 }

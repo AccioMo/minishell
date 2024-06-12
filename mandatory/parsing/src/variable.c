@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 00:54:37 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 11:35:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	ft_variable_length(char *str)
 	return (0);
 }
 
-static char	*ft_expand_variable(char *str, t_shell *shell)
+char	*ft_expand_variable(char *str, t_shell *shell)
 {
 	char	*tmp;
 	char	*new;

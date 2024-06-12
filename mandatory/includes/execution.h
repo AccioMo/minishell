@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 21:10:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 11:41:56 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,7 @@ int		ft_redir_out_function(t_token *token);
 
 int		ft_redir_append_function(t_token *token);
 
-int		ft_redir_heredoc_function(t_token *token);
+int		ft_redir_heredoc_function(t_token *token, t_shell *shell);
 
 void	ft_free(char **ptr);
 
@@ -101,7 +101,5 @@ void	ft_dup_pipes(int fdin, int fdout);
 void	ft_increment_shellvl(t_shell *shell);
 
 char	**ft_list_to_array(t_list *env);
-
-int		ft_redir_heredoc_function(t_token *token);
 
 #endif

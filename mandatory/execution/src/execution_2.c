@@ -6,11 +6,17 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 00:51:56 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/12 11:25:20 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+// void	sig2_handler(int signum)
+// {
+// 	if (signum == SIGINT)
+// 		rl_replace_line("", 1);
+// }
 
 int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 {
@@ -21,7 +27,8 @@ int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
-		ft_enable_echoctl();
+		// signal(SIGINT, &sig2_handler);
+		// signal(SIGQUIT, &sig2_handler);
 		if (fdin < 0)
 			exit(EXIT_FAILURE);
 		ft_dup_pipes(fdin, fdout);
@@ -38,18 +45,6 @@ int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 	else
 		shell->last_pid = pid;
 	return (EXIT_SUCCESS);
-}
-
-void	sig2_handler(int signum)
-{
-	if (signum == SIGQUIT)
-	{
-		ft_putstr_fd("Quit: 3\n", 2);
-	}
-	else if (signum == SIGINT)
-	{
-		ft_putstr_fd("\n", 1);
-	}
 }
 
 int	ft_handle_dots(t_token *token)
@@ -82,8 +77,6 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 		return (ft_execute_builtin(token, fdout, shell));
 	if (ft_strncmp(token->args[0], "./minishell\0", 12) == 0)
 		ft_increment_shellvl(shell);
-	signal(SIGINT, &sig2_handler);
-	signal(SIGQUIT, &sig2_handler);
 	if (ft_execution_process(token, fdin, fdout, shell))
 		return (EXIT_FAILURE);
 	last_cmd = token->args[ft_array_len(token->args) - 1];

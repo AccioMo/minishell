@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_heredoc.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:27:06 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/04 06:04:56 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/06/12 11:38:52 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,32 @@ int	ft_heredoc_content(char *input, int stdin_copy)
 	return (end[0]);
 }
 
-int	ft_redir_heredoc_function(t_token *token)
+char	*ft_heredoc_variables(char *str, t_shell *shell)
+{
+	char	*tmp;
+	char	*new;
+
+	new = NULL;
+	while (*str)
+	{
+		if (*str == '$' && (ft_isalnum(*(str + 1)) || ft_strchr("?_", *(str + 1))))
+		{
+			tmp = ft_expand_variable(++str, shell);
+			new = ft_realloc(new, tmp);
+			free(tmp);
+			str += ft_variable_length(str);
+		}
+		else
+		{
+			tmp = ft_substr(str, 0, 1);
+			new = ft_realloc(new, tmp);
+			str++;
+		}
+	}
+	return (new);
+}
+
+int	ft_redir_heredoc_function(t_token *token, t_shell *shell)
 {
 	char	*buffer;
 	char	*input;
@@ -76,6 +101,8 @@ int	ft_redir_heredoc_function(t_token *token)
 		buffer = readline("> ");
 		if (!buffer)
 			break ;
+		if (ft_contains_variable(buffer))
+			buffer = ft_heredoc_variables(buffer, shell);
 		buffer = ft_realloc(buffer, "\n");
 	}
 	return (ft_heredoc_content(input, stdin_copy));

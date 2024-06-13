@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 20:11:08 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/13 10:49:43 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,9 +30,9 @@ void		ft_free(char **ptr);
 
 t_token		*ft_add_token(t_type type, t_token **token);
 int			ft_skip_parentheses(char *str);
-int			ft_stage_four(char *str, int end, t_token **token);
-int			ft_stage_three(char *str, int end, t_token **token);
-int			ft_stage_two(char *str, int end, t_token **token);
+int			ft_stage_exec(char *str, int end, t_token **token);
+int			ft_stage_redir(char *str, int end, t_token **token);
+int			ft_stage_pipe(char *str, int end, t_token **token);
 int			ft_stage_or(char *str, int end, t_token **token);
 int			ft_stage_and(char *str, t_token **token);
 
@@ -49,7 +49,7 @@ char		*ft_remove_wd_backslash(char *str);
 char		*ft_backslash_wildcard(char *str);
 char		*ft_remove_quotes(char *str);
 int			ft_stage_and(char *str, t_token **token);
-int			ft_stage_four(char *str, int end, t_token **token);
+int			ft_stage_exec(char *str, int end, t_token **token);
 int			ft_handle_and(char *str, int end, t_token **token);
 int			ft_handle_parentheses(char *str, int end, t_token **token);
 int			ft_parse_word(char *str, int end, t_token **token);

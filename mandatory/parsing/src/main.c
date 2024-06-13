@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 20:11:25 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/13 11:29:37 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,7 +58,7 @@ int	set_exit_code(int exit_code, int set)
 	return (code);
 }
 
-void	sig_handler(int signal)
+void	main_sig_handler(int signal)
 {
 	g_signal = signal;
 	if (signal == SIGINT)
@@ -80,8 +80,8 @@ static void	ft_minishell(t_shell *shell)
 {
 	char	*buffer;
 
-	signal(SIGINT, &sig_handler);
-	signal(SIGQUIT, &sig_handler);
+	signal(SIGINT, &main_sig_handler);
+	signal(SIGQUIT, &main_sig_handler);
 	while (1)
 	{
 		tcsetattr(STDIN_FILENO, TCSANOW, &shell->terminos);
@@ -120,7 +120,6 @@ int	main(int ac, char **av, char **env)
 	// atexit(f);
 	tcgetattr(STDIN_FILENO, &shell.terminos);
 	rl_catch_signals = 0;
-	shell.heredocs = NULL;
 	shell.root = NULL;
 	shell.exit_code = 0;
 	shell.env = ft_create_env(env);
@@ -130,7 +129,6 @@ int	main(int ac, char **av, char **env)
 		ft_minishell(&shell);
 	else
 		ft_putstr_fd("minishell: not a tty\n", 2);
-	ft_clear_heredocs(shell.heredocs);
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
 	tcsetattr(STDIN_FILENO, TCSANOW, &shell.terminos);

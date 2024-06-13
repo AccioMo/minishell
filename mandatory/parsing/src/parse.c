@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 20:16:22 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/13 11:11:55 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,58 +89,18 @@ int	valid_line(char *line)
 
 int	ft_get_heredocs(t_token *token, t_shell *shell)
 {
-	t_heredoc	*heredocs;
 	int			ret;
 
 	ret = 0;
 	if (!token)
 		return (ret);
-	if (token->type == REDIR_HEREDOC)
-	{
-		if (!shell->heredocs)
-		{
-			shell->heredocs = (t_heredoc *)malloc(sizeof(t_heredoc));
-			if (!shell->heredocs)
-				return (1);
-			if (token->left && token->left->args)
-				shell->heredocs->fd = ft_redir_heredoc_function(token->left->args[0], shell);
-			else
-				shell->heredocs->fd = -1;
-			shell->heredocs->next = NULL;
-		}
-		else
-		{
-			heredocs = shell->heredocs;
-			while (heredocs->next)
-				heredocs = heredocs->next;
-			heredocs->next = (t_heredoc *)malloc(sizeof(t_heredoc));
-			if (!heredocs->next)
-				return (1);
-			if (token->left && token->left->args)
-				shell->heredocs->fd = ft_redir_heredoc_function(token->left->args[0], shell);
-			else
-				shell->heredocs->fd = -1;
-			heredocs->next->next = NULL;
-		}
-	}
+	if (token->type == REDIR_HEREDOC && token->left && token->left->args)
+		close(ft_redir_heredoc_function(token->left, shell));
 	if (token->left)
 		ret = ft_get_heredocs(token->left, shell);
 	if (token->right)
 		ret = ft_get_heredocs(token->right, shell);
 	return (ret);
-}
-
-void	ft_clear_heredocs(t_heredoc *heredocs)
-{
-	t_heredoc	*tmp;
-
-	while (heredocs)
-	{
-		tmp = heredocs;
-		heredocs = heredocs->next;
-		close(tmp->fd);
-		free(tmp);
-	}
 }
 
 int	ft_parse(char *line, t_shell *shell)
@@ -157,11 +117,10 @@ int	ft_parse(char *line, t_shell *shell)
 		return (EXIT_FAILURE);
 	}
 	status = ft_stage_and(line, &shell->root);
-	if (ft_get_heredocs(shell->root, shell))
-		status = 1;
 	free(line);
 	if (status)
 	{
+		ft_get_heredocs(shell->root, shell);
 		ft_free_tree(shell->root);
 		shell->exit_code = set_exit_code(status, true);
 		shell->root = NULL;

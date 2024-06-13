@@ -29,8 +29,10 @@ ERROR HANDLING:
 	3. error on WORD token containing PARENTHESES or SUBSHELL containing WORD.
 
 TODO:
-	handle wildcard
-	handle expansion in heredoc
+	handle wildcard: done
+	handle expansion in heredoc: done
+	handle cat | cat | cat | ls (close write end of the pipe in child process)
+	handle heredoc bug on SIGINT
 
 ```
 

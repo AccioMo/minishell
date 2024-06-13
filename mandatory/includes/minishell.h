@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 20:14:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/13 11:10:05 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,7 +78,6 @@ typedef struct s_shell
 {
 	t_token			*root;
 	t_list			*env;
-	t_heredoc		*heredocs;
 	int				subshell;
 	struct termios	terminos;
 	pid_t			last_pid;
@@ -102,9 +101,10 @@ int		ft_perror(char *cmd);
 void	ft_free_tree(t_token *token);
 int		ft_found_token(char *str, char c);
 int		ft_set_env(t_list *env, char *name, char *value);
-int		ft_redir_heredoc_function(char *limiter, t_shell *shell);
+int		ft_redir_heredoc_function(t_token *token, t_shell *shell);
 int		ft_contains_variable(char *str);
 int		ft_exit(t_token *token, t_shell *env);
+void	main_sig_handler(int signal);
 void	sort_arr(char **oldbuff);
 
 #endif

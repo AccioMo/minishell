@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 19:46:26 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/13 11:27:48 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,17 +36,6 @@ int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_next_heredoc(t_shell *shell)
-{
-	int	fd;
-
-	if (!shell->heredocs)
-		return (-1);
-	fd = shell->heredocs->fd;
-	shell->heredocs = shell->heredocs->next;
-	return (fd);
-}
-
 int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	if (!token || fdin < 0 || fdout < 0)
@@ -59,7 +48,7 @@ int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		if (token->type == REDIR_IN)
 			fdin = ft_redir_in_function(token->left);
 		else if (token->type == REDIR_HEREDOC)
-			fdin = ft_next_heredoc(shell);
+			fdin = ft_redir_heredoc_function(token->left, shell);
 		else if (token->type == REDIR_OUT)
 			fdout = ft_redir_out_function(token->left);
 		else if (token->type == REDIR_APPEND)

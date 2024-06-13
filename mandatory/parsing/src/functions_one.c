@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 17:19:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/06/13 10:49:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	ft_handle_pipe(char *str, int start, int end, t_token **token)
 {
 	if (!ft_add_token(PIPE, token))
 		return (EXIT_FAILURE);
-	if (ft_stage_three(str, start, &(*token)->left))
+	if (ft_stage_redir(str, start, &(*token)->left))
 	{
 		if (!(*token)->left)
 			return (ft_throw_syntax_error("|"));
 		return (PARSING_FAILURE);
 	}
-	if (ft_stage_two(&str[start + 1], end - (start + 1), &(*token)->right))
+	if (ft_stage_pipe(&str[start + 1], end - (start + 1), &(*token)->right))
 	{
 		if (!(*token)->right)
 		{
@@ -34,7 +34,7 @@ int	ft_handle_pipe(char *str, int start, int end, t_token **token)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_stage_two(char *str, int end, t_token **token)
+int	ft_stage_pipe(char *str, int end, t_token **token)
 {
 	int	i;
 
@@ -51,14 +51,14 @@ int	ft_stage_two(char *str, int end, t_token **token)
 			return (ft_handle_pipe(str, i, end, token));
 		i++;
 	}
-	return (ft_stage_three(str, end, token));
+	return (ft_stage_redir(str, end, token));
 }
 
 int	ft_handle_or(char *str, int start, int end, t_token **token)
 {
 	if (!ft_add_token(OR, token))
 		return (EXIT_FAILURE);
-	if (ft_stage_two(str, start, &(*token)->left))
+	if (ft_stage_pipe(str, start, &(*token)->left))
 	{
 		if (!(*token)->left)
 			return (ft_throw_syntax_error("||"));
@@ -90,7 +90,7 @@ int	ft_stage_or(char *str, int end, t_token **token)
 			return (ft_handle_or(str, i, end, token));
 		i++;
 	}
-	return (ft_stage_two(str, end, token));
+	return (ft_stage_pipe(str, end, token));
 }
 
 int	ft_handle_and(char *str, int end, t_token **token)

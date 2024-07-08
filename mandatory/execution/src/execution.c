@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 10:32:06 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:08:48 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	ft_perror(char *cmd)
 	}
 	else
 		perror(cmd);
-	return (errno);
+	return (EXIT_FAILURE);
 }
 
 void	ft_increment_shellvl(t_shell *shell)

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/13 11:29:37 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:35:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,6 @@ static void	ft_minishell(t_shell *shell)
 	signal(SIGQUIT, &main_sig_handler);
 	while (1)
 	{
-		tcsetattr(STDIN_FILENO, TCSANOW, &shell->terminos);
 		buffer = readline("minishell$ ");
 		if (!buffer)
 			return ;
@@ -108,6 +107,20 @@ void	f(void)
 	system("leaks minishell");
 }
 
+void	ft_reset_term(void)
+{
+	static int	first;
+	static struct termios	term;
+
+	if (!first)
+	{
+		tcgetattr(STDIN_FILENO, &term);
+		first = 1;
+	}
+	else
+		tcsetattr(STDIN_FILENO, TCSANOW, &term);
+}
+
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
@@ -118,7 +131,7 @@ int	main(int ac, char **av, char **env)
 		return (1);
 	}
 	// atexit(f);
-	tcgetattr(STDIN_FILENO, &shell.terminos);
+	ft_reset_term();
 	rl_catch_signals = 0;
 	shell.root = NULL;
 	shell.exit_code = 0;
@@ -131,7 +144,7 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: not a tty\n", 2);
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
-	tcsetattr(STDIN_FILENO, TCSANOW, &shell.terminos);
+	ft_reset_term();
 	ft_putstr_fd("exit\n", 1);
 	return (shell.exit_code);
 }

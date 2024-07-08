@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/13 11:10:05 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:20:39 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,6 @@ typedef struct s_shell
 	t_token			*root;
 	t_list			*env;
 	int				subshell;
-	struct termios	terminos;
 	pid_t			last_pid;
 	int				exit_code;
 }	t_shell;
@@ -92,7 +91,7 @@ char	**ft_append_to_array(char **args, char *new_arg);
 char	*ft_quoted_variables(char *str, t_shell *shell);
 char	*ft_expand_variable(char *str, t_shell *shell);
 int		ft_variable_length(char *str);
-void	sig_handler(int signal);
+void	ft_reset_term(void);
 int		set_exit_code(int exit_code, int set);
 char	**ft_remove_from_array(char **array, int x);
 int		ft_index(char *str, char c);

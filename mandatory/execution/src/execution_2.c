@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/08 16:10:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/08 17:00:05 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)
-		return (ft_perror("fork"));
+		ft_perror("fork");
 	shell->last_pid = pid;
-	return (EXIT_SUCCESS);
+	return (pid);
 }
 
 int	ft_handle_dots(t_token *token)
@@ -95,6 +95,7 @@ int	ft_handle_dots(t_token *token)
 int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	*last_cmd;
+	int		pid;
 
 	if (!token || token->args == NULL)
 		return (EXIT_FAILURE);
@@ -110,8 +111,9 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 		return (ft_execute_builtin(token, fdout, shell));
 	if (ft_strncmp(token->args[0], "./minishell\0", 12) == 0)
 		ft_increment_shellvl(shell);
-	if (ft_execution_process(token, fdin, fdout, shell))
-		return (EXIT_FAILURE);
+	pid = ft_execution_process(token, fdin, fdout, shell);
+	if (pid < 0)
+		return (2);
 	last_cmd = token->args[ft_array_len(token->args) - 1];
 	if (ft_set_env(shell->env, "_", last_cmd))
 		return (EXIT_FAILURE);

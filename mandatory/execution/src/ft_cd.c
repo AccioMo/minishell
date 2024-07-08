@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 12:00:32 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/08 16:45:13 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,16 +43,16 @@ int	ft_set_env(t_list *env, char *name, char *value)
 
 int	ft_first_condition(t_shell *shell)
 {
-    if (ft_getenv("HOME", shell->env) == NULL)
-    {
-        ft_putstr_fd("minishell: cd: HOME not set\n", STDERR);
-        return (EXIT_FAILURE);
-    }
+	if (ft_getenv("HOME", shell->env) == NULL)
+	{
+		ft_putstr_fd("minishell: cd: HOME not set\n", STDERR);
+		return (EXIT_FAILURE);
+	}
 	if (chdir(ft_getenv("HOME", shell->env)) != 0)
 	{
 		ft_putstr_fd("minishell: cd: ", STDERR);
 		ft_putstr_fd(ft_getenv("HOME", shell->env), STDERR);
-        ft_putstr_fd(": No such file or directory\n", STDERR);
+		ft_putstr_fd(": No such file or directory\n", STDERR);
 		return (EXIT_FAILURE);
 	}
 	if (ft_set_env(shell->env, "OLDPWD", ft_getenv("PWD", shell->env)))
@@ -81,22 +81,9 @@ int	ft_second_condition(t_shell *shell, char *pwd)
 int	ft_cd_error(char *path, t_shell *shell)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
-	ft_putstr_fd(path, 2);
+	perror(path);
 	if (shell == NULL)
-	{
-		if (errno == ENOENT)
-			ft_putstr_fd(" : HOME not set\n", 2);
-		else if (errno == ENOTDIR)
-			ft_putstr_fd(" : not a directory: \n", 2);
-		else if (errno == EACCES)
-			ft_putstr_fd(" : permission denied: \n", 2);
-		else
-			ft_putstr_fd(path, 2);
-		ft_putstr_fd(path, 2);
-		strerror(errno);
 		return (EXIT_FAILURE);
-	}
-	strerror(errno);
 	ft_putstr_fd("error retrieving current directory: \
 getcwd: cannot access parent directories: No such file or directory\n", 2);
 	if (path[ft_strlen(path) - 1] != '/')

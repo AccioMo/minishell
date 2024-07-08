@@ -6,31 +6,37 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/08 16:35:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/08 17:05:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-t_list	*ft_create_env(char **env)
+t_list	*ft_create_env(void)
+{
+	char	pwd[PATH_MAX];
+	t_list	*shell_env;
+
+	getcwd(pwd, PATH_MAX);
+	shell_env = ft_lstnew(ft_strdup("SHLVL=1"));
+	ft_set_env(shell_env, "PWD", pwd);
+	ft_set_env(shell_env, "PATH", \
+		"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
+	if (!shell_env)
+		return (NULL);
+	return (shell_env);
+}
+
+t_list	*ft_init_env(char **env)
 {
 	t_list	*shell_env;
 	t_list	*new;
-	char	pwd[PATH_MAX];
 	char	*env_var;
 	int		i;
 
 	i = 0;
-	getcwd(pwd, PATH_MAX);
 	if (!env || !env[0])
-	{
-		shell_env = ft_lstnew(ft_strdup("SHLVL=1"));
-		ft_set_env(shell_env, "PWD", pwd);
-		ft_set_env(shell_env, "PATH", "/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-		if (!shell_env)
-			return (NULL);
-		return (shell_env);
-	}
+		ft_create_env();
 	env_var = ft_strdup(env[i++]);
 	if (!env_var)
 		return (NULL);
@@ -109,8 +115,8 @@ void	f(void)
 
 void	ft_reset_term(void)
 {
-	static int	first;
 	static struct termios	term;
+	static int				first;
 
 	if (!first)
 	{
@@ -130,12 +136,12 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
-	// atexit(f);
+	atexit(f);
 	ft_reset_term();
 	rl_catch_signals = 0;
 	shell.root = NULL;
 	shell.exit_code = 0;
-	shell.env = ft_create_env(env);
+	shell.env = ft_init_env(env);
 	if (!shell.env)
 		return (ft_perror("minishell"));
 	if (isatty(STDIN_FILENO))

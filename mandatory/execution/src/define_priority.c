@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/08 16:29:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/08 16:51:56 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,15 @@ int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	{
 		if (pipe(end) < 0)
 			perror("pipe");
-		ft_redir_token(token->left, fdin, end[1], shell);
+		status = ft_redir_token(token->left, fdin, end[1], shell);
 		if (fdin != 0)
 			close(fdin);
 		close(end[1]);
+		if (status == 2)
+		{
+			close(end[0]);
+			return (EXIT_FAILURE);
+		}
 		status = ft_pipe_token(token->right, end[0], fdout, shell);
 		close(end[0]);
 		return (status);

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/13 10:49:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 09:04:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ int	ft_handle_pipe(char *str, int start, int end, t_token **token)
 	{
 		if (!(*token)->right)
 		{
+			ft_throw_syntax_error("newline");
 			ft_free_tree(*token);
 			*token = NULL;
 		}

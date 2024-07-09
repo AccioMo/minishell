@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/08 17:05:04 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/08 17:18:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -136,7 +136,7 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
-	atexit(f);
+	// atexit(f);
 	ft_reset_term();
 	rl_catch_signals = 0;
 	shell.root = NULL;
@@ -154,10 +154,3 @@ int	main(int ac, char **av, char **env)
 	ft_putstr_fd("exit\n", 1);
 	return (shell.exit_code);
 }
-// echo hello >> =$sdfdsf* >> =$sdsdfsdf* =*
-// cat    <| ls
-//  echo hi >./test_files/invalid_permission | echo bye
-// ls >"./outfiles/outfile with spaces"
-// cd /tmp && ls -al >     "hello    world"   && ls -al && cat "hello    world" && rm -fr "hello    world"
-// cd /aaaaaaaa && echo $?
-// /bin

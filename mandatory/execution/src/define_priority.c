@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/08 16:51:56 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 09:20:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,12 @@ int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 			fdout = ft_redir_out_function(token->left);
 		else if (token->type == REDIR_APPEND)
 			fdout = ft_redir_append_function(token->left);
-		if (!token->right)
+		if (!token->right || (token->right->type != WORD && \
+			token->right->type != SUBSHELL))
+		{
+			ft_close_fds(fdin, fdout);
 			return (EXIT_SUCCESS);
+		}
 		return (ft_redir_token(token->right, fdin, fdout, shell));
 	}
 	return (ft_execution_token(token, fdin, fdout, shell));
@@ -106,7 +110,6 @@ int	ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		exit_status = ft_first_token(token->right, fdin, fdout, shell);
 		shell->subshell = 0;
 	}
-	if (!shell->subshell)
-		ft_close_fds(fdin, fdout);
+	ft_close_fds(fdin, fdout);
 	return (exit_status);
 }

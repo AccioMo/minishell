@@ -17,6 +17,7 @@ RL_HEADER_DIR =  ~/brew/opt/readline/include/
 PARSE_HEADER = $(HEADER_DIR)parsing.h
 PARSE_SRC_DIR = mandatory/parsing/src/
 PARSE_OBJ_DIR = mandatory/parsing/obj/
+PARSING_FILES = main.c parse.c functions_one.c functions_two.c functions_three.c utils.c str.c wildcard2.c variable_utils.c wildcard.c variable.c wildcard_str.c variables_wildcard.c wildcard_utils.c
 PARSING_FILES = main.c parse.c functions_one.c functions_two.c functions_three.c functions_four.c utils.c str.c wildcard2.c variable_utils.c variable_utils_2.c variable_utils_3.c wildcard.c variable.c wildcard_str.c variables_wildcard.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))

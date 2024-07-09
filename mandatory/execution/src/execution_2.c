@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/08 17:00:05 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 23:21:49 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,12 +118,4 @@ int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	if (ft_set_env(shell->env, "_", last_cmd))
 		return (EXIT_FAILURE);
 	return (0);
-}
-
-void	ft_close_fds(int fdin, int fdout)
-{
-	if (fdin != 0)
-		close(fdin);
-	if (fdout != 1)
-		close(fdout);
 }

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:13:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/08 17:22:47 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 23:22:03 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,4 +84,12 @@ char	*ft_allocate_cmd(char **cmd, char **env)
 		return (NULL);
 	}
 	return (cmd_path);
+}
+
+void	ft_close_fds(int fdin, int fdout)
+{
+	if (fdin != 0)
+		close(fdin);
+	if (fdout != 1)
+		close(fdout);
 }

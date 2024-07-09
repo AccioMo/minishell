@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 10:16:07 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 23:26:15 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,6 @@
 int	ft_delete_env(char *name, t_shell *shell)
 {
 	t_list	*env;
-	t_list	*prev;
 	int		len;
 
 	len = ft_strlen(name);
@@ -32,11 +31,9 @@ int	ft_delete_env(char *name, t_shell *shell)
 		if (!ft_strncmp(env->content, name, len) && \
 			(env->content[len] == '=' || env->content[len] == '\0'))
 		{
-			prev->next = env->next;
 			ft_lstdelone(env, free);
 			return (EXIT_SUCCESS);
 		}
-		prev = env;
 		env = env->next;
 	}
 	return (EXIT_SUCCESS);

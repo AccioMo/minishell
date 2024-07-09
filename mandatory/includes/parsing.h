@@ -6,10 +6,9 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/10 00:39:27 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 00:43:40 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 
 #ifndef PARSING_H
 # define PARSING_H
@@ -53,8 +52,8 @@ int			ft_stage_exec(char *str, int end, t_token **token);
 int			ft_handle_and(char *str, int end, t_token **token);
 int			ft_handle_parentheses(char *str, int end, t_token **token);
 int			ft_parse_word(char *str, int end, t_token **token);
-char    	*ft_single_quotes_wildcard(char *pattern, int i);
-int	        ft_found_token(char *str, char c);
+char		*ft_single_quotes_wildcard(char *pattern, int i);
+int			ft_found_token(char *str, char c);
 char		*ft_split_variable(char *str, char *new, t_token *tk, t_shell *sh);
 char		**ft_wildcard_split(char *str);
 char		*ft_var_backslash_wildcard(char *str);

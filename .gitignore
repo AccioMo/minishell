@@ -1,0 +1,14 @@
+# IGNORE EVERYTHING
+*
+
+# EXCEPT
+# !mandatory/*
+# !libft/*
+# !get_next_line/*
+# !libs/*
+# !Makefile
+# !.gitignore
+# !README.md
+
+*.o
+*.a

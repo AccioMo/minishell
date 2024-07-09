@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:53:38 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 12:32:43 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 23:45:30 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,33 +40,57 @@ char	**ft_remove_from_array(char **array, int x)
 	return (new_array);
 }
 
-void    sort_arr(char **oldbuff)
+void	sort_arr(char **oldbuff)
 {
-    char    *str_one;
-    int     i;
-    int     swapped;
-    int     oldBuffSize;
+	char	*str_one;
+	int		i;
+	int		swapped;
+	int		old_buff_size;
 
-    if (oldbuff == NULL)
-        return ;
-    oldBuffSize = ft_array_len(oldbuff);
-    swapped = 1;
-    while (swapped)
-    {
-        swapped = 0;
-        i = 0;
-        while (i < oldBuffSize - 1)
-        {
-            if (strcmp(oldbuff[i], oldbuff[i + 1]) > 0)
-            {
-                str_one = oldbuff[i];
-                oldbuff[i] = oldbuff[i + 1];
-                oldbuff[i + 1] = str_one;
-                swapped = 1;
-            }
-            i++;
-        }
-    }
+	if (oldbuff == NULL)
+		return ;
+	old_buff_size = ft_array_len(oldbuff);
+	swapped = 1;
+	while (swapped)
+	{
+		swapped = 0;
+		i = 0;
+		while (i < old_buff_size - 1)
+		{
+			if (strcmp(oldbuff[i], oldbuff[i + 1]) > 0)
+			{
+				str_one = oldbuff[i];
+				oldbuff[i] = oldbuff[i + 1];
+				oldbuff[i + 1] = str_one;
+				swapped = 1;
+			}
+			i++;
+		}
+	}
+}
+
+int	ft_append_to_array_2(char ***args, int i,
+	char ***new_args, char **new_arg)
+{
+	while ((*args)[i])
+		i++;
+	(*new_args) = malloc(sizeof(char *) * (i + 2));
+	if (!(*new_args))
+		return (0);
+	i = 0;
+	while ((*args)[i])
+	{
+		(*new_args)[i] = (*args)[i];
+		i++;
+	}
+	(*new_args)[i] = ft_strdup(*new_arg);
+	if (!(*new_args)[i])
+	{
+		ft_free((*new_args));
+		return (0);
+	}
+	(*new_args)[i + 1] = NULL;
+	return (1);
 }
 
 char	**ft_append_to_array(char **args, char *new_arg)
@@ -75,6 +99,7 @@ char	**ft_append_to_array(char **args, char *new_arg)
 	int		i;
 
 	i = 0;
+	new_args = NULL;
 	if (!args)
 	{
 		new_args = (char **)malloc(sizeof(char *) * 2);
@@ -89,24 +114,8 @@ char	**ft_append_to_array(char **args, char *new_arg)
 		new_args[1] = NULL;
 		return (new_args);
 	}
-	while (args[i])
-		i++;
-	new_args = malloc(sizeof(char *) * (i + 2));
-	if (!new_args)
+	if (ft_append_to_array_2(&args, i, &new_args, &new_arg) == 0)
 		return (NULL);
-	i = 0;
-	while (args[i])
-	{
-		new_args[i] = args[i];
-		i++;
-	}
-	new_args[i] = ft_strdup(new_arg);
-	if (!new_args[i])
-	{
-		ft_free(new_args);
-		return (NULL);
-	}
-	new_args[i + 1] = NULL;
 	free(args);
 	return (new_args);
 }

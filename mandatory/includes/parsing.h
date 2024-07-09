@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   parsing.h                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/08 16:40:22 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 00:14:59 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,9 @@ int			ft_stage_exec(char *str, int end, t_token **token);
 int			ft_handle_and(char *str, int end, t_token **token);
 int			ft_handle_parentheses(char *str, int end, t_token **token);
 int			ft_parse_word(char *str, int end, t_token **token);
-// void		ft_clear_heredocs(t_heredoc *heredocs);
-// void		sig_handler(int signal);
+char    	*ft_single_quotes_wildcard(char *pattern, int i);
+int	        ft_found_token(char *str, char c);
 char		**ft_wildcard_split(char *str);
 char		*ft_var_backslash_wildcard(char *str);
-// t_list		*ft_create_env(char **env);
 
 #endif

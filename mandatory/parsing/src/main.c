@@ -6,54 +6,11 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/08 17:18:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 00:26:36 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-t_list	*ft_create_env(void)
-{
-	char	pwd[PATH_MAX];
-	t_list	*shell_env;
-
-	getcwd(pwd, PATH_MAX);
-	shell_env = ft_lstnew(ft_strdup("SHLVL=1"));
-	ft_set_env(shell_env, "PWD", pwd);
-	ft_set_env(shell_env, "PATH", \
-		"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-	if (!shell_env)
-		return (NULL);
-	return (shell_env);
-}
-
-t_list	*ft_init_env(char **env)
-{
-	t_list	*shell_env;
-	t_list	*new;
-	char	*env_var;
-	int		i;
-
-	i = 0;
-	if (!env || !env[0])
-		ft_create_env();
-	env_var = ft_strdup(env[i++]);
-	if (!env_var)
-		return (NULL);
-	shell_env = ft_lstnew(env_var);
-	if (!shell_env)
-		return (NULL);
-	while (env[i])
-	{
-		env_var = ft_strdup(env[i]);
-		new = ft_lstnew(env_var);
-		if (!new)
-			return (NULL);
-		ft_lstadd_back(&shell_env, new);
-		i++;
-	}
-	return (shell_env);
-}
 
 int	set_exit_code(int exit_code, int set)
 {

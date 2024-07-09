@@ -6,20 +6,11 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/13 10:49:43 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 23:37:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
-
-int	ft_throw_syntax_error(char *word)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd("syntax error near unexpected token `", 2);
-	ft_putstr_fd(word, 2);
-	ft_putstr_fd("`.\n", 2);
-	return (PARSING_FAILURE);
-}
 
 int	ft_skip_parentheses(char *str)
 {

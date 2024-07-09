@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/13 11:11:55 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 23:43:41 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,21 +70,6 @@ int	ft_open_parentheses(char *line)
 		i++;
 	}
 	return (p);
-}
-
-int	valid_line(char *line)
-{
-	int	i;
-
-	i = 0;
-	while (line[i])
-	{
-		if (!ft_whitespace(line[i]))
-			return (1);
-		i++;
-	}
-	free(line);
-	return (0);
 }
 
 int	ft_get_heredocs(t_token *token, t_shell *shell)

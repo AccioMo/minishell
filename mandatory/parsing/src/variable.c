@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/12 12:36:16 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/09 23:57:49 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,7 +89,8 @@ char	*ft_quoted_variables(char *str, t_shell *shell)
 	new = NULL;
 	while (*str && *str != '\"')
 	{
-		if (*str == '$' && (ft_isalnum(*(str + 1)) || ft_strchr("?_", *(str + 1))))
+		if (*str == '$' && (ft_isalnum(*(str + 1)) || \
+			ft_strchr("?_", *(str + 1))))
 		{
 			tmp = ft_expand_variable(++str, shell);
 			new = ft_realloc(new, tmp);
@@ -104,105 +105,4 @@ char	*ft_quoted_variables(char *str, t_shell *shell)
 		}
 	}
 	return (new);
-}
-
-char	*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell)
-{
-	char	**new_args;
-	int		arr_len;
-	char	*tmp;
-	int		k;
-
-	k = 0;
-	tmp = ft_expand_variable(str, shell);
-	if (!tmp)
-		return (new);
-	new_args = ft_split(tmp, ' ');
-	free(tmp);
-	if (!new_args)
-		return (new);
-	if (!new_args[0])
-	{
-		ft_free(new_args);
-		return (new);
-	}
-	arr_len = ft_array_len(new_args);
-	new = ft_realloc(new, new_args[0]);
-	new = ft_var_backslash_wildcard(new);
-	if (arr_len == 1)
-	{
-		ft_free(new_args);
-		return (new);
-	}
-	token->args = ft_append_to_array(token->args, new);
-	free(new);
-	new = NULL;
-	while (++k < (arr_len - 1))
-	{
-		new_args[k] = ft_var_backslash_wildcard(new_args[k]);
-		token->args = ft_append_to_array(token->args, new_args[k]);
-	}
-	new = ft_strdup(new_args[k]);
-	ft_free(new_args);
-	return (new);
-}
-
-int	ft_next_variable(char *str)
-{
-	int	i;
-
-	i = 0;
-	while (str[i] && str[i] != '$' && str[i] != '\"' && str[i] != '\'')
-		i++;
-	return (i);
-}
-
-int	ft_variables(char *str, t_token *token, t_shell *shell)
-{
-	char	*tmp;
-	char	*new;
-	int		len;
-	int		v;
-	int		i;
-
-	i = 0;
-	new = NULL;
-	while (str[i])
-	{
-		if (str[i] == '\'')
-		{
-			tmp = ft_substr(str, i + 1, ft_index(&str[i + 1], '\''));
-			new = ft_realloc(new, tmp);
-			free(tmp);
-			i += ft_index(&str[i + 1], '\'') + 2;
-		}
-		else if (str[i] == '\"')
-		{
-			len = ft_index(&str[++i], '\"') + 1;
-			tmp = ft_quoted_variables(&str[i], shell);
-			new = ft_realloc(new, tmp);
-			free(tmp);
-			i += len;
-		}
-		else if (str[i] == '$')
-		{
-			while (str[i] && str[i] == '$')
-				i++;
-			new = ft_split_variable(&str[i], new, token, shell);
-			i += ft_variable_length(&str[i]);
-		}
-		else
-		{
-			v = ft_next_variable(&str[i]);
-			tmp = ft_substr(str, i, v);
-			tmp = ft_var_backslash_wildcard(tmp);
-			new = ft_realloc(new, tmp);
-			free(tmp);
-			i += v;
-		}
-	}
-	if (new)
-		token->args = ft_append_to_array(token->args, new);
-	free(new);
-	return (0);
 }

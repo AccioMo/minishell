@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:27:06 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/08 16:35:15 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 21:00:09 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_heredoc_content(int start, int stdin_copy)
 		close(stdin_copy);
 		close(start);
 		signal(SIGINT, &main_sig_handler);
+		g_signal = 0;
 		return (-1);
 	}
 	signal(SIGINT, &main_sig_handler);
@@ -42,6 +43,7 @@ char	*ft_heredoc_variables(char *str, t_shell *shell)
 	char	*tmp;
 	char	*new;
 
+	free(str);
 	new = NULL;
 	while (*str)
 	{
@@ -57,6 +59,7 @@ char	*ft_heredoc_variables(char *str, t_shell *shell)
 		{
 			tmp = ft_substr(str, 0, 1);
 			new = ft_realloc(new, tmp);
+			free(tmp);
 			str++;
 		}
 	}

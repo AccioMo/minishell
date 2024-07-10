@@ -98,7 +98,11 @@ int	ft_export_variable(char *name, char *var, t_shell *shell)
 		if (value)
 			value = ft_strjoin(value, var + 2);
 		if (ft_set_env(shell->env, name, value))
+		{
+			free(value);
 			return (EXIT_FAILURE);
+		}
+		free(value);
 	}
 	else if (*var == '=')
 	{

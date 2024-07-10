@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 00:24:18 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/10 00:25:05 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 20:37:36 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,6 +39,7 @@ char	*ft_split_variable(char *str, char *new, t_token *token, t_shell *shell)
 	if (!str)
 		return (new);
 	new_args = ft_split(str, ' ');
+	free(str);
 	if (!new_args)
 		return (new);
 	if (!new_args[0])

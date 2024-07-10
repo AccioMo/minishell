@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 19:22:33 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 20:07:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ void	sigquit_handler(int signal)
 	return ;
 }
 
-int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
+int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
 {
 	char	**env_array;
 	char	*cmd_path;
@@ -41,7 +41,7 @@ int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 	pid = fork();
 	if (pid == 0)
 	{
-		if (fdin < 0)
+		if (fdin[0] < 0 || fdout < 0)
 			exit(EXIT_FAILURE);
 		ft_dup_pipes(fdin, fdout);
 		env_array = ft_list_to_array(shell->env);
@@ -74,7 +74,7 @@ int	ft_handle_dots(t_token *token)
 	}
 }
 
-int	ft_exec_function(t_token *token, int fdin, int fdout, t_shell *shell)
+int	ft_exec_function(t_token *token, int fdin[2], int fdout, t_shell *shell)
 {
 	char	*last_cmd;
 	int		pid;

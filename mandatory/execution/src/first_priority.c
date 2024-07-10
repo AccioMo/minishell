@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 18:53:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 20:15:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ int	ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		shell->subshell = 0;
 	}
 	else
-		status = ft_redir_token(token, fdin, fdout, shell);
+		status = ft_redir_token(token, (int [2]){fdin, -1}, fdout, shell);
 	return (status);
 }
 

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 09:20:50 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 20:15:20 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,9 +36,9 @@ int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
+int	ft_redir_token(t_token *token, int fdin[2], int fdout, t_shell *shell)
 {
-	if (!token || fdin < 0 || fdout < 0)
+	if (!token || fdin[0] < 0 || fdout < 0)
 		return (EXIT_FAILURE);
 	if (token->type >= REDIR_HEREDOC && token->type <= REDIR_IN)
 	{
@@ -46,9 +46,9 @@ int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 			ft_ambiguous_redirect(token->left, shell))
 			return (EXIT_FAILURE);
 		if (token->type == REDIR_IN)
-			fdin = ft_redir_in_function(token->left);
+			fdin[0] = ft_redir_in_function(token->left);
 		else if (token->type == REDIR_HEREDOC)
-			fdin = ft_redir_heredoc_function(token->left, shell);
+			fdin[0] = ft_redir_heredoc_function(token->left, shell);
 		else if (token->type == REDIR_OUT)
 			fdout = ft_redir_out_function(token->left);
 		else if (token->type == REDIR_APPEND)
@@ -56,7 +56,7 @@ int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		if (!token->right || (token->right->type != WORD && \
 			token->right->type != SUBSHELL))
 		{
-			ft_close_fds(fdin, fdout);
+			ft_close_fds(fdin[0], fdout);
 			return (EXIT_SUCCESS);
 		}
 		return (ft_redir_token(token->right, fdin, fdout, shell));
@@ -64,9 +64,9 @@ int	ft_redir_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	return (ft_execution_token(token, fdin, fdout, shell));
 }
 
-int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell)
+int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *sh)
 {
-	int	status;
+	int	st;
 	int	end[2];
 
 	if (!token)
@@ -75,30 +75,30 @@ int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	{
 		if (pipe(end) < 0)
 			perror("pipe");
-		status = ft_redir_token(token->left, fdin, end[1], shell);
+		st = ft_redir_token(token->left, (int [2]){fdin, end[0]}, end[1], sh);
 		if (fdin != 0)
 			close(fdin);
 		close(end[1]);
-		if (status == 2)
+		if (st == 2)
 		{
 			close(end[0]);
 			return (EXIT_FAILURE);
 		}
-		status = ft_pipe_token(token->right, end[0], fdout, shell);
+		st = ft_pipe_token(token->right, end[0], fdout, sh);
 		close(end[0]);
-		return (status);
+		return (st);
 	}
-	return (ft_redir_token(token, fdin, fdout, shell));
+	return (ft_redir_token(token, (int [2]){fdin, -1}, fdout, sh));
 }
 
-int	ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell)
+int	ft_execution_token(t_token *token, int fdin[2], int fdout, t_shell *shell)
 {
 	int	exit_status;
 
 	if (!token)
 	{
 		if (!shell->subshell)
-			ft_close_fds(fdin, fdout);
+			ft_close_fds(fdin[0], fdout);
 		return (EXIT_FAILURE);
 	}
 	exit_status = 0;
@@ -107,9 +107,9 @@ int	ft_execution_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	else if (token->type == SUBSHELL)
 	{
 		shell->subshell = 1;
-		exit_status = ft_first_token(token->right, fdin, fdout, shell);
+		exit_status = ft_first_token(token->right, fdin[0], fdout, shell);
 		shell->subshell = 0;
 	}
-	ft_close_fds(fdin, fdout);
+	ft_close_fds(fdin[0], fdout);
 	return (exit_status);
 }

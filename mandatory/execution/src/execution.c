@@ -6,24 +6,26 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 19:22:55 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 20:06:39 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-void	ft_dup_pipes(int fdin, int fdout)
+void	ft_dup_pipes(int fdin[2], int fdout)
 {
-	if (fdin != 0)
+	if (fdin[0] != 0)
 	{
-		dup2(fdin, 0);
-		close(fdin);
+		dup2(fdin[0], 0);
+		close(fdin[0]);
 	}
 	if (fdout != 1)
 	{
 		dup2(fdout, 1);
 		close(fdout);
 	}
+	if (fdin[1] > 1)
+		close(fdin[1]);
 }
 
 int	ft_perror(char *cmd)

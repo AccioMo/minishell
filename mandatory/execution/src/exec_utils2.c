@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:13:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 23:22:03 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 19:12:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,7 @@ char	*ft_match_path(char *command, char **paths_env)
 	{
 		if (access(command, F_OK) == 0)
 			return (ft_strdup(command));
-		return (perror(command), NULL);
+		return (ft_putstr_fd("minishell: ", 2), perror(command), NULL);
 	}
 	while (*paths_env)
 	{
@@ -49,7 +49,7 @@ char	*ft_match_path(char *command, char **paths_env)
 		free(command_path);
 		paths_env++;
 	}
-	return (ft_strdup(""));
+	return (ft_perror(command), NULL);
 }
 
 char	**ft_get_paths(char **env)

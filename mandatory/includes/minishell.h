@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/08 16:20:39 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 18:46:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,8 +91,8 @@ char	**ft_append_to_array(char **args, char *new_arg);
 char	*ft_quoted_variables(char *str, t_shell *shell);
 char	*ft_expand_variable(char *str, t_shell *shell);
 int		ft_variable_length(char *str);
-void	ft_reset_term(void);
 int		set_exit_code(int exit_code, int set);
+void	ft_reset_term(void);
 char	**ft_remove_from_array(char **array, int x);
 int		ft_index(char *str, char c);
 int		ft_whitespace(char c);

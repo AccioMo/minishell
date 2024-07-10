@@ -6,11 +6,20 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 12:41:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 08:18:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 18:24:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+int	set_exit_code(int exit_code, int set)
+{
+	static int	code;
+
+	if (set)
+		code = exit_code;
+	return (code);
+}
 
 int	ft_is_number(char *str)
 {

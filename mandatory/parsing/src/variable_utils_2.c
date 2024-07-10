@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 23:58:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/10 00:32:56 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 18:29:23 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,7 @@ static char	*ft_not_variable(char *str, int *i, char *new)
 	tmp = ft_var_backslash_wildcard(tmp);
 	new = ft_realloc(new, tmp);
 	free(tmp);
+	*i += v;
 	return (new);
 }
 

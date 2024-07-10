@@ -6,36 +6,11 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 23:21:49 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 19:22:33 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
-
-int	ft_exec_error(char *cmd, int code)
-{
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd(cmd, 2);
-	ft_putstr_fd(": ", 2);
-	if (code == ENOENT)
-	{
-		ft_putstr_fd("command not found\n", 2);
-		return (127);
-	}
-	else if (code == EACCES)
-	{
-		ft_putstr_fd("permission denied\n", 2);
-		return (126);
-	}
-	else if (code == EISDIR)
-	{
-		ft_putstr_fd("is a directory\n", 2);
-		return (126);
-	}
-	else
-		ft_putstr_fd(strerror(code), 2);
-	return (1);
-}
 
 void	ft_run_checks(char *cmd_path, char *cmd)
 {
@@ -49,12 +24,20 @@ void	ft_run_checks(char *cmd_path, char *cmd)
 		exit(ft_exec_error(cmd, EACCES));
 }
 
+void	sigquit_handler(int signal)
+{
+	(void)signal;
+	ft_putstr_fd("Quit: 3\n", 2);
+	return ;
+}
+
 int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	char	**env_array;
 	char	*cmd_path;
 	pid_t	pid;
 
+	signal(SIGQUIT, sigquit_handler);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -64,12 +47,11 @@ int	ft_execution_process(t_token *token, int fdin, int fdout, t_shell *shell)
 		env_array = ft_list_to_array(shell->env);
 		cmd_path = ft_allocate_cmd(token->args, env_array);
 		if (!cmd_path)
-			exit(ft_exec_error(token->args[0], 127));
+			exit(127);
 		ft_run_checks(cmd_path, token->args[0]);
 		execve(cmd_path, token->args, env_array);
 		ft_perror(token->args[0]);
 		free(cmd_path);
-		ft_perror(token->args[0]);
 		exit(EXIT_FAILURE);
 	}
 	else if (pid < 0)

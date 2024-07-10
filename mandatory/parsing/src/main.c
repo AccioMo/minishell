@@ -6,19 +6,24 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/10 00:26:36 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 19:35:13 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	set_exit_code(int exit_code, int set)
+void	ft_reset_term(void)
 {
-	static int	code;
+	static struct termios	term;
+	static int				first;
 
-	if (set)
-		code = exit_code;
-	return (code);
+	if (!first)
+	{
+		tcgetattr(STDIN_FILENO, &term);
+		first = 1;
+	}
+	else
+		tcsetattr(STDIN_FILENO, TCSANOW, &term);
 }
 
 void	main_sig_handler(int signal)
@@ -65,25 +70,6 @@ static void	ft_minishell(t_shell *shell)
 	}
 }
 
-void	f(void)
-{
-	system("leaks minishell");
-}
-
-void	ft_reset_term(void)
-{
-	static struct termios	term;
-	static int				first;
-
-	if (!first)
-	{
-		tcgetattr(STDIN_FILENO, &term);
-		first = 1;
-	}
-	else
-		tcsetattr(STDIN_FILENO, TCSANOW, &term);
-}
-
 int	main(int ac, char **av, char **env)
 {
 	t_shell	shell;
@@ -93,7 +79,6 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
-	// atexit(f);
 	ft_reset_term();
 	rl_catch_signals = 0;
 	shell.root = NULL;

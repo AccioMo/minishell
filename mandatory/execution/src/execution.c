@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/08 16:08:48 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 19:22:55 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,7 @@ void	ft_dup_pipes(int fdin, int fdout)
 
 int	ft_perror(char *cmd)
 {
+	ft_putstr_fd("minishell: ", 2);
 	if (errno == ENOENT)
 	{
 		ft_putstr_fd(cmd, 2);
@@ -43,6 +44,32 @@ int	ft_perror(char *cmd)
 	else
 		perror(cmd);
 	return (EXIT_FAILURE);
+}
+
+int	ft_exec_error(char *cmd, int code)
+{
+	ft_putstr_fd("minnishell: ", 2);
+	if (code == ENOENT)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": command not found\n", 2);
+		return (127);
+	}
+	else if (code == EACCES)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": permission denied\n", 2);
+		return (126);
+	}
+	else if (code == EISDIR)
+	{
+		ft_putstr_fd(cmd, 2);
+		ft_putstr_fd(": is a directory\n", 2);
+		return (126);
+	}
+	else
+		perror(cmd);
+	return (1);
 }
 
 void	ft_increment_shellvl(t_shell *shell)

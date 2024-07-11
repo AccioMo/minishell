@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/08 16:45:13 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/10 21:44:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_set_env(t_list *env, char *name, char *value)
 	}
 	if (env == NULL)
 	{
-		name = ft_realloc(name, value);
+		name = ft_strjoin(name, value);
 		if (!name)
 			return (EXIT_FAILURE);
 		ft_lstadd_back(&head, ft_lstnew(name));
@@ -86,8 +86,6 @@ int	ft_cd_error(char *path, t_shell *shell)
 		return (EXIT_FAILURE);
 	ft_putstr_fd("error retrieving current directory: \
 getcwd: cannot access parent directories: No such file or directory\n", 2);
-	if (path[ft_strlen(path) - 1] != '/')
-		path = ft_realloc(ft_strjoin(ft_getenv("PWD", shell->env), "/"), path);
 	ft_set_env(shell->env, "PWD", path);
 	return (EXIT_FAILURE);
 }
@@ -97,8 +95,11 @@ int	ft_cd(t_token *token, t_shell *shell)
 	char	pwd[PATH_MAX];
 	char	*path;
 
+	token->args[1] = ft_path(token->args[1], shell);
 	path = token->args[1];
-	if (path == NULL && !ft_first_condition(shell))
+	if (path == NULL)
+		return (EXIT_FAILURE);
+	if (token->args[1] == NULL && !ft_first_condition(shell))
 		return (EXIT_SUCCESS);
 	else if (token->args[1] == NULL)
 		return (EXIT_FAILURE);
@@ -110,9 +111,8 @@ int	ft_cd(t_token *token, t_shell *shell)
 			return (ft_cd_error(path, NULL));
 		if (getcwd(pwd, PATH_MAX) == NULL)
 			return (ft_cd_error(path, shell));
-		if (ft_set_env(shell->env, "OLDPWD", ft_getenv("PWD", shell->env)))
-			return (EXIT_FAILURE);
-		if (ft_set_env(shell->env, "PWD", pwd))
+		if (ft_set_env(shell->env, "OLDPWD", ft_getenv("PWD", shell->env)) || \
+			ft_set_env(shell->env, "PWD", pwd))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

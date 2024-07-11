@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 20:15:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/11 19:02:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	while (wait(&exit_code) > 0)
 		ft_reset_term();
 	signal(SIGQUIT, main_sig_handler);
+	signal(SIGINT, main_sig_handler);
 	if (status)
 		shell->exit_code = status;
 	else if (WIFEXITED(shell->exit_code))

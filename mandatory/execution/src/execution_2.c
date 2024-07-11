@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 20:07:10 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/11 19:11:18 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,9 +26,14 @@ void	ft_run_checks(char *cmd_path, char *cmd)
 
 void	sigquit_handler(int signal)
 {
-	(void)signal;
-	ft_putstr_fd("Quit: 3\n", 2);
-	return ;
+	if (signal == SIGINT)
+	{
+		ft_putchar_fd('\n', 1);
+	}
+	else if (signal == SIGQUIT)
+	{
+		ft_putstr_fd("Quit: 3\n", 2);
+	}
 }
 
 int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
@@ -37,7 +42,6 @@ int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	char	*cmd_path;
 	pid_t	pid;
 
-	signal(SIGQUIT, sigquit_handler);
 	pid = fork();
 	if (pid == 0)
 	{
@@ -79,10 +83,8 @@ int	ft_exec_function(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	char	*last_cmd;
 	int		pid;
 
-	if (!token || token->args == NULL)
-		return (EXIT_FAILURE);
-	if (ft_expand_variables(token, shell) || ft_expand_wildcard(token) \
-		|| token->args == NULL)
+	if (!token || token->args == NULL || ft_expand_variables(token, shell) \
+		|| ft_expand_wildcard(token) || token->args == NULL)
 		return (EXIT_FAILURE);
 	if (!token->args[0])
 		return (EXIT_SUCCESS);
@@ -91,9 +93,11 @@ int	ft_exec_function(t_token *token, int fdin[2], int fdout, t_shell *shell)
 		return (ft_handle_dots(token));
 	if (ft_is_builtin(token))
 		return (ft_execute_builtin(token, fdout, shell));
-	if (ft_strncmp(token->args[0], "./minishell\0", 12) == 0)
-		ft_increment_shellvl(shell);
+	signal(SIGINT, sigquit_handler);
+	signal(SIGQUIT, sigquit_handler);
 	pid = ft_execution_process(token, fdin, fdout, shell);
+	signal(SIGINT, SIG_IGN);
+	signal(SIGQUIT, SIG_IGN);
 	if (pid < 0)
 		return (2);
 	last_cmd = token->args[ft_array_len(token->args) - 1];

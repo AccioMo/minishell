@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/10 19:35:13 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/11 19:05:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ void	main_sig_handler(int signal)
 	if (signal == SIGINT)
 	{
 		set_exit_code(1, true);
-		ft_putstr_fd("\n", 1);
+		ft_putstr_fd("hhhhhhhhhhhhhhhhhhhhhhh\n", 1);
 		rl_on_new_line();
 		if (waitpid(-1, NULL, WNOHANG) == 0)
 			return ;
@@ -48,8 +48,9 @@ static void	ft_minishell(t_shell *shell)
 {
 	char	*buffer;
 
-	signal(SIGINT, &main_sig_handler);
-	signal(SIGQUIT, &main_sig_handler);
+	ft_putstr_fd("minishell: Welcome to minishell\n", 1);
+	signal(SIGINT, main_sig_handler);
+	signal(SIGQUIT, main_sig_handler);
 	while (1)
 	{
 		buffer = readline("minishell$ ");
@@ -84,6 +85,7 @@ int	main(int ac, char **av, char **env)
 	shell.root = NULL;
 	shell.exit_code = 0;
 	shell.env = ft_init_env(env);
+	ft_increment_shellvl(&shell);
 	if (!shell.env)
 		return (ft_perror("minishell"));
 	if (isatty(STDIN_FILENO))

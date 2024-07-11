@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:27:06 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 21:00:09 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/11 19:13:23 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,10 +78,10 @@ void	ft_heredoc_loop(char *delimiter, int heredoc_file, t_shell *shell)
 			break ;
 		if (ft_contains_variable(buffer))
 			buffer = ft_heredoc_variables(buffer, shell);
-		ft_putstr_fd(buffer, heredoc_file);
-		ft_putstr_fd("\n", heredoc_file);
 		if (!ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1))
 			break ;
+		ft_putstr_fd(buffer, heredoc_file);
+		ft_putstr_fd("\n", heredoc_file);
 		free(buffer);
 	}
 	free(buffer);

@@ -1,5 +1,5 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror -I ~/brew/opt/readline/include
+FLAGS = -Wall -Wextra -Werror -I ~/brew/opt/readline/include -g -fsanitize=address
 LIBS =  -L ~/brew/opt/readline/lib -lreadline
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
@@ -37,13 +37,33 @@ EXECUTION_FILES = 	define_priority.c execution.c ft_export.c \
 EXECUTION_SRC = $(addprefix $(EXEC_SRC_DIR), $(EXECUTION_FILES))
 EXECUTION_OBJ = $(addprefix $(EXEC_OBJ_DIR), $(EXECUTION_FILES:.c=.o))
 
-# BONUS = minishell_bonus
-# BONUS_SRC_DIR = bonus/src/
-# BONUS_OBJ_DIR = bonus/obj/
-# BONUS_HEADER = $(BONUS_SRC_DIR)minishell_bonus.h
-# BONUS_FILES = 
-# BONUS_SRC = $(addprefix $(BONUS_SRC_DIR), $(BONUS_FILES))
-# BONUS_OBJ = $(addprefix $(BONUS_OBJ_DIR), $(BONUS_FILES:.c=.o))
+NAME_BONUS = minishell_bonus
+BONUS_HEADER_DIR = bonus/includes/
+MINISHELL_HEADER_BONUS = $(BONUS_HEADER_DIR)minishell_bonus.h
+
+#			PARSING_BONUS				#
+PARSE_BONUS_HEADER = $(BONUS_HEADER_DIR)parsing_bonus.h
+PARSE_BONUS_SRC_DIR = bonus/parsing/src/
+PARSE_BONUS_OBJ_DIR = bonus/parsing/obj/
+PARSING_BONUS_FILES = main_bonus.c parse_bonus.c functions_one_bonus.c functions_two_bonus.c \
+				functions_three_bonus.c functions_four_bonus.c utils_bonus.c str_bonus.c \
+				wildcard2_bonus.c variable_utils_bonus.c wildcard_bonus.c variable_bonus.c \
+				variable_utils_2_bonus.c variable_utils_3_bonus.c wildcard_str_bonus.c \
+				variables_wildcard_bonus.c wildcard_utils_bonus.c
+PARSING_BONUS_SRC = $(addprefix $(PARSE_BONUS_SRC_DIR), $(PARSING_BONUS_FILES))
+PARSING_BONUS_OBJ = $(addprefix $(PARSE_BONUS_OBJ_DIR), $(PARSING_BONUS_FILES:.c=.o))
+
+#			EXECUTION_BONUS			#
+EXEC_BONUS_HEADER = $(BONUS_HEADER_DIR)execution_bonus.h
+EXEC_BONUS_SRC_DIR = bonus/execution/src/
+EXEC_BONUS_OBJ_DIR = bonus/execution/obj/
+EXECUTION_BONUS_FILES = define_priority_bonus.c execution_bonus.c ft_export_bonus.c \
+					builtin_bonus.c ft_echo_bonus.c ft_pwd_bonus.c exec_utils1_bonus.c \
+					redirections_bonus.c ft_env_bonus.c first_priority_bonus.c exec_utils2_bonus.c \
+					ft_cd_bonus.c ft_unset_bonus.c ft_exit_bonus.c execution_2_bonus.c ft_heredoc_bonus.c \
+					
+EXECUTION_BONUS_SRC = $(addprefix $(EXEC_BONUS_SRC_DIR), $(EXECUTION_BONUS_FILES))
+EXECUTION_BONUS_OBJ = $(addprefix $(EXEC_BONUS_OBJ_DIR), $(EXECUTION_BONUS_FILES:.c=.o))
 
 RED = \033[0;31m
 GREEN = \033[0;32m
@@ -91,29 +111,35 @@ $(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER) $(MINISHELL_HEADER)
 	$(update_progress)
 	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
-# bonus: $(LIBFT) $(BONUS_OBJ_DIR) $(BONUS)
+bonus: $(LIBFT) $(PRINTF) $(PARSE_BONUS_OBJ_DIR) $(EXEC_BONUS_OBJ_DIR) $(NAME_BONUS) thanks
 
-# $(BONUS_OBJ_DIR):
-# 	mkdir -p $(BONUS_OBJ_DIR)
+$(PARSE_BONUS_OBJ_DIR):
+	@mkdir -p $(PARSE_BONUS_OBJ_DIR)
 
-# $(BONUS): $(BONUS_OBJ)
-# 	@echo "$(BLUE)$(BOLD)Creating $(BONUS) executable...$(RESET)"
-# 	$(CC) $(FLAGS) $(BONUS_OBJ) $(LIBFT) $(GNL) -o $(BONUS)
-# 	@echo "$(GREEN)$(BOLD)$(BONUS) created$(RESET)"
+$(EXEC_BONUS_OBJ_DIR):
+	@mkdir -p $(EXEC_BONUS_OBJ_DIR)
 
-# $(BONUS_OBJ_DIR)%.o: $(BONUS_SRC_DIR)%.c $(BONUS_HEADER) $(GNL_HEADER)
-# 	@echo "$(CYAN)$(BOLD)Compiling $<$(RESET)"
-# 	$(CC) $(FLAGS) -c $< -o $@
+$(NAME_BONUS): $(PARSING_BONUS_OBJ) $(EXECUTION_BONUS_OBJ) $(GNL)
+	@$(CC) $(FLAGS) $(LIBS) $(PARSING_BONUS_OBJ) $(EXECUTION_BONUS_OBJ) $(LIBFT) $(GNL) -o $(NAME_BONUS)
+	@echo "$(CYAN)$(BOLD)Minishell Created Succefully √$(RESET)"
+
+$(PARSE_BONUS_OBJ_DIR)%.o: $(PARSE_BONUS_SRC_DIR)%.c $(PARSE_BONUS_HEADER) $(MINISHELL_HEADER_BONUS)
+	$(update_progress)
+	@$(CC) $(FLAGS) -I $(RL_HEADER_DIR) -I $(BONUS_HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
+
+$(EXEC_BONUS_OBJ_DIR)%.o: $(EXEC_BONUS_SRC_DIR)%.c $(EXEC_BONUS_HEADER) $(MINISHELL_HEADER_BONUS)
+	$(update_progress)
+	@$(CC) $(FLAGS) -I $(BONUS_HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
 clean:
 	@echo "$(RED)$(BOLD)Objects Deleting √$(RESET)"
-	@rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(BONUS_PARSING_OBJ) $(BONUS_EXECUTION_OBJ)
-	@rm -rf $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(BONUS_OBJ_DIR)
+	@rm -f $(PARSING_OBJ) $(EXECUTION_OBJ) $(PARSING_BONUS_OBJ) $(EXECUTION_BONUS_OBJ)
+	@rm -rf $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(PARSE_BONUS_OBJ_DIR) $(EXEC_BONUS_OBJ_DIR)
 	@make clean -C $(LIBFT_DIR)
 
 fclean: clean
 	@echo "$(RED)$(BOLD)Binary Deleted   √$(RESET)"
-	@rm -f $(NAME) $(BONUS)
+	@rm -f $(NAME) $(NAME_BONUS)
 	@make fclean -C $(LIBFT_DIR)
 
 re: fclean all

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 20:58:10 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 12:32:42 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,22 +45,10 @@ int	ft_redir_token(t_token *token, int fdin[2], int fdout, t_shell *shell)
 		if (token->type != REDIR_HEREDOC && \
 			ft_ambiguous_redirect(token->left, shell))
 			return (EXIT_FAILURE);
-		if (token->type == REDIR_IN)
-			fdin[0] = ft_redir_in_function(token->left);
-		else if (token->type == REDIR_HEREDOC)
-			fdin[0] = ft_redir_heredoc_function(token->left, shell);
-		else if (token->type == REDIR_OUT)
-			fdout = ft_redir_out_function(token->left);
-		else if (token->type == REDIR_APPEND)
-			fdout = ft_redir_append_function(token->left);
-		if (!token->right || (token->right->type != WORD && \
-			token->right->type != SUBSHELL))
-		{
-			ft_close_fds(fdin[0], fdout);
-			if (!token->right)
-				return (EXIT_SUCCESS);
-		}
-		return (ft_redir_token(token->right, fdin, fdout, shell));
+		if (token->type == REDIR_HEREDOC || token->type == REDIR_IN)
+			return (ft_handle_redirs_in(token, fdin, fdout, shell));
+		else
+			return (ft_handle_redirs_out(token, fdin, fdout, shell));
 	}
 	return (ft_execution_token(token, fdin, fdout, shell));
 }

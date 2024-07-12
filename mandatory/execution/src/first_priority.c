@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_priority.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/11 19:02:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 09:23:21 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,16 +49,21 @@ int	ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell)
 
 int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	int		exit_code;
-	int		status;
+	int	status;
+	int	exit_code;
 
 	if (!token)
 		return (EXIT_FAILURE);
 	status = ft_first_token(token, fdin, fdout, shell);
-	if (waitpid(shell->last_pid, &shell->exit_code, 0) > 0)
+	if (waitpid(shell->last_pid, &exit_code, 0) > 0)
 		ft_reset_term();
-	while (wait(&exit_code) > 0)
+	while (wait(NULL) > 0)
 		ft_reset_term();
+	if (exit_code == SIGINT)
+		ft_putchar_fd('\n', 1);
+	else if (exit_code == SIGQUIT)
+		ft_putstr_fd("Quit: 3\n", 1);
+	shell->exit_code = exit_code;
 	signal(SIGQUIT, main_sig_handler);
 	signal(SIGINT, main_sig_handler);
 	if (status)

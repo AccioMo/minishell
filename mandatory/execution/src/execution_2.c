@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/11 19:11:18 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/11 22:02:20 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,10 +40,9 @@ int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
 {
 	char	**env_array;
 	char	*cmd_path;
-	pid_t	pid;
 
-	pid = fork();
-	if (pid == 0)
+	shell->last_pid = fork();
+	if (shell->last_pid == 0)
 	{
 		if (fdin[0] < 0 || fdout < 0)
 			exit(EXIT_FAILURE);
@@ -53,15 +52,16 @@ int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
 		if (!cmd_path)
 			exit(127);
 		ft_run_checks(cmd_path, token->args[0]);
+		signal(SIGINT, SIG_DFL);
+		signal(SIGQUIT, SIG_DFL);
 		execve(cmd_path, token->args, env_array);
 		ft_perror(token->args[0]);
 		free(cmd_path);
 		exit(EXIT_FAILURE);
 	}
-	else if (pid < 0)
+	else if (shell->last_pid < 0)
 		ft_perror("fork");
-	shell->last_pid = pid;
-	return (pid);
+	return (shell->last_pid);
 }
 
 int	ft_handle_dots(t_token *token)
@@ -93,11 +93,9 @@ int	ft_exec_function(t_token *token, int fdin[2], int fdout, t_shell *shell)
 		return (ft_handle_dots(token));
 	if (ft_is_builtin(token))
 		return (ft_execute_builtin(token, fdout, shell));
-	signal(SIGINT, sigquit_handler);
-	signal(SIGQUIT, sigquit_handler);
-	pid = ft_execution_process(token, fdin, fdout, shell);
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
+	pid = ft_execution_process(token, fdin, fdout, shell);
 	if (pid < 0)
 		return (2);
 	last_cmd = token->args[ft_array_len(token->args) - 1];

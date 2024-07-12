@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/11 18:15:55 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 12:34:52 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	ft_free(char **ptr);
 void	ft_dup_pipes(int fdin[2], int fdout);
 char	**ft_list_to_array(t_list *env);
 void	ft_close_fds(int fdin, int fdout);
+int		ft_handle_redirs_in(t_token *tk, int fi[2], int fo, t_shell *sh);
+int		ft_handle_redirs_out(t_token *tk, int fi[2], int fo, t_shell *sh);
 int		ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell);
 
 #endif

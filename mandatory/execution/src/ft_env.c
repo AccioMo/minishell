@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 00:26:56 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:40:43 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,11 +38,11 @@ static t_list	*ft_create_env(void)
 
 	getcwd(pwd, PATH_MAX);
 	shell_env = ft_lstnew(ft_strdup("SHLVL=1"));
+	if (!shell_env)
+		return (NULL);
 	ft_set_env(shell_env, "PWD", pwd);
 	ft_set_env(shell_env, "PATH", \
 		"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-	if (!shell_env)
-		return (NULL);
 	return (shell_env);
 }
 
@@ -55,7 +55,7 @@ t_list	*ft_init_env(char **env)
 
 	i = 0;
 	if (!env || !env[0])
-		ft_create_env();
+		return (ft_create_env());
 	env_var = ft_strdup(env[i++]);
 	if (!env_var)
 		return (NULL);

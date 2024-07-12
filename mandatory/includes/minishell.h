@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/11 18:16:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:40:54 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,7 +97,7 @@ char	**ft_remove_from_array(char **array, int x);
 int		ft_index(char *str, char c);
 void	ft_increment_shellvl(t_shell *shell);
 int		ft_whitespace(char c);
-int		ft_perror(char *cmd);
+int		ft_perror(char *cmd, int code);
 void	ft_free_tree(t_token *token);
 int		ft_found_token(char *str, char c);
 int		ft_set_env(t_list *env, char *name, char *value);

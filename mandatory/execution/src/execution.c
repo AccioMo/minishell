@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 20:06:39 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:40:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,16 @@ void	ft_dup_pipes(int fdin[2], int fdout)
 		close(fdin[1]);
 }
 
-int	ft_perror(char *cmd)
+int	ft_perror(char *cmd, int code)
 {
 	ft_putstr_fd("minishell: ", 2);
-	if (errno == ENOENT)
+	if (code == ENOENT)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": command not found\n", 2);
 		return (127);
 	}
-	else if (errno == EACCES)
+	else if (code == EACCES)
 	{
 		ft_putstr_fd(cmd, 2);
 		ft_putstr_fd(": permission denied\n", 2);
@@ -98,6 +98,8 @@ char	**ft_list_to_array(t_list *env)
 	int		i;
 
 	i = 0;
+	if (!env)
+		return (NULL);
 	env_array = (char **)malloc(sizeof(char *) * (ft_lstsize(env) + 1));
 	if (!env_array)
 		return (NULL);

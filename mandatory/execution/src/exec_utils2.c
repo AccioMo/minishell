@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:13:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 19:12:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:33:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*ft_match_path(char *command, char **paths_env)
 	char	*command_path;
 	char	*tmp_path;
 
-	if (ft_strchr(command, '/'))
+	if (!paths_env || !*paths_env || ft_strchr(command, '/'))
 	{
 		if (access(command, F_OK) == 0)
 			return (ft_strdup(command));
@@ -49,12 +49,12 @@ char	*ft_match_path(char *command, char **paths_env)
 		free(command_path);
 		paths_env++;
 	}
-	return (ft_perror(command), NULL);
+	return (ft_perror(command, ENOENT), NULL);
 }
 
 char	**ft_get_paths(char **env)
 {
-	if (!*env)
+	if (!env || !*env)
 		return (NULL);
 	while (*env)
 	{
@@ -71,11 +71,6 @@ char	*ft_allocate_cmd(char **cmd, char **env)
 	char	*cmd_path;
 
 	paths_env = ft_get_paths(env);
-	if (!paths_env)
-	{
-		ft_free(cmd);
-		return (NULL);
-	}
 	cmd_path = ft_match_path(*cmd, paths_env);
 	ft_free(paths_env);
 	if (!cmd_path)

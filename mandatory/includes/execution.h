@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/12 12:34:52 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:39:08 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int		ft_export(t_token *cmd, t_shell *env, int fdout);
 int		ft_execute_builtin(t_token *cmd, int fdout, t_shell *env);
 int		ft_is_builtin(t_token *token);
 int		ft_env(t_list *env, int fdout);
-int		ft_set_env(t_list *env, char *name, char *value);
 int		ft_get_index(char *str, char c);
 int		ft_count_char(char *str, char c);
 char	*ft_allocate_cmd(char **cmd, char **env);

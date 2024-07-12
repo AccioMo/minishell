@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/11 19:20:23 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:14:51 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,7 @@ int	main(int ac, char **av, char **env)
 	shell.env = ft_init_env(env);
 	ft_increment_shellvl(&shell);
 	if (!shell.env)
-		return (ft_perror("minishell"));
+		return (ft_perror("minishell", errno));
 	if (isatty(STDIN_FILENO))
 		ft_minishell(&shell);
 	else

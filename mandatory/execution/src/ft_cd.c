@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 21:44:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:49:41 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ int	ft_set_env(t_list *env, char *name, char *value)
 		}
 		env = env->next;
 	}
-	if (env == NULL)
+	if (!head)
 	{
 		name = ft_strjoin(name, value);
 		if (!name)

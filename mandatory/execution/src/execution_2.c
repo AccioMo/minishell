@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/11 22:02:20 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:40:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,12 +55,12 @@ int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
 		execve(cmd_path, token->args, env_array);
-		ft_perror(token->args[0]);
+		perror(token->args[0]);
 		free(cmd_path);
 		exit(EXIT_FAILURE);
 	}
 	else if (shell->last_pid < 0)
-		ft_perror("fork");
+		ft_perror("fork", errno);
 	return (shell->last_pid);
 }
 

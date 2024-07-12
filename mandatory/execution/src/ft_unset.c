@@ -6,21 +6,30 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/12 11:47:55 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/12 13:31:22 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_delete_env(char *name, t_shell *shell)
+static int	ft_match_variable(char *name, t_list *env)
 {
-	t_list	*env;
 	int		len;
 
 	len = ft_strlen(name);
+	if (!ft_strncmp(env->content, name, len))
+		if ((env->content[len] == '=' || env->content[len] == '\0'))
+			return (1);
+	return (0);
+}
+
+static int	ft_delete_env(char *name, t_shell *shell)
+{
+	t_list	*env;
+	t_list	*tmp_env;
+
 	env = shell->env;
-	if (!ft_strncmp(env->content, name, len) && \
-		(env->content[len] == '=' || env->content[len] == '\0'))
+	if (ft_match_variable(name, env))
 	{
 		shell->env = env->next;
 		ft_lstdelone(env, free);
@@ -28,18 +37,19 @@ int	ft_delete_env(char *name, t_shell *shell)
 	}
 	while (env)
 	{
-		if (!ft_strncmp(env->content, name, len) && \
-			(env->content[len] == '=' || env->content[len] == '\0'))
+		if (ft_match_variable(name, env))
 		{
+			tmp_env->next = env->next;
 			ft_lstdelone(env, free);
 			return (EXIT_SUCCESS);
 		}
+		tmp_env = env;
 		env = env->next;
 	}
 	return (EXIT_SUCCESS);
 }
 
-int	ft_valid_unset(char *name)
+static int	ft_valid_unset(char *name)
 {
 	int	i;
 

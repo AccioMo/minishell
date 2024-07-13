@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/12 13:40:32 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 18:53:23 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ int	ft_is_builtin(t_token *token)
 
 int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
 {
-	if (ft_set_env(shell->env, "_",
+	if (ft_set_env(shell, "_",
 			token->args[ft_array_len(token->args) - 1]))
 		return (EXIT_FAILURE);
 	if (ft_strncmp(token->args[0], "echo\0", 5) == 0)

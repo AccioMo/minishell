@@ -6,11 +6,56 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/12 13:40:43 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 19:00:18 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+static int	ft_set_env_2(t_list *env, char *name, char *value)
+{
+	t_list	*head;
+
+	head = env;
+	while (env)
+	{
+		if (!ft_strncmp(env->content, name, ft_strlen(name)))
+		{
+			free(env->content);
+			env->content = ft_strjoin(name, value);
+			if (!env->content)
+				return (EXIT_FAILURE);
+			free(name);
+			return (EXIT_SUCCESS);
+		}
+		env = env->next;
+	}
+	if (!env)
+	{
+		name = ft_strjoin(name, value);
+		if (!name)
+			return (EXIT_FAILURE);
+		ft_lstadd_back(&head, ft_lstnew(name));
+	}
+	return (EXIT_SUCCESS);
+}
+
+int	ft_set_env(t_shell *shell, char *name, char *value)
+{
+	t_list	*env;
+
+	env = shell->env;
+	name = ft_strjoin(name, "=");
+	if (!env)
+	{
+		name = ft_strjoin(name, value);
+		if (!name)
+			return (EXIT_FAILURE);
+		shell->env = ft_lstnew(name);
+		return (EXIT_SUCCESS);
+	}
+	return (ft_set_env_2(env, name, value));
+}
 
 int	ft_env(t_list *env, int fdout)
 {
@@ -31,22 +76,21 @@ int	ft_env(t_list *env, int fdout)
 	return (EXIT_SUCCESS);
 }
 
-static t_list	*ft_create_env(void)
+static t_list	*ft_create_env(t_shell *shell)
 {
 	char	pwd[PATH_MAX];
-	t_list	*shell_env;
 
 	getcwd(pwd, PATH_MAX);
-	shell_env = ft_lstnew(ft_strdup("SHLVL=1"));
-	if (!shell_env)
+	shell->env = ft_lstnew(ft_strdup("SHLVL=1"));
+	if (!shell->env)
 		return (NULL);
-	ft_set_env(shell_env, "PWD", pwd);
-	ft_set_env(shell_env, "PATH", \
+	ft_set_env(shell, "PWD", pwd);
+	ft_set_env(shell, "PATH", \
 		"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
-	return (shell_env);
+	return (shell->env);
 }
 
-t_list	*ft_init_env(char **env)
+t_list	*ft_init_env(char **env, t_shell *shell)
 {
 	t_list	*shell_env;
 	t_list	*new;
@@ -55,7 +99,7 @@ t_list	*ft_init_env(char **env)
 
 	i = 0;
 	if (!env || !env[0])
-		return (ft_create_env());
+		return (ft_create_env(shell));
 	env_var = ft_strdup(env[i++]);
 	if (!env_var)
 		return (NULL);

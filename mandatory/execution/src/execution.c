@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/12 13:40:32 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 18:52:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ void	ft_increment_shellvl(t_shell *shell)
 	shell_lvl = ft_itoa(shell_lvl_int);
 	if (!shell_lvl)
 		return ;
-	ft_set_env(shell->env, "SHLVL", shell_lvl);
+	ft_set_env(shell, "SHLVL", shell_lvl);
 	free(shell_lvl);
 }
 

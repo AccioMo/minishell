@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/10 00:43:40 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 18:50:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,6 @@ int			ft_found_token(char *str, char c);
 char		*ft_split_variable(char *str, char *new, t_token *tk, t_shell *sh);
 char		**ft_wildcard_split(char *str);
 char		*ft_var_backslash_wildcard(char *str);
-t_list		*ft_init_env(char **env);
+t_list		*ft_init_env(char **env, t_shell *shell);
 
 #endif

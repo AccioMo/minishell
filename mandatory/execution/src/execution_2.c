@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/12 13:40:32 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 18:54:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int	ft_exec_function(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	if (pid < 0)
 		return (2);
 	last_cmd = token->args[ft_array_len(token->args) - 1];
-	if (ft_set_env(shell->env, "_", last_cmd))
+	if (ft_set_env(shell, "_", last_cmd))
 		return (EXIT_FAILURE);
 	return (0);
 }

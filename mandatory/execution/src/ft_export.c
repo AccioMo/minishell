@@ -97,7 +97,7 @@ int	ft_export_variable(char *name, char *var, t_shell *shell)
 	{
 		if (value)
 			value = ft_strjoin(value, var + 2);
-		if (ft_set_env(shell->env, name, value))
+		if (ft_set_env(shell, name, value))
 		{
 			free(value);
 			return (EXIT_FAILURE);
@@ -108,7 +108,7 @@ int	ft_export_variable(char *name, char *var, t_shell *shell)
 	{
 		if (!shell->env)
 			shell->env = ft_lstnew(ft_strjoin(name, var));
-		else if (ft_set_env(shell->env, name, var + 1))
+		else if (ft_set_env(shell, name, var + 1))
 			return (EXIT_FAILURE);
 	}
 	else

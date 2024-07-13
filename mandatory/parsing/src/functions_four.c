@@ -6,18 +6,25 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 23:36:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/09 23:43:45 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 21:01:31 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "parsing.h"
 
-int	ft_throw_syntax_error(char *word)
+int	ft_throw_syntax_error(char *new_word)
 {
-	ft_putstr_fd("minishell: ", 2);
-	ft_putstr_fd("syntax error near unexpected token `", 2);
-	ft_putstr_fd(word, 2);
-	ft_putstr_fd("`.\n", 2);
+	static char	*word;
+
+	if (!new_word)
+	{
+		ft_putstr_fd("minishell: ", 2);
+		ft_putstr_fd("syntax error near unexpected token `", 2);
+		ft_putstr_fd(word, 2);
+		ft_putstr_fd("`.\n", 2);
+	}
+	else
+		word = new_word;
 	return (PARSING_FAILURE);
 }
 
@@ -49,11 +56,7 @@ int	ft_handle_pipe(char *str, int start, int end, t_token **token)
 	if (ft_stage_pipe(&str[start + 1], end - (start + 1), &(*token)->right))
 	{
 		if (!(*token)->right)
-		{
 			ft_throw_syntax_error("newline");
-			ft_free_tree(*token);
-			*token = NULL;
-		}
 		return (PARSING_FAILURE);
 	}
 	return (EXIT_SUCCESS);
@@ -74,6 +77,8 @@ int	ft_stage_pipe(char *str, int end, t_token **token)
 			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], "|", 1))
 			return (ft_handle_pipe(str, i, end, token));
+		if (!str[i])
+			return (EXIT_FAILURE);
 		i++;
 	}
 	return (ft_stage_redir(str, end, token));

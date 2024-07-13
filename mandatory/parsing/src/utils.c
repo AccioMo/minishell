@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/11 21:25:04 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 21:01:56 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,8 @@ int	ft_index(char *str, char c)
 			return (i);
 		i++;
 	}
+	if (str[i] == '\0')
+		ft_throw_syntax_error(&c);
 	return (i);
 }
 

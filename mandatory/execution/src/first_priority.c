@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_priority.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/12 09:23:21 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/13 19:56:30 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ int	ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	int	status;
 
+	shell->subshell = 0;
 	if (!token)
 		return (EXIT_FAILURE);
 	if (token->type == AND)

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 19:12:42 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/09 23:35:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 21:00:54 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	ft_stage_or(char *str, int end, t_token **token)
 			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], "||", 2))
 			return (ft_handle_or(str, i, end, token));
+		if (!str[i])
+			return (EXIT_FAILURE);
 		i++;
 	}
 	return (ft_stage_pipe(str, end, token));
@@ -85,6 +87,8 @@ int	ft_stage_and(char *str, t_token **token)
 			i += ft_skip_parentheses(&str[i]);
 		else if (!ft_strncmp(&str[i], "&&", 2))
 			return (ft_handle_and(str, i, token));
+		if (!str[i])
+			return (EXIT_FAILURE);
 		i++;
 	}
 	return (ft_stage_or(str, i, token));

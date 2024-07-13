@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:20:34 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/10 19:32:06 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 21:01:02 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -145,6 +145,8 @@ int	ft_stage_redir(char *str, int end, t_token **token)
 			return (ft_handle_redir_in(str, i + 1, end, token));
 		else if (!ft_strncmp(&str[i], ">", 1))
 			return (ft_handle_redir_out(str, i + 1, end, token));
+		if (!str[i])
+			return (EXIT_FAILURE);
 		i++;
 	}
 	return (ft_stage_exec(str, end, token));

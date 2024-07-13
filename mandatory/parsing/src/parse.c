@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/09 23:43:41 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 20:58:47 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,18 +94,21 @@ int	ft_parse(char *line, t_shell *shell)
 	int		i;
 
 	i = 0;
-	if (ft_open_quotes(line) || ft_open_parentheses(line))
-	{
-		shell->exit_code = set_exit_code(ft_throw_syntax_error(line), true);
-		shell->root = NULL;
-		free(line);
-		return (EXIT_FAILURE);
-	}
+	// if (ft_open_quotes(line) || ft_open_parentheses(line))
+	// {
+	// 	ft_throw_syntax_error(line);
+	// 	ft_get_heredocs(shell->root, shell);
+	// 	shell->exit_code = set_exit_code(ft_throw_syntax_error(NULL), true);
+	// 	shell->root = NULL;
+	// 	free(line);
+	// 	return (EXIT_FAILURE);
+	// }
 	status = ft_stage_and(line, &shell->root);
 	free(line);
 	if (status)
 	{
 		ft_get_heredocs(shell->root, shell);
+		ft_throw_syntax_error(NULL);
 		ft_free_tree(shell->root);
 		shell->exit_code = set_exit_code(status, true);
 		shell->root = NULL;

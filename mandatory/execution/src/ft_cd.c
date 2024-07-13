@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/13 19:00:08 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/13 19:57:08 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	ft_cd(t_token *token, t_shell *shell)
 		if (getcwd(pwd, PATH_MAX) == NULL)
 			return (ft_cd_error(path, shell));
 		if (ft_set_env(shell, "OLDPWD", ft_getenv("PWD", shell->env)) || \
-			ft_set_env(shell, "PWD", pwd))
+			ft_set_env(shell, "PWD", token->args[1]))
 			return (EXIT_FAILURE);
 	}
 	return (EXIT_SUCCESS);

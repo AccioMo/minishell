@@ -1,28 +1,30 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lstclear_bonus.c                                :+:      :+:    :+:   */
+/*   ft_pwd_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 21:15:59 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 11:21:53 by zouddach         ###   ########.fr       */
+/*   Created: 2024/03/23 12:44:22 by zouddach          #+#    #+#             */
+/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft.h"
+#include "execution_bonus.h"
 
-void	ft_lstclear(t_list **lst, void (*del)(void *))
+int	ft_pwd(int fdout, t_list *env)
 {
-	t_list	*ptr;
+	char	*l;
 
-	if (!lst || !del)
-		return ;
-	while (*lst)
+	l = ft_getenv("PWD", env);
+	if (!*l)
 	{
-		ptr = (*lst)->next;
-		ft_lstdelone(*lst, del);
-		*lst = ptr;
+		ft_putstr_fd("minishell: pwd: ERROR retrieving\
+		current directory: getcwd: cannot access parent\
+		directories: No such file or directory\n", 2);
+		return (EXIT_FAILURE);
 	}
-	*lst = NULL;
+	ft_putstr_fd(l, fdout);
+	ft_putstr_fd("\n", fdout);
+	return (0);
 }

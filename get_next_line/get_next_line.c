@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 20:42:24 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/06/01 16:16:33 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 09:43:19 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ char	*get_next_line(int fd)
 	{
 		if (ft_read(fd, buffer) < 0)
 			return (buffer = NULL);
-		line = ft_realloc(line, buffer);
+		line = ft_gnl_realloc(line, buffer);
 		if (line == NULL)
 		{
 			free(buffer);

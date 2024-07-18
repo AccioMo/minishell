@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/19 11:42:53 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/09 23:27:04 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 09:54:26 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,7 @@ static char	*ft_strncpy(char *dest, char *src, int n)
 	return (dest);
 }
 
-char	*ft_realloc(char *line, char *buffer)
+char	*ft_gnl_realloc(char *line, char *buffer)
 {
 	char	*str;
 	int		l_line;
@@ -59,6 +59,8 @@ char	*ft_realloc(char *line, char *buffer)
 		return (line);
 	l_line = ft_linelen(line);
 	l_buffer = ft_bufferlen(buffer);
+	if (l_buffer == 0)
+		return (line);
 	str = (char *)malloc(sizeof(char) * (l_line + l_buffer + 1));
 	if (!str)
 		return (free(line), NULL);

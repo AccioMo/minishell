@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 23:36:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/13 21:01:31 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 08:43:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ int	ft_throw_syntax_error(char *new_word)
 {
 	static char	*word;
 
-	if (!new_word)
+	if (!new_word && word)
 	{
 		ft_putstr_fd("minishell: ", 2);
 		ft_putstr_fd("syntax error near unexpected token `", 2);

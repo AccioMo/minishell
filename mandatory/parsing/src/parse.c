@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/13 20:58:47 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 08:43:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,21 +72,21 @@ int	ft_open_parentheses(char *line)
 	return (p);
 }
 
-int	ft_get_heredocs(t_token *token, t_shell *shell)
-{
-	int			ret;
+// int	ft_get_heredoc(t_token *token, t_shell *shell)
+// {
+// 	int			ret;
 
-	ret = 0;
-	if (!token)
-		return (ret);
-	if (token->type == REDIR_HEREDOC && token->left && token->left->args)
-		close(ft_redir_heredoc_function(token->left, shell));
-	if (token->left)
-		ret = ft_get_heredocs(token->left, shell);
-	if (token->right)
-		ret = ft_get_heredocs(token->right, shell);
-	return (ret);
-}
+// 	ret = 0;
+// 	if (!token)
+// 		return (ret);
+// 	if (token->type == REDIR_HEREDOC && token->left && token->left->args)
+// 		close(ft_redir_heredoc_function(token->left, shell));
+// 	if (token->left)
+// 		ret = ft_get_heredocs(token->left, shell);
+// 	if (token->right)
+// 		ret = ft_get_heredocs(token->right, shell);
+// 	return (ret);
+// }
 
 int	ft_parse(char *line, t_shell *shell)
 {
@@ -94,21 +94,12 @@ int	ft_parse(char *line, t_shell *shell)
 	int		i;
 
 	i = 0;
-	// if (ft_open_quotes(line) || ft_open_parentheses(line))
-	// {
-	// 	ft_throw_syntax_error(line);
-	// 	ft_get_heredocs(shell->root, shell);
-	// 	shell->exit_code = set_exit_code(ft_throw_syntax_error(NULL), true);
-	// 	shell->root = NULL;
-	// 	free(line);
-	// 	return (EXIT_FAILURE);
-	// }
 	status = ft_stage_and(line, &shell->root);
 	free(line);
 	if (status)
 	{
-		ft_get_heredocs(shell->root, shell);
-		ft_throw_syntax_error(NULL);
+		if (status == PARSING_FAILURE)
+			ft_throw_syntax_error(NULL);
 		ft_free_tree(shell->root);
 		shell->exit_code = set_exit_code(status, true);
 		shell->root = NULL;

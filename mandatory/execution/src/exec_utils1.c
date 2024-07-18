@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:02:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/06/12 18:02:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 10:32:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,4 +76,19 @@ int	ft_array_len(char **arr)
 	while (arr[i])
 		i++;
 	return (i);
+}
+
+char	*ft_realloc(char *line, char *buffer)
+{
+	char	*str;
+
+	if (buffer == NULL)
+		return (line);
+	if (line == NULL)
+		return (ft_strdup(buffer));
+	str = ft_strjoin(line, buffer);
+	free(line);
+	if (!str)
+		return (NULL);
+	return (str);
 }

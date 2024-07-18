@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 15:20:34 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/13 21:01:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 08:44:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,11 +21,6 @@ int	ft_handle_append(char *str, int start, int end, t_token **token)
 	if (!ft_add_token(REDIR_APPEND, token))
 		return (EXIT_FAILURE);
 	wd = ft_merge(str, start - 2, &str[start + len], end - (start + len));
-	if (ft_strchr(wd, '(') || ft_strchr(wd, ')'))
-	{
-		free(wd);
-		return (ft_throw_syntax_error("("));
-	}
 	if (ft_stage_exec(&str[start], len, &(*token)->left) && !(*token)->left)
 	{
 		free(wd);
@@ -49,15 +44,16 @@ int	ft_handle_heredoc(char *str, int start, int end, t_token **token)
 	if (!ft_add_token(REDIR_HEREDOC, token))
 		return (EXIT_FAILURE);
 	wd = ft_merge(str, start - 2, &str[start + len], end - (start + len));
-	if (ft_strchr(wd, '(') || ft_strchr(wd, ')'))
-	{
-		free(wd);
-		return (ft_throw_syntax_error("("));
-	}
 	if (ft_stage_exec(&str[start], len, &(*token)->left) && !(*token)->left)
 	{
 		free(wd);
 		return (ft_throw_syntax_error("<<"));
+	}
+	(*token)->left->fd = ft_open_heredoc((*token)->left);
+	if ((*token)->left->fd < 0)
+	{
+		free(wd);
+		return (EXIT_FAILURE);
 	}
 	if (ft_stage_redir(wd, ft_strlen(wd), &(*token)->right) && (*token)->right)
 	{
@@ -77,11 +73,6 @@ int	ft_handle_redir_in(char *str, int start, int end, t_token **token)
 	if (!ft_add_token(REDIR_IN, token))
 		return (EXIT_FAILURE);
 	wd = ft_merge(str, start - 1, &str[start + len], end - (start + len));
-	if (ft_strchr(wd, '(') || ft_strchr(wd, ')'))
-	{
-		free(wd);
-		return (ft_throw_syntax_error("("));
-	}
 	if (ft_stage_exec(&str[start], len, &(*token)->left) && !(*token)->left)
 	{
 		free(wd);
@@ -105,11 +96,6 @@ int	ft_handle_redir_out(char *str, int start, int end, t_token **token)
 	if (!ft_add_token(REDIR_OUT, token))
 		return (EXIT_FAILURE);
 	wd = ft_merge(str, start - 1, &str[start + len], end - (start + len));
-	if (ft_strchr(wd, '(') || ft_strchr(wd, ')'))
-	{
-		free(wd);
-		return (ft_throw_syntax_error("("));
-	}
 	if (ft_stage_exec(&str[start], len, &(*token)->left) && !(*token)->left)
 	{
 		free(wd);

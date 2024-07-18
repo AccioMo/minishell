@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/09 23:57:49 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 10:21:00 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,4 +105,32 @@ char	*ft_quoted_variables(char *str, t_shell *shell)
 		}
 	}
 	return (new);
+}
+
+int	ft_expand_heredoc(t_token *token, t_shell *shell)
+{
+	char	*buffer;
+	char	*tmp;
+	int		end[2];
+
+	if (pipe(end) == -1)
+		return (ft_perror("pipe", errno));
+	buffer = get_next_line(token->fd);
+	while (buffer)
+	{
+		if (ft_contains_variable(buffer))
+		{
+			tmp = ft_heredoc_variables(buffer, shell);
+			ft_putstr_fd(tmp, end[1]);
+			free(tmp);
+		}
+		else
+			ft_putstr_fd(buffer, end[1]);
+		free(buffer);
+		buffer = get_next_line(token->fd);
+	}
+	close(token->fd);
+	close(end[1]);
+	free(buffer);
+	return (end[0]);
 }

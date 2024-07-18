@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/13 18:52:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 09:46:20 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,10 +62,11 @@ typedef enum e_type
 
 typedef struct s_token
 {
+	char			**args;
 	struct s_token	*right;
 	struct s_token	*left;
 	t_type			type;
-	char			**args;
+	int				fd;
 }	t_token;
 
 typedef struct s_heredoc
@@ -85,11 +86,14 @@ typedef struct s_shell
 
 int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 void	ft_free(char **ptr);
+char	*ft_realloc(char *line, char *buffer);
 char	*ft_getenv(char *name, t_list *arr);
+int		ft_expand_heredoc(t_token *token, t_shell *shell);
 int		ft_array_len(char **arr);
 char	**ft_append_to_array(char **args, char *new_arg);
 char	*ft_quoted_variables(char *str, t_shell *shell);
 char	*ft_expand_variable(char *str, t_shell *shell);
+char	*ft_heredoc_variables(char *str, t_shell *shell);
 int		ft_variable_length(char *str);
 int		set_exit_code(int exit_code, int set);
 void	ft_reset_term(void);

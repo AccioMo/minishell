@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/13 19:56:30 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 09:23:51 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,13 +64,12 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		ft_putchar_fd('\n', 1);
 	else if (exit_code == SIGQUIT)
 		ft_putstr_fd("Quit: 3\n", 1);
-	shell->exit_code = exit_code;
 	signal(SIGQUIT, main_sig_handler);
 	signal(SIGINT, main_sig_handler);
-	if (status)
+	if (WIFEXITED(exit_code))
+		shell->exit_code = WEXITSTATUS(exit_code);
+	else
 		shell->exit_code = status;
-	else if (WIFEXITED(shell->exit_code))
-		shell->exit_code = WEXITSTATUS(shell->exit_code);
 	shell->exit_code = set_exit_code(shell->exit_code, true);
 	return (shell->exit_code);
 }

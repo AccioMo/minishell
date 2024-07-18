@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/12 12:43:20 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 07:39:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ int	ft_handle_redirs_in(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	if (token->type == REDIR_IN)
 		fdin[0] = ft_redir_in_function(token->left);
 	else if (token->type == REDIR_HEREDOC)
-		fdin[0] = ft_redir_heredoc_function(token->left, shell);
+		fdin[0] = ft_expand_heredoc(token->left, shell);
 	fdin_backup = fdin[0];
 	if (!token->right)
 	{

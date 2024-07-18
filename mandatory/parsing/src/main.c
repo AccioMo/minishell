@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:02:25 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/13 18:50:23 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:21:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,8 @@ int	main(int ac, char **av, char **env)
 		ft_putstr_fd("minishell: too many arguments\n", 2);
 		return (1);
 	}
+	if (!isatty(STDIN_FILENO))
+		return (ft_putstr_fd("minishell: not a tty\n", 2), 1);
 	ft_reset_term();
 	rl_catch_signals = 0;
 	shell.root = NULL;
@@ -87,10 +89,7 @@ int	main(int ac, char **av, char **env)
 	ft_increment_shellvl(&shell);
 	if (!shell.env)
 		return (ft_perror("minishell", errno));
-	if (isatty(STDIN_FILENO))
-		ft_minishell(&shell);
-	else
-		ft_putstr_fd("minishell: not a tty\n", 2);
+	ft_minishell(&shell);
 	ft_lstclear(&shell.env, free);
 	ft_free_tree(shell.root);
 	ft_reset_term();

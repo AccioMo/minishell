@@ -92,11 +92,12 @@ int	ft_export_variable(char *name, char *var, t_shell *shell)
 {
 	char	*value;
 
-	value = ft_getenv(name, shell->env);
 	if (!ft_strncmp(var, "+=", 2))
 	{
-		if (value)
-			value = ft_strjoin(value, var + 2);
+		if (ft_getenv(name, shell->env))
+			value = ft_strjoin(ft_getenv(name, shell->env), var + 2);
+		else
+			value = ft_strdup(var + 2);
 		if (ft_set_env(shell, name, value))
 		{
 			free(value);

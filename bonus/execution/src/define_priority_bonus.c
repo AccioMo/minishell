@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   define_priority_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:30:30 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,10 +95,11 @@ int	ft_execution_token(t_token *token, int fdin[2], int fdout, t_shell *shell)
 		exit_status = ft_exec_function(token, fdin, fdout, shell);
 	else if (token->type == SUBSHELL)
 	{
-		shell->subshell = 1;
+		shell->subshell++;
 		exit_status = ft_first_token(token->right, fdin[0], fdout, shell);
-		shell->subshell = 0;
+		shell->subshell--;
 	}
-	ft_close_fds(fdin[0], fdout);
+	if (!shell->subshell)
+		ft_close_fds(fdin[0], fdout);
 	return (exit_status);
 }

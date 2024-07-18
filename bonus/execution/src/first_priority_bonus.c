@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   first_priority_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:29:06 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,6 @@ int	ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	int	status;
 
-	shell->subshell = 0;
 	if (!token)
 		return (EXIT_FAILURE);
 	if (token->type == AND)
@@ -39,9 +38,9 @@ int	ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell)
 		status = ft_or_function(token, fdin, fdout, shell);
 	else if (token->type == PIPE)
 	{
-		shell->subshell = 1;
+		shell->subshell++;
 		status = ft_pipe_token(token, fdin, fdout, shell);
-		shell->subshell = 0;
+		shell->subshell--;
 	}
 	else
 		status = ft_redir_token(token, (int [2]){fdin, -1}, fdout, shell);

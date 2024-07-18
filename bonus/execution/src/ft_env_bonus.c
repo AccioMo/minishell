@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env_bonus.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 12:27:40 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,17 +22,16 @@ static int	ft_set_env_2(t_list *env, char *name, char *value)
 		if (!ft_strncmp(env->content, name, ft_strlen(name)))
 		{
 			free(env->content);
-			env->content = ft_strjoin(name, value);
+			env->content = ft_realloc(name, value);
 			if (!env->content)
 				return (EXIT_FAILURE);
-			free(name);
 			return (EXIT_SUCCESS);
 		}
 		env = env->next;
 	}
 	if (!env)
 	{
-		name = ft_strjoin(name, value);
+		name = ft_realloc(name, value);
 		if (!name)
 			return (EXIT_FAILURE);
 		ft_lstadd_back(&head, ft_lstnew(name));

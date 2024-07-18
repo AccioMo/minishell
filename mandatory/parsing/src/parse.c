@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 08:43:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 12:59:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ void	ft_free_tree(t_token *token)
 		ft_free_tree(token->left);
 	if (token->right)
 		ft_free_tree(token->right);
+	if (token->fd > 1)
+		close(token->fd);
 	ft_free(token->args);
 	free(token);
 }
@@ -71,22 +73,6 @@ int	ft_open_parentheses(char *line)
 	}
 	return (p);
 }
-
-// int	ft_get_heredoc(t_token *token, t_shell *shell)
-// {
-// 	int			ret;
-
-// 	ret = 0;
-// 	if (!token)
-// 		return (ret);
-// 	if (token->type == REDIR_HEREDOC && token->left && token->left->args)
-// 		close(ft_redir_heredoc_function(token->left, shell));
-// 	if (token->left)
-// 		ret = ft_get_heredocs(token->left, shell);
-// 	if (token->right)
-// 		ret = ft_get_heredocs(token->right, shell);
-// 	return (ret);
-// }
 
 int	ft_parse(char *line, t_shell *shell)
 {

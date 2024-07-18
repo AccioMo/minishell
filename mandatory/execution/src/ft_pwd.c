@@ -6,7 +6,7 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 12:44:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/05/31 19:42:27 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/18 18:35:25 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ int	ft_pwd(int fdout, t_list *env)
 	char	*l;
 
 	l = ft_getenv("PWD", env);
-	if (!*l)
+	if (!l)
 	{
 		ft_putstr_fd("minishell: pwd: ERROR retrieving\
 		current directory: getcwd: cannot access parent\

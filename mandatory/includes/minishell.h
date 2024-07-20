@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 09:46:20 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/20 16:10:48 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -105,7 +105,6 @@ int		ft_perror(char *cmd, int code);
 void	ft_free_tree(t_token *token);
 int		ft_found_token(char *str, char c);
 int		ft_set_env(t_shell *shell, char *name, char *value);
-int		ft_redir_heredoc_function(t_token *token, t_shell *shell);
 int		ft_contains_variable(char *str);
 int		ft_exit(t_token *token, t_shell *env);
 void	main_sig_handler(int signal);

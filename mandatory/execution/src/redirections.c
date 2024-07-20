@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 07:39:50 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/20 17:14:27 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	ft_redir_out_function(t_token *token)
 	return (fd);
 }
 
-int	ft_redir_append_function(t_token *token)
+static int	ft_redir_append_function(t_token *token)
 {
 	int	fd;
 

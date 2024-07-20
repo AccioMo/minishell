@@ -6,13 +6,13 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:11:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:18:22 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution_bonus.h"
 
-int	ft_ignore_flag(char *name, int c)
+static int	ft_ignore_flag(char *name, int c)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int	ft_ignore_flag(char *name, int c)
 	return (1);
 }
 
-int	ft_has_flag(char **args)
+static int	ft_has_flag(char **args)
 {
 	int	j;
 	int	c;

@@ -6,13 +6,13 @@
 /*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/20 17:17:10 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution_bonus.h"
 
-void	ft_run_checks(char *cmd_path, char *cmd)
+static void	ft_run_checks(char *cmd_path, char *cmd)
 {
 	struct stat	buf;
 
@@ -36,7 +36,7 @@ void	sigquit_handler(int signal)
 	}
 }
 
-int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
+static int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
 {
 	char	**env_array;
 	char	*cmd_path;
@@ -64,7 +64,7 @@ int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	return (shell->last_pid);
 }
 
-int	ft_handle_dots(t_token *token)
+static int	ft_handle_dots(t_token *token)
 {
 	if (ft_strncmp(token->args[0], ".\0", 2) == 0)
 	{

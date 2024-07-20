@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   define_priority_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 12:30:30 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/20 17:16:26 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution_bonus.h"
 
-int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
+static int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
 {
 	char	*file;
 

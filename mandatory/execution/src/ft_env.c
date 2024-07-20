@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 12:24:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/20 17:28:54 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,12 @@ int	ft_env(t_list *env, int fdout)
 		return (EXIT_SUCCESS);
 	while (env)
 	{
-		if (ft_strchr(env->content, '='))
+        if (!ft_strncmp(env->content, "_=", 2))
+        {
+            ft_putstr_fd("_=/usr/bin/env", fdout);
+            ft_putchar_fd('\n', fdout);
+        }
+		else if (ft_strchr(env->content, '='))
 		{
 			ft_putstr_fd(env->content, fdout);
 			ft_putchar_fd('\n', fdout);

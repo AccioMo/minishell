@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:11:30 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 23:21:06 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/20 16:57:54 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_ignore_flag(char *name, int c)
+static int	ft_ignore_flag(char *name, int c)
 {
 	int	i;
 
@@ -26,7 +26,7 @@ int	ft_ignore_flag(char *name, int c)
 	return (1);
 }
 
-int	ft_has_flag(char **args)
+static int	ft_has_flag(char **args)
 {
 	int	j;
 	int	c;

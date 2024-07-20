@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   define_priority.c                                  :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 12:29:50 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/20 16:49:01 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
+static int	ft_ambiguous_redirect(t_token *token, t_shell *shell)
 {
 	char	*file;
 

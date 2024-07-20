@@ -12,7 +12,7 @@
 
 #include "execution.h"
 
-char	**ft_sort_env(t_list *env)
+static char	**ft_sort_env(t_list *env)
 {
 	char	**arr;
 	int		i;
@@ -32,7 +32,7 @@ char	**ft_sort_env(t_list *env)
 	return (arr);
 }
 
-int	ft_print_shell(t_list *env, int fdout)
+static int	ft_print_shell(t_list *env, int fdout)
 {
 	char	**arr;
 	int		i;
@@ -60,7 +60,7 @@ int	ft_print_shell(t_list *env, int fdout)
 	return (ft_free(arr), EXIT_SUCCESS);
 }
 
-int	ft_valid_variable(char *var, int *index)
+static int	ft_valid_variable(char *var, int *index)
 {
 	int	i;
 
@@ -88,7 +88,7 @@ int	ft_valid_variable(char *var, int *index)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_export_variable(char *name, char *var, t_shell *shell)
+static int	ft_export_variable(char *name, char *var, t_shell *shell)
 {
 	char	*value;
 

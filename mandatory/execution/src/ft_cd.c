@@ -3,16 +3,16 @@
 /*                                                        :::      ::::::::   */
 /*   ft_cd.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/13 19:57:08 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/20 16:55:20 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_first_condition(t_shell *shell)
+static int	ft_first_condition(t_shell *shell)
 {
 	if (ft_getenv("HOME", shell->env) == NULL)
 	{
@@ -33,7 +33,7 @@ int	ft_first_condition(t_shell *shell)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_second_condition(t_shell *shell, char *pwd)
+static int	ft_second_condition(t_shell *shell, char *pwd)
 {
 	if (chdir(ft_getenv("OLDPWD", shell->env)) != 0)
 	{
@@ -49,7 +49,7 @@ int	ft_second_condition(t_shell *shell, char *pwd)
 	return (EXIT_SUCCESS);
 }
 
-int	ft_cd_error(char *path, t_shell *shell)
+static int	ft_cd_error(char *path, t_shell *shell)
 {
 	ft_putstr_fd("minishell: cd: ", 2);
 	perror(path);

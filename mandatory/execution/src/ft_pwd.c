@@ -3,28 +3,33 @@
 /*                                                        :::      ::::::::   */
 /*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 12:44:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 18:35:25 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:15:18 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-int	ft_pwd(int fdout, t_list *env)
+int	ft_pwd(int fdout, t_shell *shell)
 {
-	char	*l;
+	char	pwd[PATH_MAX];
+	char	*path;
 
-	l = ft_getenv("PWD", env);
-	if (!l)
+	if (!getcwd(pwd, PATH_MAX))
 	{
-		ft_putstr_fd("minishell: pwd: ERROR retrieving\
-		current directory: getcwd: cannot access parent\
-		directories: No such file or directory\n", 2);
+		path = ft_getenv("PWD", shell->env);
+		if (path)
+		{
+			ft_putendl_fd(path, fdout);
+			return (EXIT_SUCCESS);
+		}
+		ft_putstr_fd("minishell: pwd: ERROR retrieving \
+current directory: getcwd: cannot access parent \
+directories: No such file or directory\n", 2);
 		return (EXIT_FAILURE);
 	}
-	ft_putstr_fd(l, fdout);
-	ft_putstr_fd("\n", fdout);
-	return (0);
+	ft_putendl_fd(pwd, fdout);
+	return (EXIT_SUCCESS);
 }

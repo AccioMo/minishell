@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   redirections.c                                     :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/20 17:14:27 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:23:59 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ int	ft_redir_in_function(t_token *token)
 	fd = open(token->args[0], O_RDONLY);
 	if (fd < 0)
 	{
+		ft_putstr_fd("minishell: ", STDERR);
 		perror(token->args[0]);
 		return (-1);
 	}
@@ -32,6 +33,7 @@ int	ft_redir_out_function(t_token *token)
 	fd = open(token->args[0], O_WRONLY | O_CREAT | O_TRUNC, 0644);
 	if (fd < 0)
 	{
+		ft_putstr_fd("minishell: ", STDERR);
 		perror(token->args[0]);
 		return (-1);
 	}
@@ -45,6 +47,7 @@ static int	ft_redir_append_function(t_token *token)
 	fd = open(token->args[0], O_WRONLY | O_CREAT | O_APPEND, 0644);
 	if (fd < 0)
 	{
+		ft_putstr_fd("minishell: ", STDERR);
 		perror(token->args[0]);
 		return (-1);
 	}
@@ -64,6 +67,8 @@ int	ft_handle_redirs_in(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	if (!token->right)
 	{
 		ft_close_fds(fdin_backup, fdout);
+		if (fdin[0] < 0)
+			return (EXIT_FAILURE);
 		return (EXIT_SUCCESS);
 	}
 	status = ft_redir_token(token->right, fdin, fdout, shell);

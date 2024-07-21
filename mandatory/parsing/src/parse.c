@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 12:59:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:09:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,6 @@ int	ft_parse(char *line, t_shell *shell)
 
 	i = 0;
 	status = ft_stage_and(line, &shell->root);
-	free(line);
 	if (status)
 	{
 		if (status == PARSING_FAILURE)
@@ -89,7 +88,9 @@ int	ft_parse(char *line, t_shell *shell)
 		ft_free_tree(shell->root);
 		shell->exit_code = set_exit_code(status, true);
 		shell->root = NULL;
+		free(line);
 		return (EXIT_FAILURE);
 	}
+	free(line);
 	return (EXIT_SUCCESS);
 }

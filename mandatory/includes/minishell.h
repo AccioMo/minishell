@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   minishell.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/20 16:10:48 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/21 19:25:14 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,6 +32,8 @@
 # define EXIT_FAILURE 1
 
 # define PARSING_FAILURE 258
+# define CD_RETRIEVE_ERROR "cd: error retrieving current directory: \
+getcwd: cannot access parent directories"
 
 # define STDIN 0
 # define STDOUT 1

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 12:29:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 19:23:00 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,6 +57,8 @@ int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)
 	status = ft_first_token(token, fdin, fdout, shell);
 	if (waitpid(shell->last_pid, &exit_code, 0) > 0)
 		ft_reset_term();
+	else
+		exit_code = status;
 	while (wait(NULL) > 0)
 		ft_reset_term();
 	if (exit_code == SIGINT)

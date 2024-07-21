@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/10 00:38:23 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 20:23:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_quotes_wildcard(char *pattern, t_shell *shell)
 	char	*tmp;
 	int		pe;
 
-	pe = ft_index(pattern, '\"');
+	pe = ft_index(pattern, "\"");
 	tmp = ft_substr(pattern, 0, pe);
 	if (ft_contains_variable(tmp))
 	{

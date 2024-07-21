@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 23:58:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/10 18:29:23 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 20:23:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ static char	*ft_variable_skip_quotes(char *str, char *new, int *i, t_shell *sh)
 	if (str[*i] == '\'')
 	{
 		*i += 1;
-		tmp = ft_substr(str, *i, ft_index(&str[*i], '\''));
+		tmp = ft_substr(str, *i, ft_index(&str[*i], "\'"));
 		new = ft_realloc(new, tmp);
 		free(tmp);
-		*i += ft_index(&str[*i], '\'') + 1;
+		*i += ft_index(&str[*i], "\'") + 1;
 	}
 	else if (str[*i] == '\"')
 	{
 		*i += 1;
-		len = ft_index(&str[*i], '\"') + 1;
+		len = ft_index(&str[*i], "\"") + 1;
 		tmp = ft_quoted_variables(&str[*i], sh);
 		new = ft_realloc(new, tmp);
 		free(tmp);

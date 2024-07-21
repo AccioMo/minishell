@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/21 19:09:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 20:21:45 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ int	ft_open_parentheses(char *line)
 	while (line[i])
 	{
 		if (line[i] == '\"')
-			i += ft_index(&line[i + 1], '\"') + 1;
+			i += ft_index(&line[i + 1], "\"") + 1;
 		else if (line[i] == '\'')
-			i += ft_index(&line[i + 1], '\'') + 1;
+			i += ft_index(&line[i + 1], "\'") + 1;
 		else if (line[i] == '(')
 			p++;
 		else if (line[i] == ')')

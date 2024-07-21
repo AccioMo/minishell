@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/13 21:12:19 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 20:22:19 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	ft_skip_parentheses(char *str)
 	while (str[i])
 	{
 		if (!ft_strncmp(&str[i], "\"", 1))
-			i += ft_index(&str[i + 1], '\"') + 1;
+			i += ft_index(&str[i + 1], "\"") + 1;
 		else if (!ft_strncmp(&str[i], "\'", 1))
-			i += ft_index(&str[i + 1], '\'') + 1;
+			i += ft_index(&str[i + 1], "\'") + 1;
 		else if (!ft_strncmp(&str[i], "(", 1))
 			i += ft_skip_parentheses(&str[i]) + 1;
 		else if (!ft_strncmp(&str[i], ")", 1))
@@ -52,9 +52,9 @@ int	ft_parse_word(char *str, int end, t_token **token)
 	while (p < end)
 	{
 		if (!ft_strncmp(&str[p], "\"", 1))
-			p += ft_index(&str[p + 1], '\"') + 1;
+			p += ft_index(&str[p + 1], "\"") + 1;
 		else if (!ft_strncmp(&str[p], "\'", 1))
-			p += ft_index(&str[p + 1], '\'') + 1;
+			p += ft_index(&str[p + 1], "\'") + 1;
 		else if (str[p] == '(')
 			return (ft_throw_syntax_error(&str[p]));
 		p++;

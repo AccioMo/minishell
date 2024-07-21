@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 10:21:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 20:20:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_contains_variable(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			i += ft_index(&str[i + 1], '\'') + 1;
+			i += ft_index(&str[i + 1], "\'") + 1;
 		else if (str[i] == '\"')
 		{
 			while (str[++i] && str[i] != '\"')

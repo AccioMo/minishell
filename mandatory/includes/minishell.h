@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/21 19:25:14 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 20:20:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@
 
 # define PARSING_FAILURE 258
 # define CD_RETRIEVE_ERROR "cd: error retrieving current directory: \
-getcwd: cannot access parent directories"
+getcwd: cannot access parent directories: No such file or directory"
 
 # define STDIN 0
 # define STDOUT 1
@@ -100,7 +100,7 @@ int		ft_variable_length(char *str);
 int		set_exit_code(int exit_code, int set);
 void	ft_reset_term(void);
 char	**ft_remove_from_array(char **array, int x);
-int		ft_index(char *str, char c);
+int		ft_index(char *str, char *c);
 void	ft_increment_shellvl(t_shell *shell);
 int		ft_whitespace(char c);
 int		ft_perror(char *cmd, int code);

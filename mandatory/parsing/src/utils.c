@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/07 22:15:58 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/13 21:01:56 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 20:22:38 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,19 +17,19 @@ int	ft_whitespace(char c)
 	return (c == ' ' || c == 127 || (c >= 9 && c <= 13));
 }
 
-int	ft_index(char *str, char c)
+int	ft_index(char *str, char *c)
 {
 	int	i;
 
 	i = 0;
 	while (str[i])
 	{
-		if (str[i] == c)
+		if (str[i] == *c)
 			return (i);
 		i++;
 	}
 	if (str[i] == '\0')
-		ft_throw_syntax_error(&c);
+		ft_throw_syntax_error(c);
 	return (i);
 }
 

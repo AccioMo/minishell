@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 04:41:01 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 03:00:05 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_arg_len(char *str)
 	return (len);
 }
 
-char	*ft_remove_quotes(char *str)
+static char	*ft_remove_quotes(char *str)
 {
 	char	*word;
 	int		j;
@@ -45,7 +45,7 @@ char	*ft_remove_quotes(char *str)
 		return (NULL);
 	word = (char *)malloc(sizeof(char) * (ft_arg_len(str) + 1));
 	if (!word)
-		return (free(str), NULL);
+		return (NULL);
 	while (str[j] && !ft_whitespace(*str))
 	{
 		if (str[j] == '\"')

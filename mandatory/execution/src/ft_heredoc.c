@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:27:06 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 04:34:06 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/18 10:18:53 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,6 @@ int	ft_open_heredoc(t_token *token)
 	if (pipe(end) == -1)
 		return (ft_perror("pipe", errno));
 	signal(SIGINT, sig_herdoc_handler);
-	token->args[0] = ft_remove_quotes(token->args[0]);
 	ft_heredoc_loop(token->args[0], end[1]);
 	close(end[1]);
 	return (ft_heredoc_content(end[0], stdin_copy, token));

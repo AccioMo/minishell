@@ -3,26 +3,28 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 17:05:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 05:01:36 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
 
-static int	ft_set_env_2(t_list *env, char *name, char *value)
+static int	ft_set_env_2(t_list *env, char *n, char *value)
 {
 	t_list	*head;
 
 	head = env;
 	while (env)
 	{
-		if (!ft_strncmp(env->content, name, ft_strlen(name)))
+		if (!ft_strncmp(env->content, n, ft_strlen(n)) && (env->content[\
+			ft_strlen(n)] == '=' || env->content[ft_strlen(n)] == '\0'))
 		{
 			free(env->content);
-			env->content = ft_realloc(name, value);
+			n = ft_strjoin(n, "=");
+			env->content = ft_realloc(n, value);
 			if (!env->content)
 				return (EXIT_FAILURE);
 			return (EXIT_SUCCESS);
@@ -31,10 +33,10 @@ static int	ft_set_env_2(t_list *env, char *name, char *value)
 	}
 	if (!env)
 	{
-		name = ft_realloc(name, value);
-		if (!name)
+		n = ft_realloc(n, value);
+		if (!n)
 			return (EXIT_FAILURE);
-		ft_lstadd_back(&head, ft_lstnew(name));
+		ft_lstadd_back(&head, ft_lstnew(n));
 	}
 	return (EXIT_SUCCESS);
 }
@@ -44,10 +46,10 @@ int	ft_set_env(t_shell *shell, char *name, char *value)
 	t_list	*env;
 
 	env = shell->env;
-	name = ft_strjoin(name, "=");
 	if (!env)
 	{
-		name = ft_strjoin(name, value);
+		name = ft_strjoin(name, "=");
+		name = ft_realloc(name, value);
 		if (!name)
 			return (EXIT_FAILURE);
 		shell->env = ft_lstnew(name);

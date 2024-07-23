@@ -3,14 +3,35 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 23:23:04 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 04:38:41 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "execution.h"
+
+void	ft_check_env(t_shell *shell, char *name)
+{
+	t_list	*tmp;
+	char	*tmp_str;
+
+	tmp = shell->env;
+	while (tmp)
+	{
+		tmp_str = tmp->content;
+		if (ft_strncmp(tmp_str, name, ft_strlen(name)) == 0)
+		{
+			free(tmp->content);
+			tmp->content = ft_strdup(name);
+			return ;
+		}
+		tmp = tmp->next;
+	}
+	if (!tmp)
+		ft_lstadd_back(&shell->env, ft_lstnew(ft_strdup(name)));
+}
 
 int	ft_is_builtin(t_token *token)
 {

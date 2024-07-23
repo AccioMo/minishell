@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_utils_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_arg_len(char *str)
 	return (len);
 }
 
-char	*ft_remove_quotes(char *str)
+static char	*ft_remove_quotes(char *str)
 {
 	char	*word;
 	int		j;

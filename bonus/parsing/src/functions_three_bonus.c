@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_three_bonus.c                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,9 @@ int	ft_skip_parentheses(char *str)
 	while (str[i])
 	{
 		if (!ft_strncmp(&str[i], "\"", 1))
-			i += ft_index(&str[i + 1], '\"') + 1;
+			i += ft_index(&str[i + 1], "\"") + 1;
 		else if (!ft_strncmp(&str[i], "\'", 1))
-			i += ft_index(&str[i + 1], '\'') + 1;
+			i += ft_index(&str[i + 1], "\'") + 1;
 		else if (!ft_strncmp(&str[i], "(", 1))
 			i += ft_skip_parentheses(&str[i]) + 1;
 		else if (!ft_strncmp(&str[i], ")", 1))
@@ -52,9 +52,9 @@ int	ft_parse_word(char *str, int end, t_token **token)
 	while (p < end)
 	{
 		if (!ft_strncmp(&str[p], "\"", 1))
-			p += ft_index(&str[p + 1], '\"') + 1;
+			p += ft_index(&str[p + 1], "\"") + 1;
 		else if (!ft_strncmp(&str[p], "\'", 1))
-			p += ft_index(&str[p + 1], '\'') + 1;
+			p += ft_index(&str[p + 1], "\'") + 1;
 		else if (str[p] == '(')
 			return (ft_throw_syntax_error(&str[p]));
 		p++;
@@ -108,7 +108,7 @@ int	ft_handle_parentheses(char *str, int end, t_token **token)
 	}
 	p = ft_skip_parentheses(str);
 	word = ft_substr(str, 1, p - 1);
-	p = ft_stage_and(word, &(*token)->right);
+	p = ft_stage_and_or(word, &(*token)->right);
 	free(word);
 	return (p);
 }

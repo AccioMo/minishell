@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,7 +65,7 @@ int	ft_contains_variable(char *str)
 	while (str[i])
 	{
 		if (str[i] == '\'')
-			i += ft_index(&str[i + 1], '\'') + 1;
+			i += ft_index(&str[i + 1], "\'") + 1;
 		else if (str[i] == '\"')
 		{
 			while (str[++i] && str[i] != '\"')

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   functions_four_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 23:36:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/20 18:23:11 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,15 +70,17 @@ int	ft_stage_pipe(char *str, int end, t_token **token)
 	while (i < end)
 	{
 		if (!ft_strncmp(&str[i], "\"", 1))
-			i += ft_index(&str[i + 1], '\"') + 1;
+			i += ft_index(&str[i + 1], "\"") + 1;
 		else if (!ft_strncmp(&str[i], "\'", 1))
-			i += ft_index(&str[i + 1], '\'') + 1;
+			i += ft_index(&str[i + 1], "\'") + 1;
 		else if (!ft_strncmp(&str[i], "(", 1))
 			i += ft_skip_parentheses(&str[i]);
+		else if (!ft_strncmp(&str[i], ")", 1))
+			return (ft_throw_syntax_error(")"));
 		else if (!ft_strncmp(&str[i], "|", 1))
 			return (ft_handle_pipe(str, i, end, token));
 		if (!str[i])
-			return (EXIT_FAILURE);
+			return (PARSING_FAILURE);
 		i++;
 	}
 	return (ft_stage_redir(str, end, token));

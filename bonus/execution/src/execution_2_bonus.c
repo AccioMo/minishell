@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution_2_bonus.c                                :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/20 17:17:10 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,32 +36,32 @@ void	sigquit_handler(int signal)
 	}
 }
 
-static int	ft_execution_process(t_token *token, int fdin[2], int fdout, t_shell *shell)
+static int	ft_execution_process(t_token *tk, int fi[2], int fo, t_shell *sh)
 {
 	char	**env_array;
 	char	*cmd_path;
 
-	shell->last_pid = fork();
-	if (shell->last_pid == 0)
+	sh->last_pid = fork();
+	if (sh->last_pid == 0)
 	{
-		if (fdin[0] < 0 || fdout < 0)
+		if (fi[0] < 0 || fo < 0)
 			exit(EXIT_FAILURE);
-		ft_dup_pipes(fdin, fdout);
-		env_array = ft_list_to_array(shell->env);
-		cmd_path = ft_allocate_cmd(token->args, env_array);
+		ft_dup_pipes(fi, fo);
+		env_array = ft_list_to_array(sh->env);
+		cmd_path = ft_allocate_cmd(tk->args, env_array);
 		if (!cmd_path)
 			exit(127);
-		ft_run_checks(cmd_path, token->args[0]);
+		ft_run_checks(cmd_path, tk->args[0]);
 		signal(SIGINT, SIG_DFL);
 		signal(SIGQUIT, SIG_DFL);
-		execve(cmd_path, token->args, env_array);
-		perror(token->args[0]);
+		execve(cmd_path, tk->args, env_array);
+		perror(tk->args[0]);
 		free(cmd_path);
 		exit(EXIT_FAILURE);
 	}
-	else if (shell->last_pid < 0)
+	else if (sh->last_pid < 0)
 		ft_perror("fork", errno);
-	return (shell->last_pid);
+	return (sh->last_pid);
 }
 
 static int	ft_handle_dots(t_token *token)
@@ -83,10 +83,12 @@ int	ft_exec_function(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	char	*last_cmd;
 	int		pid;
 
-	if (!token || token->args == NULL || ft_expand_variables(token, shell) \
-		|| ft_expand_wildcard(token) || token->args == NULL)
+	if (!token || token->args == NULL)
 		return (EXIT_FAILURE);
-	if (!token->args[0])
+	if (ft_expand_variables(token, shell) \
+		|| ft_expand_wildcard(token))
+		return (EXIT_FAILURE);
+	if (!token->args || !token->args[0])
 		return (EXIT_SUCCESS);
 	if (ft_strncmp(token->args[0], ".\0", 2) == 0 || \
 		ft_strncmp(token->args[0], "..\0", 3) == 0)

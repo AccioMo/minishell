@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_bonus.c                                   :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 07:36:54 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ char	*ft_quotes_wildcard(char *pattern, t_shell *shell)
 	char	*tmp;
 	int		pe;
 
-	pe = ft_index(pattern, '\"');
+	pe = ft_index(pattern, "\"");
 	tmp = ft_substr(pattern, 0, pe);
 	if (ft_contains_variable(tmp))
 	{

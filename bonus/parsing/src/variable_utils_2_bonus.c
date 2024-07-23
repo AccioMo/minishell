@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   variable_utils_2_bonus.c                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/09 23:58:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,15 +44,15 @@ static char	*ft_variable_skip_quotes(char *str, char *new, int *i, t_shell *sh)
 	if (str[*i] == '\'')
 	{
 		*i += 1;
-		tmp = ft_substr(str, *i, ft_index(&str[*i], '\''));
+		tmp = ft_substr(str, *i, ft_index(&str[*i], "\'"));
 		new = ft_realloc(new, tmp);
 		free(tmp);
-		*i += ft_index(&str[*i], '\'') + 1;
+		*i += ft_index(&str[*i], "\'") + 1;
 	}
 	else if (str[*i] == '\"')
 	{
 		*i += 1;
-		len = ft_index(&str[*i], '\"') + 1;
+		len = ft_index(&str[*i], "\"") + 1;
 		tmp = ft_quoted_variables(&str[*i], sh);
 		new = ft_realloc(new, tmp);
 		free(tmp);

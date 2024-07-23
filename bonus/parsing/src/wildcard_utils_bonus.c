@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard_utils_bonus.c                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/07/10 00:09:12 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 11:19:40 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ char	*ft_single_quotes_wildcard(char *pattern, int i)
 	char	*tmp;
 	int		pe;
 
-	pe = ft_index(&pattern[i + 1], '\'') + 1;
+	pe = ft_index(&pattern[i + 1], "\'") + 1;
 	tmp = ft_substr(&pattern[i + 1], 0, pe);
 	pattern = ft_substr(pattern, i, pe);
 	pattern = ft_realloc(pattern, tmp);
@@ -78,9 +78,9 @@ int	ft_found_token(char *str, char c)
 	while (str[j])
 	{
 		if (str[j] == '\"')
-			j += ft_index(&str[j + 1], '\"') + 1;
+			j += ft_index(&str[j + 1], "\"") + 1;
 		else if (str[j] == '\'')
-			j += ft_index(&str[j + 1], '\'') + 1;
+			j += ft_index(&str[j + 1], "\'") + 1;
 		else if (str[j] == c)
 			return (1);
 		j++;

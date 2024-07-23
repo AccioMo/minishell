@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 12:59:46 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,9 +62,9 @@ int	ft_open_parentheses(char *line)
 	while (line[i])
 	{
 		if (line[i] == '\"')
-			i += ft_index(&line[i + 1], '\"') + 1;
+			i += ft_index(&line[i + 1], "\"") + 1;
 		else if (line[i] == '\'')
-			i += ft_index(&line[i + 1], '\'') + 1;
+			i += ft_index(&line[i + 1], "\'") + 1;
 		else if (line[i] == '(')
 			p++;
 		else if (line[i] == ')')
@@ -80,8 +80,7 @@ int	ft_parse(char *line, t_shell *shell)
 	int		i;
 
 	i = 0;
-	status = ft_stage_and(line, &shell->root);
-	free(line);
+	status = ft_stage_and_or(line, &shell->root);
 	if (status)
 	{
 		if (status == PARSING_FAILURE)
@@ -89,7 +88,9 @@ int	ft_parse(char *line, t_shell *shell)
 		ft_free_tree(shell->root);
 		shell->exit_code = set_exit_code(status, true);
 		shell->root = NULL;
+		free(line);
 		return (EXIT_FAILURE);
 	}
+	free(line);
 	return (EXIT_SUCCESS);
 }

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/23 04:48:07 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 05:08:46 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,12 +70,6 @@ typedef struct s_token
 	t_type			type;
 	int				fd;
 }	t_token;
-
-typedef struct s_heredoc
-{
-	int					fd;
-	struct s_heredoc	*next;
-}	t_heredoc;
 
 typedef struct s_shell
 {

@@ -20,7 +20,7 @@ PARSE_OBJ_DIR = mandatory/parsing/obj/
 PARSING_FILES = main.c parse.c functions_one.c functions_two.c \
 				functions_three.c functions_four.c utils.c str.c \
 				wildcard2.c variable_utils.c wildcard.c variable.c \
-				variable_utils_2.c variable_utils_3.c wildcard_str.c \
+				variable_utils_2.c variable_utils_3.c \
 				variables_wildcard.c wildcard_utils.c
 PARSING_SRC = $(addprefix $(PARSE_SRC_DIR), $(PARSING_FILES))
 PARSING_OBJ = $(addprefix $(PARSE_OBJ_DIR), $(PARSING_FILES:.c=.o))
@@ -48,7 +48,7 @@ PARSE_BONUS_OBJ_DIR = bonus/parsing/obj/
 PARSING_BONUS_FILES = main_bonus.c parse_bonus.c functions_one_bonus.c functions_two_bonus.c \
 				functions_three_bonus.c functions_four_bonus.c utils_bonus.c str_bonus.c \
 				wildcard2_bonus.c variable_utils_bonus.c wildcard_bonus.c variable_bonus.c \
-				variable_utils_2_bonus.c variable_utils_3_bonus.c wildcard_str_bonus.c \
+				variable_utils_2_bonus.c variable_utils_3_bonus.c \
 				variables_wildcard_bonus.c wildcard_utils_bonus.c
 PARSING_BONUS_SRC = $(addprefix $(PARSE_BONUS_SRC_DIR), $(PARSING_BONUS_FILES))
 PARSING_BONUS_OBJ = $(addprefix $(PARSE_BONUS_OBJ_DIR), $(PARSING_BONUS_FILES:.c=.o))

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 07:45:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/22 23:44:11 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@
 # include "readline/history.h"
 
 int			ft_parse(char *line, t_shell *shell);
-int			ft_stage_and(char *str, t_token **token);
 int			ft_word_len(char *str);
 char		*ft_merge(char *part_one, int l_1, char *part_two, int l_2);
 char		**ft_cmd_split(char *str);
@@ -34,7 +33,7 @@ int			ft_stage_exec(char *str, int end, t_token **token);
 int			ft_stage_redir(char *str, int end, t_token **token);
 int			ft_stage_pipe(char *str, int end, t_token **token);
 int			ft_stage_or(char *str, int end, t_token **token);
-int			ft_stage_and(char *str, t_token **token);
+int			ft_stage_and_or(char *str, t_token **token);
 
 char		**ft_append_to_array(char **args, char *new_arg);
 int			ft_variables(char *str, t_token *token, t_shell *shell);
@@ -46,8 +45,6 @@ char		*ft_quotes_wildcard(char *pattern, t_shell *shell);
 char		*ft_quoted_variables(char *str, t_shell *shell);
 char		*ft_remove_wd_backslash(char *str);
 char		*ft_backslash_wildcard(char *str);
-char		*ft_remove_quotes(char *str);
-int			ft_stage_and(char *str, t_token **token);
 int			ft_stage_exec(char *str, int end, t_token **token);
 int			ft_handle_and(char *str, int end, t_token **token);
 int			ft_handle_parentheses(char *str, int end, t_token **token);

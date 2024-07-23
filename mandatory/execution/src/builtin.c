@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 18:59:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 23:23:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,9 +14,8 @@
 
 int	ft_is_builtin(t_token *token)
 {
-    
-    if (token->args[0] == NULL || !token->args || token == NULL)
-        return (false);
+	if (token->args[0] == NULL || !token->args || token == NULL)
+		return (false);
 	if (ft_strncmp(token->args[0], "echo\0", 5) == 0)
 		return (true);
 	if (ft_strncmp(token->args[0], "pwd\0", 4) == 0)

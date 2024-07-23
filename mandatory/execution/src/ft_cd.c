@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 20:05:40 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/21 23:21:07 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,15 +51,17 @@ static char	*ft_path(char *path, char *pwd)
 	{
 		new_path = ft_strjoin(pwd, "/");
 		new_path = ft_realloc(new_path, path);
+		new_path = ft_realloc(new_path, "/");
 		return (new_path);
 	}
-	return (ft_strdup(path));
+	return (ft_strjoin(path, "/"));
 }
 
 static char	*ft_get_path(char *arg_path, t_shell *shell)
 {
-	char	pwd[PATH_MAX];
-	char	*path;
+	char		pwd[PATH_MAX];
+	char		*path;
+	struct stat	buf;
 
 	if (getcwd(pwd, PATH_MAX) == NULL)
 	{
@@ -69,7 +71,8 @@ static char	*ft_get_path(char *arg_path, t_shell *shell)
 	else
 	{
 		path = ft_path(arg_path, pwd);
-		if (access(path, F_OK) != 0)
+		if (access(path, R_OK) != 0 || \
+			(stat(path, &buf) != -1 && S_ISREG(buf.st_mode)))
 		{
 			ft_cd_error(arg_path);
 			free(path);
@@ -90,7 +93,7 @@ int	ft_cd(t_token *token, t_shell *shell)
 		return (EXIT_FAILURE);
 	else
 	{
-		chdir(token->args[1]);
+		(chdir(token->args[1]));
 		if (ft_set_env(shell, "OLDPWD", ft_getenv("PWD", shell->env)) || \
 			ft_set_env(shell, "PWD", path))
 			return (free(path), ft_perror(path, errno));

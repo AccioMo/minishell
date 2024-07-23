@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:29:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/21 20:21:45 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/22 02:58:09 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int	ft_parse(char *line, t_shell *shell)
 	int		i;
 
 	i = 0;
-	status = ft_stage_and(line, &shell->root);
+	status = ft_stage_and_or(line, &shell->root);
 	if (status)
 	{
 		if (status == PARSING_FAILURE)

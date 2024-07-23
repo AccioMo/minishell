@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 19:23:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 02:26:05 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,37 +14,47 @@
 
 int	ft_or_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	if (ft_priority_token(token->left, fdin, fdout, shell))
+	if (shell->root == token)
+		ft_priority_token(token->left, fdin, fdout, shell);
+	if (shell->exit_code == SIGINT || shell->exit_code == SIGQUIT)
+		return (shell->exit_code);
+	if (shell->exit_code)
+	{
+		if (!(token->right->type == OR || token->right->type == AND))
+			return (ft_pipe_token(token->right, fdin, fdout, shell));
+		ft_priority_token(token->right->left, fdin, fdout, shell);
+	}
+	if (token->right->type == OR || token->right->type == AND)
 		return (ft_priority_token(token->right, fdin, fdout, shell));
-	return (0);
+	return (EXIT_SUCCESS);
 }
 
 int	ft_and_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	if (!ft_priority_token(token->left, fdin, fdout, shell))
+	if (shell->root == token)
+		ft_priority_token(token->left, fdin, fdout, shell);
+	if (shell->exit_code == SIGINT || shell->exit_code == SIGQUIT)
+		return (shell->exit_code);
+	if (!shell->exit_code)
+	{
+		if (!(token->right->type == OR || token->right->type == AND))
+			return (ft_pipe_token(token->right, fdin, fdout, shell));
+		ft_priority_token(token->right->left, fdin, fdout, shell);
+	}
+	if (token->right->type == OR || token->right->type == AND)
 		return (ft_priority_token(token->right, fdin, fdout, shell));
-	return (0);
+	return (EXIT_FAILURE);
 }
 
 int	ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell)
 {
-	int	status;
-
 	if (!token)
 		return (EXIT_FAILURE);
 	if (token->type == AND)
-		status = ft_and_function(token, fdin, fdout, shell);
+		return (ft_and_function(token, fdin, fdout, shell));
 	else if (token->type == OR)
-		status = ft_or_function(token, fdin, fdout, shell);
-	else if (token->type == PIPE)
-	{
-		shell->subshell++;
-		status = ft_pipe_token(token, fdin, fdout, shell);
-		shell->subshell--;
-	}
-	else
-		status = ft_redir_token(token, (int [2]){fdin, -1}, fdout, shell);
-	return (status);
+		return (ft_or_function(token, fdin, fdout, shell));
+	return (ft_pipe_token(token, fdin, fdout, shell));
 }
 
 int	ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell)

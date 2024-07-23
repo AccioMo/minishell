@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   wildcard2.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:53:38 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/09 23:45:30 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/23 02:48:27 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ char	**ft_append_to_array(char **args, char *new_arg)
 
 	i = 0;
 	new_args = NULL;
+	if (!new_arg)
+		return (args);
 	if (!args)
 	{
 		new_args = (char **)malloc(sizeof(char *) * 2);

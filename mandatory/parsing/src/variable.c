@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/25 17:17:30 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/21 20:20:50 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 04:25:05 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -101,6 +101,7 @@ char	*ft_quoted_variables(char *str, t_shell *shell)
 		{
 			tmp = ft_substr(str, 0, 1);
 			new = ft_realloc(new, tmp);
+			free(tmp);
 			str++;
 		}
 	}

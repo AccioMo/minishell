@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/23 05:15:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 05:25:47 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ char	*ft_realloc(char *line, char *buffer);
 char	*ft_getenv(char *name, t_list *arr);
 int		ft_expand_heredoc(t_token *token, t_shell *shell);
 int		ft_array_len(char **arr);
+char	*ft_remove_quotes(char *str);
 char	**ft_append_to_array(char **args, char *new_arg);
 char	*ft_quoted_variables(char *str, t_shell *shell);
 char	*ft_expand_variable(char *str, t_shell *shell);

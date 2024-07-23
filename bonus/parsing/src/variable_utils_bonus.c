@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 03:00:10 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,25 +62,6 @@ static char	*ft_remove_quotes(char *str)
 	return (free(str), word);
 }
 
-char	*ft_handle_tilde(char *tilde, t_shell *shell)
-{
-	char	*home;
-	char	*new;
-
-	if (tilde[1] == '/' || tilde[1] == '\0')
-	{
-		home = ft_getenv("HOME", shell->env);
-		if (!home)
-			return (NULL);
-		new = ft_strjoin(home, tilde + 1);
-		if (!new)
-			return (NULL);
-		free(tilde);
-		return (new);
-	}
-	return (tilde);
-}
-
 int	ft_expand_variables(t_token *token, t_shell *shell)
 {
 	char	**old_args;
@@ -97,8 +78,6 @@ int	ft_expand_variables(t_token *token, t_shell *shell)
 			ft_variables(old_args[i], token, shell);
 		else
 		{
-			if (old_args[i][0] == '~')
-				old_args[i] = ft_handle_tilde(old_args[i], shell);
 			old_args[i] = ft_backslash_wildcard(old_args[i]);
 			old_args[i] = ft_remove_quotes(old_args[i]);
 			token->args = ft_append_to_array(token->args, old_args[i]);

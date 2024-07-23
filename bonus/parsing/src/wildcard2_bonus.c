@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:53:38 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 02:48:49 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -100,6 +100,8 @@ char	**ft_append_to_array(char **args, char *new_arg)
 
 	i = 0;
 	new_args = NULL;
+	if (!new_arg)
+		return (args);
 	if (!args)
 	{
 		new_args = (char **)malloc(sizeof(char *) * 2);

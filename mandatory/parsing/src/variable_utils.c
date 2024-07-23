@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/21 15:20:34 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 03:00:05 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 05:25:36 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_arg_len(char *str)
 	return (len);
 }
 
-static char	*ft_remove_quotes(char *str)
+char	*ft_remove_quotes(char *str)
 {
 	char	*word;
 	int		j;

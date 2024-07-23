@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:15:02 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 02:44:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,9 @@ static char	*ft_path(char *path, char *pwd)
 		new_path = ft_realloc(new_path, "/");
 		return (new_path);
 	}
-	return (ft_strjoin(path, "/"));
+	else if (path[ft_strlen(path) - 1] != '/')
+		return (ft_strjoin(path, "/"));
+	return (ft_strdup(path));
 }
 
 static char	*ft_get_path(char *arg_path, t_shell *shell)

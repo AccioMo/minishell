@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   execution.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
+/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/23 04:48:02 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/23 04:38:55 by zouddach         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,6 +36,7 @@ int		ft_priority_token(t_token *token, int fdin, int fdout, t_shell *shell);
 int		ft_redir_token(t_token *token, int fi[2], int fo, t_shell *shell);
 int		ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *shell);
 int		ft_execution_token(t_token *token, int fdin[2], int fdout, t_shell *sh);
+char	*ft_remove_quotes(char *str);
 int		ft_expand_variables(t_token *token, t_shell *shell);
 int		ft_expand_wildcard(t_token *token);
 int		ft_redir_in_function(t_token *token);
@@ -49,5 +50,6 @@ void	ft_close_fds(int fdin, int fdout);
 int		ft_handle_redirs_in(t_token *tk, int fi[2], int fo, t_shell *sh);
 int		ft_handle_redirs_out(t_token *tk, int fi[2], int fo, t_shell *sh);
 int		ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell);
+void	ft_check_env(t_shell *shell, char *name);
 
 #endif

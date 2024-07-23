@@ -113,7 +113,7 @@ static int	ft_export_variable(char *name, char *var, t_shell *shell)
 			return (EXIT_FAILURE);
 	}
 	else
-		ft_lstadd_back(&shell->env, ft_lstnew(ft_strdup(name)));
+		ft_check_env(shell, name);
 	return (EXIT_SUCCESS);
 }
 

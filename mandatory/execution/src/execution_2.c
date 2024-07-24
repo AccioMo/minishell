@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/21 23:06:04 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/24 18:52:17 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -94,12 +94,12 @@ int	ft_exec_function(t_token *token, int fdin[2], int fdout, t_shell *shell)
 		ft_strncmp(token->args[0], "..\0", 3) == 0)
 		return (ft_handle_dots(token));
 	if (ft_is_builtin(token))
-		return (ft_execute_builtin(token, fdout, shell));
+		return (ft_builtin_process(token, fdout, shell));
 	signal(SIGINT, SIG_IGN);
 	signal(SIGQUIT, SIG_IGN);
 	pid = ft_execution_process(token, fdin, fdout, shell);
 	if (pid < 0)
-		return (2);
+		return (EXIT_FAILURE);
 	last_cmd = token->args[ft_array_len(token->args) - 1];
 	if (ft_set_env(shell, "_", last_cmd))
 		return (EXIT_FAILURE);

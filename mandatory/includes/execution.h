@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/23 05:26:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/24 18:53:04 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_pwd(int fdout, t_shell *shell);
 int		ft_cd(t_token *token, t_shell *env);
 int		ft_unset(t_token *token, t_shell *shell);
 int		ft_export(t_token *cmd, t_shell *env, int fdout);
-int		ft_execute_builtin(t_token *cmd, int fdout, t_shell *env);
+int		ft_builtin_process(t_token *cmd, int fdout, t_shell *env);
 int		ft_is_builtin(t_token *token);
 int		ft_env(t_list *env, int fdout);
 int		ft_get_index(char *str, char c);

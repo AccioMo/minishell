@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 21:16:19 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:26:05 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/24 19:05:29 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,7 @@
 int	ft_or_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	if (shell->root == token)
-		ft_priority_token(token->left, fdin, fdout, shell);
+		shell->exit_code = ft_priority_token(token->left, fdin, fdout, shell);
 	if (shell->exit_code == SIGINT || shell->exit_code == SIGQUIT)
 		return (shell->exit_code);
 	if (shell->exit_code)
@@ -26,13 +26,13 @@ int	ft_or_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	}
 	if (token->right->type == OR || token->right->type == AND)
 		return (ft_priority_token(token->right, fdin, fdout, shell));
-	return (EXIT_SUCCESS);
+	return (shell->exit_code);
 }
 
 int	ft_and_function(t_token *token, int fdin, int fdout, t_shell *shell)
 {
 	if (shell->root == token)
-		ft_priority_token(token->left, fdin, fdout, shell);
+		shell->exit_code = ft_priority_token(token->left, fdin, fdout, shell);
 	if (shell->exit_code == SIGINT || shell->exit_code == SIGQUIT)
 		return (shell->exit_code);
 	if (!shell->exit_code)
@@ -43,7 +43,7 @@ int	ft_and_function(t_token *token, int fdin, int fdout, t_shell *shell)
 	}
 	if (token->right->type == OR || token->right->type == AND)
 		return (ft_priority_token(token->right, fdin, fdout, shell));
-	return (EXIT_FAILURE);
+	return (shell->exit_code);
 }
 
 int	ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell)

@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_env.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 05:01:36 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/24 10:58:55 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ static int	ft_set_env_2(t_list *env, char *n, char *value)
 	}
 	if (!env)
 	{
-		n = ft_realloc(n, value);
+		n = ft_realloc(ft_strjoin(n, "="), value);
 		if (!n)
 			return (EXIT_FAILURE);
 		ft_lstadd_back(&head, ft_lstnew(n));

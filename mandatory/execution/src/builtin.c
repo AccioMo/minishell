@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   builtin.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 04:38:41 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:02:00 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,8 @@ int	ft_is_builtin(t_token *token)
 	return (false);
 }
 
-int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
+static int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
 {
-	if (ft_set_env(shell, "_",
-			token->args[ft_array_len(token->args) - 1]))
-		return (EXIT_FAILURE);
 	if (ft_strncmp(token->args[0], "echo\0", 5) == 0)
 		shell->exit_code = set_exit_code(ft_echo(token, fdout), true);
 	else if (ft_strncmp(token->args[0], "pwd\0", 4) == 0)
@@ -74,4 +71,24 @@ int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
 	else if (ft_strncmp(token->args[0], "exit\0", 5) == 0)
 		shell->exit_code = set_exit_code(ft_exit(token, shell), true);
 	return (shell->exit_code);
+}
+
+int	ft_builtin_process(t_token *token, int fdout, t_shell *shell)
+{
+	int	pid;
+
+	if (ft_set_env(shell, "_",
+			token->args[ft_array_len(token->args) - 1]))
+		return (EXIT_FAILURE);
+	if (shell->subshell)
+	{
+		pid = fork();
+		if (pid < 0)
+			return (ft_perror("fork", errno));
+		else if (pid == 0)
+			exit(ft_execute_builtin(token, fdout, shell));
+		waitpid(pid, &shell->exit_code, WNOHANG);
+		return (EXIT_SUCCESS);
+	}
+	return (ft_execute_builtin(token, fdout, shell));
 }

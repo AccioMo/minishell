@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_exit.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: zouddach <zouddach@student.42.fr>          +#+  +:+       +#+        */
+/*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 12:41:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/20 17:11:10 by zouddach         ###   ########.fr       */
+/*   Updated: 2024/07/24 19:10:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,6 @@ int	ft_exit(t_token *token, t_shell *shell)
 			return (EXIT_FAILURE);
 		}
 	}
-	if (shell->subshell)
-		return (shell->exit_code);
 	ft_free_tree(shell->root);
 	ft_lstclear(&shell->env, free);
 	shell->root = NULL;

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/23 02:18:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/24 19:02:00 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:35:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,19 +75,16 @@ static int	ft_execute_builtin(t_token *token, int fdout, t_shell *shell)
 
 int	ft_builtin_process(t_token *token, int fdout, t_shell *shell)
 {
-	int	pid;
-
 	if (ft_set_env(shell, "_",
 			token->args[ft_array_len(token->args) - 1]))
 		return (EXIT_FAILURE);
 	if (shell->subshell)
 	{
-		pid = fork();
-		if (pid < 0)
+		shell->last_pid = fork();
+		if (shell->last_pid < 0)
 			return (ft_perror("fork", errno));
-		else if (pid == 0)
+		else if (shell->last_pid == 0)
 			exit(ft_execute_builtin(token, fdout, shell));
-		waitpid(pid, &shell->exit_code, WNOHANG);
 		return (EXIT_SUCCESS);
 	}
 	return (ft_execute_builtin(token, fdout, shell));

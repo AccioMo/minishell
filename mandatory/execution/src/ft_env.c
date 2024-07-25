@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/16 10:20:17 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/24 10:58:55 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:58:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,8 @@ int	ft_set_env(t_shell *shell, char *name, char *value)
 	t_list	*env;
 
 	env = shell->env;
+	if (!name || !value)
+		return (EXIT_FAILURE);
 	if (!env)
 	{
 		name = ft_strjoin(name, "=");

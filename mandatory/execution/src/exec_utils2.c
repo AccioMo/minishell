@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 00:13:22 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/12 13:33:11 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/25 18:38:57 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,13 +31,13 @@ char	*ft_match_path(char *command, char **paths_env)
 	char	*command_path;
 	char	*tmp_path;
 
-	if (!paths_env || !*paths_env || ft_strchr(command, '/'))
+	if (ft_strchr(command, '/'))
 	{
 		if (access(command, F_OK) == 0)
 			return (ft_strdup(command));
 		return (ft_putstr_fd("minishell: ", 2), perror(command), NULL);
 	}
-	while (*paths_env)
+	while (paths_env && *paths_env)
 	{
 		tmp_path = ft_strjoin(*paths_env, "/");
 		command_path = ft_strjoin(tmp_path, command);

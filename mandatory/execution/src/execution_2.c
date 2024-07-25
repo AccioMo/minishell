@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:18:51 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/24 18:52:17 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/25 20:58:05 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ static int	ft_handle_dots(t_token *token)
 	if (ft_strncmp(token->args[0], ".\0", 2) == 0)
 	{
 		ft_putstr_fd("minishell: .: filename argument required\n", 2);
-		return (2);
+		return (2 << 8);
 	}
 	else
 	{

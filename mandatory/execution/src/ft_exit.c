@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 12:41:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/24 19:10:34 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/25 21:01:52 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,19 +50,19 @@ int	ft_exit(t_token *token, t_shell *shell)
 		ft_putstr_fd("minishell: exit: ", 2);
 		ft_putstr_fd(token->args[1], 2);
 		ft_putstr_fd(": numeric argument required\n", 2);
-		shell->exit_code = 255;
+		shell->exit_code = 0xff;
 	}
 	else if (token && token->args[1])
 	{
 		shell->exit_code = ft_atoi(token->args[1]);
 		if (ft_array_len(token->args) > 2)
 		{
-			ft_putstr_fd("minishell: exit: too many arguments\n", 2);
+			ft_putstr_fd("minishell: exit: too many arguments\n", 0b10);
 			return (EXIT_FAILURE);
 		}
 	}
 	ft_free_tree(shell->root);
 	ft_lstclear(&shell->env, free);
 	shell->root = NULL;
-	return (shell->exit_code);
+	return (shell->exit_code << 8);
 }

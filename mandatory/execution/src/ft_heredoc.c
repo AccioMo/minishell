@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:27:06 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 05:25:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:13:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,15 +89,28 @@ static void	ft_heredoc_loop(char *delimiter, int heredoc_file)
 int	ft_open_heredoc(t_token *token)
 {
 	int		stdin_copy;
-	int		end[2];
+	char	*first_file;
+	int		write_fd;
+	int		read_fd;
 
 	g_signal = 0;
 	stdin_copy = dup(0);
-	if (pipe(end) == -1)
-		return (ft_perror("pipe", errno));
+	first_file = ft_itoa((int)token);
+	read_fd = open(first_file, O_RDONLY | O_CREAT | O_TRUNC, 0644);
+	write_fd = open(first_file, O_WRONLY | O_CREAT | O_TRUNC, 0644);
+	if (write_fd == -1 || read_fd == -1)
+	{
+		perror("minishell: open");
+		free(first_file);
+		ft_close_fds(read_fd, write_fd);
+		return (-1);
+	}
+	unlink(first_file);
+	ft_putendl_fd(first_file, 1);
+	free(first_file);
 	signal(SIGINT, sig_herdoc_handler);
 	token->args[0] = ft_remove_quotes(token->args[0]);
-	ft_heredoc_loop(token->args[0], end[1]);
-	close(end[1]);
-	return (ft_heredoc_content(end[0], stdin_copy, token));
+	ft_heredoc_loop(token->args[0], write_fd);
+	close(write_fd);
+	return (ft_heredoc_content(read_fd, stdin_copy, token));
 }

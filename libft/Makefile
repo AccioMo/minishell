@@ -39,7 +39,7 @@ $(NAME): $(OBJ)
 	@ar rcs $(NAME) $(OBJ)
 	@echo "\n$(CYAN)$(BOLD)Libft Created Succefully √$(RESET)"
 
-$(OBJ_DIR)%.o: $(SRC_DIR)%.c
+$(OBJ_DIR)%.o: $(SRC_DIR)%.c $(HEADER)
 	$(update_progress)
 	@$(CC) $(FLAGS) -I. -c $< -o $@
 

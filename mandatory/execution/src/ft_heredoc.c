@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:27:06 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/26 20:13:28 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:52:44 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,13 +74,12 @@ static void	ft_heredoc_loop(char *delimiter, int heredoc_file)
 	buffer = NULL;
 	while (true)
 	{
-		buffer = readline("> ");
+		buffer = get_next_line(0);
 		if (!buffer)
 			break ;
 		if (!ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1))
 			break ;
 		ft_putstr_fd(buffer, heredoc_file);
-		ft_putstr_fd("\n", heredoc_file);
 		free(buffer);
 	}
 	free(buffer);
@@ -101,12 +100,12 @@ int	ft_open_heredoc(t_token *token)
 	if (write_fd == -1 || read_fd == -1)
 	{
 		perror("minishell: open");
-		free(first_file);
 		ft_close_fds(read_fd, write_fd);
+		close(stdin_copy);
+		free(first_file);
 		return (-1);
 	}
 	unlink(first_file);
-	ft_putendl_fd(first_file, 1);
 	free(first_file);
 	signal(SIGINT, sig_herdoc_handler);
 	token->args[0] = ft_remove_quotes(token->args[0]);

@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/18 20:44:10 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/18 09:43:29 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 20:59:34 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 # define GET_NEXT_LINE_H
 
 # ifndef BUFFER_SIZE
-#  define BUFFER_SIZE 256
+#  define BUFFER_SIZE 1024
 # endif
 
 # include <stdlib.h>

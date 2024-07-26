@@ -85,12 +85,12 @@ define update_progress
 	@bash -c 'echo -e "$(UP)\r$(GREEN)$(BOLD)[$(PERCENT)%] Compiling Minishell...$(RESET)"'
 endef
 
-all: $(LIBFT) $(PRINTF) $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME) thanks
+all: libft $(PARSE_OBJ_DIR) $(EXEC_OBJ_DIR) $(NAME) thanks
 
 thanks:
 	@echo "$(BLACK)$(WHITE_BG)$(BOLD)Compilation complete.$(RESET)"
 
-$(LIBFT): $(LIBFT_DIR)
+libft: $(LIBFT_DIR)
 	@make -sC $<
 
 $(PARSE_OBJ_DIR):
@@ -99,19 +99,19 @@ $(PARSE_OBJ_DIR):
 $(EXEC_OBJ_DIR):
 	@mkdir -p $(EXEC_OBJ_DIR)
 
-$(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(GNL)
+$(NAME): $(PARSING_OBJ) $(EXECUTION_OBJ) $(GNL_HEADER) $(GNL)
 	@$(CC) $(FLAGS) $(LIBS) $(PARSING_OBJ) $(EXECUTION_OBJ) $(LIBFT) $(GNL) -o $(NAME)
 	@echo "$(CYAN)$(BOLD)Minishell Created Succefully √$(RESET)"
 
-$(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER) $(MINISHELL_HEADER)
+$(PARSE_OBJ_DIR)%.o: $(PARSE_SRC_DIR)%.c $(PARSE_HEADER) $(MINISHELL_HEADER) $(GNL_DIR) $(GNL_HEADER) $(LIBFT)
 	$(update_progress)
 	@$(CC) $(FLAGS) -I $(RL_HEADER_DIR) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
-$(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER) $(MINISHELL_HEADER)
+$(EXEC_OBJ_DIR)%.o: $(EXEC_SRC_DIR)%.c $(EXEC_HEADER) $(MINISHELL_HEADER) $(GNL_DIR) $(GNL_HEADER) $(LIBFT)
 	$(update_progress)
 	@$(CC) $(FLAGS) -I $(HEADER_DIR) -I $(GNL_DIR) -I $(LIBFT_DIR) -c $< -o $@
 
-bonus: $(LIBFT) $(PRINTF) $(PARSE_BONUS_OBJ_DIR) $(EXEC_BONUS_OBJ_DIR) $(NAME_BONUS) thanks
+bonus: $(LIBFT) $(PARSE_BONUS_OBJ_DIR) $(EXEC_BONUS_OBJ_DIR) $(NAME_BONUS) thanks
 
 $(PARSE_BONUS_OBJ_DIR):
 	@mkdir -p $(PARSE_BONUS_OBJ_DIR)
@@ -144,4 +144,4 @@ fclean: clean
 
 re: fclean all
 
-.PHONY: all thanks bonus clean fclean re $(LIBFT) $(PRINTF)
+.PHONY: all thanks bonus clean fclean re libft

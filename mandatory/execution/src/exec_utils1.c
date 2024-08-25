@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/14 22:02:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/18 12:23:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/08/25 23:22:00 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,21 +48,17 @@ void	ft_free(char **ptr)
 char	*ft_getenv(char *name, t_list *env)
 {
 	int	i;
+	int	len;
 
 	i = 0;
-	name = ft_strjoin(name, "=");
-	if (!name)
-		return (NULL);
+	len = ft_strlen(name);
 	while (env)
 	{
-		if (!ft_strncmp(env->content, name, ft_strlen(name)))
-		{
-			free(name);
+		if (!ft_strncmp(env->content, name, len) && \
+			(env->content[len] == '=' || env->content[len] == '\0'))
 			return (ft_strchr(env->content, '=') + 1);
-		}
 		env = env->next;
 	}
-	free(name);
 	return (NULL);
 }
 

@@ -1,6 +1,6 @@
 CC = cc
-FLAGS = -Wall -Wextra -Werror -I ~/brew/opt/readline/include
-LIBS =  -L ~/brew/opt/readline/lib -lreadline
+FLAGS = -Wall -Wextra -Werror
+LIBS =  -L libs -lreadline
 LIBFT_DIR = libft/
 LIBFT = $(LIBFT_DIR)libft.a
 GNL_DIR = get_next_line/
@@ -11,7 +11,7 @@ NAME = minishell
 MINISHELL_HEADER = $(HEADER_DIR)minishell.h
 HEADER_DIR = mandatory/includes/
 BONUS_HEADER_DIR = bonus/includes/
-RL_HEADER_DIR =  ~/brew/opt/readline/include/
+RL_HEADER_DIR =  mandatory/include/
 
 #			PARSING				#
 PARSE_HEADER = $(HEADER_DIR)parsing.h

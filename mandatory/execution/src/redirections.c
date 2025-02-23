@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:15:21 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/21 19:23:59 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:10:32 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@ int	ft_redir_in_function(t_token *token)
 	{
 		ft_putstr_fd("minishell: ", STDERR);
 		perror(token->args[0]);
+		set_exit_code(1, true);
 		return (-1);
 	}
 	return (fd);
@@ -35,6 +36,7 @@ int	ft_redir_out_function(t_token *token)
 	{
 		ft_putstr_fd("minishell: ", STDERR);
 		perror(token->args[0]);
+		set_exit_code(1, true);
 		return (-1);
 	}
 	return (fd);
@@ -49,6 +51,7 @@ static int	ft_redir_append_function(t_token *token)
 	{
 		ft_putstr_fd("minishell: ", STDERR);
 		perror(token->args[0]);
+		set_exit_code(1, true);
 		return (-1);
 	}
 	return (fd);

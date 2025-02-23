@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 20:24:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:20:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,36 +53,37 @@ int	ft_redir_token(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	return (ft_execution_token(token, fdin, fdout, shell));
 }
 
-int	ft_pipe_token(t_token *token, int fdin, int fdout, t_shell *sh)
+int	ft_pipe_token(t_token *tk, int fdin, int fdout, t_shell *sh)
 {
-	int	st;
 	int	end[2];
+	int	st;
 
-	if (!token)
+	if (!tk)
 		return (EXIT_FAILURE);
-	if (token->type == PIPE)
+	if (tk->type == PIPE)
 	{
 		if (pipe(end) < 0)
 			perror("pipe");
-		st = ft_redir_token(token->left, (int [2]){fdin, end[0]}, end[1], sh);
-		if (fdin != 0)
-			close(fdin);
-		close(end[1]);
-		if (st == 2)
-		{
-			close(end[0]);
-			return (EXIT_FAILURE);
-		}
-		st = ft_pipe_token(token->right, end[0], fdout, sh);
+		sh->subshell++;
+		st = ft_redir_token(tk->left, (int [2]){fdin, end[0]}, end[1], sh);
+		sh->subshell--;
+		if (st == 1 && errno == EAGAIN)
+			return (ft_close_fds(end[0], end[1]), \
+				ft_close_fds(fdin, fdout), EXIT_FAILURE);
+		ft_close_fds(fdin, end[1]);
+		sh->subshell++;
+		st = ft_pipe_token(tk->right, end[0], fdout, sh);
+		sh->subshell--;
 		close(end[0]);
 		return (st);
 	}
-	return (ft_redir_token(token, (int [2]){fdin, -1}, fdout, sh));
+	return (ft_redir_token(tk, (int [2]){fdin, -1}, fdout, sh));
 }
 
 int	ft_execution_token(t_token *token, int fdin[2], int fdout, t_shell *shell)
 {
-	int	exit_status;
+	int		exit_status;
+	t_token	*tmp;
 
 	if (!token)
 	{
@@ -96,7 +97,10 @@ int	ft_execution_token(t_token *token, int fdin[2], int fdout, t_shell *shell)
 	else if (token->type == SUBSHELL)
 	{
 		shell->subshell++;
+		tmp = shell->root;
+		shell->root = token->right;
 		exit_status = ft_first_token(token->right, fdin[0], fdout, shell);
+		shell->root = tmp;
 		shell->subshell--;
 	}
 	if (!shell->subshell)

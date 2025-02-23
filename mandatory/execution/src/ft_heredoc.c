@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/06/04 05:27:06 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/26 20:52:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 22:58:43 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -74,12 +74,13 @@ static void	ft_heredoc_loop(char *delimiter, int heredoc_file)
 	buffer = NULL;
 	while (true)
 	{
-		buffer = get_next_line(0);
+		buffer = readline("> ");
 		if (!buffer)
 			break ;
 		if (!ft_strncmp(buffer, delimiter, ft_strlen(delimiter) + 1))
 			break ;
 		ft_putstr_fd(buffer, heredoc_file);
+		ft_putstr_fd("\n", heredoc_file);
 		free(buffer);
 	}
 	free(buffer);

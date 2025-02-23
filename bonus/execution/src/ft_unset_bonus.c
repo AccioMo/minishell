@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:41:32 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:20:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int	ft_valid_unset(char *name)
 	int	i;
 
 	i = 0;
-	if (!name || (!ft_isalpha(name[i]) && name[i] != '_'))
+	if (!ft_strlen(name) || (!ft_isalpha(name[i]) && name[i] != '_'))
 	{
 		ft_putstr_fd("minishell: unset: `", 2);
 		ft_putstr_fd(name, 2);
@@ -64,7 +64,7 @@ static int	ft_valid_unset(char *name)
 	i++;
 	while (name[i])
 	{
-		if (ft_strchr("+-#?!@*$%^&()[]{}|;:<>,./~\'\"", name[i]))
+		if (ft_strchr("+-#?!@*$%^&()[]{}|;:<>,./~=\'\"", name[i]))
 		{
 			ft_putstr_fd("minishell: unset: `", 2);
 			ft_putstr_fd(name, 2);
@@ -78,7 +78,7 @@ static int	ft_valid_unset(char *name)
 
 int	ft_unset(t_token *token, t_shell *shell)
 {
-	int		i;
+	int	i;
 
 	i = 1;
 	while (token->args[i])

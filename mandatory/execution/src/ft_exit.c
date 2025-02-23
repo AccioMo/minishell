@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 12:41:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/25 21:14:30 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 22:45:50 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ static int	ft_is_number(char *str)
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-			return (0);
+			break ;
 		i++;
 	}
+	while (str[i] == ' ')
+		i++;
+	if (str[i])
+		return (0);
 	if (!ft_larger_than(str, "9223372036854775807"))
 		return (0);
 	return (1);

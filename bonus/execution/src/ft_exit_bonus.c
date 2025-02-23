@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/25 12:41:57 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:20:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,9 +35,13 @@ static int	ft_is_number(char *str)
 	while (str[i])
 	{
 		if (!ft_isdigit(str[i]))
-			return (0);
+			break ;
 		i++;
 	}
+	while (str[i] == ' ')
+		i++;
+	if (str[i])
+		return (0);
 	if (!ft_larger_than(str, "9223372036854775807"))
 		return (0);
 	return (1);
@@ -61,10 +65,10 @@ int	ft_exit(t_token *token, t_shell *shell)
 			return (EXIT_FAILURE);
 		}
 	}
-	if (shell->subshell)
-		return (shell->exit_code);
 	ft_free_tree(shell->root);
 	ft_lstclear(&shell->env, free);
 	shell->root = NULL;
-	return (shell->exit_code);
+	if (shell->subshell)
+		return (shell->exit_code);
+	return (shell->exit_code << 8);
 }

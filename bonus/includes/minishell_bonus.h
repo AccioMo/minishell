@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/23 02:32:08 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:22:23 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,12 +71,6 @@ typedef struct s_token
 	int				fd;
 }	t_token;
 
-typedef struct s_heredoc
-{
-	int					fd;
-	struct s_heredoc	*next;
-}	t_heredoc;
-
 typedef struct s_shell
 {
 	t_token			*root;
@@ -92,6 +86,7 @@ char	*ft_realloc(char *line, char *buffer);
 char	*ft_getenv(char *name, t_list *arr);
 int		ft_expand_heredoc(t_token *token, t_shell *shell);
 int		ft_array_len(char **arr);
+char	*ft_remove_quotes(char *str);
 char	**ft_append_to_array(char **args, char *new_arg);
 char	*ft_quoted_variables(char *str, t_shell *shell);
 char	*ft_expand_variable(char *str, t_shell *shell);

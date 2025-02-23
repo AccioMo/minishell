@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/15 20:59:05 by zouddach          #+#    #+#             */
-/*   Updated: 2024/07/23 02:42:23 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:20:01 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,6 +79,11 @@ void	ft_increment_shellvl(t_shell *shell)
 	char	*shell_lvl;
 	int		shell_lvl_int;
 
+	if (ft_getenv("PWD", shell->env) == NULL)
+		ft_set_env(shell, "PWD", getcwd(NULL, 0));
+	if (ft_getenv("PATH", shell->env) == NULL)
+		ft_set_env(shell, "PATH", \
+			"/usr/gnu/bin:/usr/local/bin:/bin:/usr/bin:.");
 	shell_lvl = ft_getenv("SHLVL", shell->env);
 	if (!shell_lvl)
 	{

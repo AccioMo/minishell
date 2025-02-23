@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/19 10:01:47 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/23 02:31:39 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:23:07 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,7 @@
 # define PARSING_BONUS_H
 
 # include "minishell_bonus.h"
+# include <stdio.h>
 
 int			ft_parse(char *line, t_shell *shell);
 int			ft_word_len(char *str);

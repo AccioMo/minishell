@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/19 02:14:36 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/23 04:47:55 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/26 23:20:22 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int		ft_pwd(int fdout, t_shell *shell);
 int		ft_cd(t_token *token, t_shell *env);
 int		ft_unset(t_token *token, t_shell *shell);
 int		ft_export(t_token *cmd, t_shell *env, int fdout);
-int		ft_execute_builtin(t_token *cmd, int fdout, t_shell *env);
+int		ft_builtin_process(t_token *cmd, int fdout, t_shell *env);
 int		ft_is_builtin(t_token *token);
 int		ft_env(t_list *env, int fdout);
 int		ft_get_index(char *str, char c);
@@ -49,5 +49,6 @@ void	ft_close_fds(int fdin, int fdout);
 int		ft_handle_redirs_in(t_token *tk, int fi[2], int fo, t_shell *sh);
 int		ft_handle_redirs_out(t_token *tk, int fi[2], int fo, t_shell *sh);
 int		ft_first_token(t_token *token, int fdin, int fdout, t_shell *shell);
+void	ft_check_env(t_shell *shell, char *name);
 
 #endif

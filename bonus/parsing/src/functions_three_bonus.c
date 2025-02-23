@@ -6,7 +6,7 @@
 /*   By: mzeggaf <mzeggaf@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/22 23:18:26 by mzeggaf           #+#    #+#             */
-/*   Updated: 2024/07/23 02:30:44 by mzeggaf          ###   ########.fr       */
+/*   Updated: 2024/07/27 00:10:28 by mzeggaf          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ int	ft_skip_parentheses(char *str)
 		else if (!ft_strncmp(&str[i], "\'", 1))
 			i += ft_index(&str[i + 1], "\'") + 1;
 		else if (!ft_strncmp(&str[i], "(", 1))
-			i += ft_skip_parentheses(&str[i]) + 1;
+			i += ft_skip_parentheses(&str[i + 1]) + 1;
 		else if (!ft_strncmp(&str[i], ")", 1))
 			return (i);
 		if (!str[i])
@@ -56,7 +56,7 @@ int	ft_parse_word(char *str, int end, t_token **token)
 		else if (!ft_strncmp(&str[p], "\'", 1))
 			p += ft_index(&str[p + 1], "\'") + 1;
 		else if (str[p] == '(')
-			return (ft_throw_syntax_error(&str[p]));
+			return (ft_throw_syntax_error("("));
 		p++;
 	}
 	word = ft_substr(str, 0, end);
@@ -99,11 +99,11 @@ int	ft_handle_parentheses(char *str, int end, t_token **token)
 	while (i < (p - 1) && ft_whitespace(str[i]))
 		i++;
 	if (i == (p - 1))
-		return (ft_throw_syntax_error(&str[i]));
+		return (ft_throw_syntax_error("("));
 	while (p < end)
 	{
 		if (!ft_whitespace(str[p]))
-			return (ft_throw_syntax_error(&str[p]));
+			return (ft_throw_syntax_error("("));
 		p++;
 	}
 	p = ft_skip_parentheses(str);
